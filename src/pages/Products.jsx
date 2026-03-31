@@ -201,7 +201,7 @@ export default function Products() {
         <h1 className="text-2xl font-bold">מלאי</h1>
         <div className="flex gap-2">
           <input ref={fileRef} type="file" accept=".xlsx,.xls,.csv" className="hidden" onChange={handleImport} />
-          <Button variant="outline" size="sm" onClick={() => fileRef.current.click()} disabled={importing} className="gap-1">
+          <Button variant="outline" onClick={() => fileRef.current.click()} disabled={importing} className="gap-1 h-10 text-base">
             <Upload className="w-4 h-4" />
             {importing ? 'מייבא...' : 'ייבוא'}
           </Button>
