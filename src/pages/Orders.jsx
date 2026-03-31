@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
 import { format, startOfDay, startOfWeek, startOfMonth, subMonths } from 'date-fns';
-import { Package, ChevronDown, ChevronUp, Search, Pencil, Copy } from 'lucide-react';
+import { Package, ChevronDown, ChevronUp, Search, Pencil, Copy, Trash2 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -47,7 +47,7 @@ function matchesDateFilter(order, dateFilter) {
 
 
 
-function OrderCard({ order, officeEmail, officeWhatsapp, onEdit, onCopy }) {
+function OrderCard({ order, officeEmail, officeWhatsapp, onEdit, onCopy, onDelete }) {
   const [open, setOpen] = useState(false);
   const st = STATUS_MAP[order.status] || STATUS_MAP.draft;
 
@@ -74,7 +74,6 @@ function OrderCard({ order, officeEmail, officeWhatsapp, onEdit, onCopy }) {
             <div className="text-xs text-muted-foreground mt-1 flex gap-1">
               {order.sent_via.includes('whatsapp') && <span>💬</span>}
               {order.sent_via.includes('email') && <span>📧</span>}
-              {order.sent_via.includes('pdf') && <span>📄</span>}
             </div>
           )}
         </div>
@@ -87,6 +86,11 @@ function OrderCard({ order, officeEmail, officeWhatsapp, onEdit, onCopy }) {
             <button onClick={e => { e.stopPropagation(); onCopy(order); }} className="p-1 rounded hover:bg-muted transition-colors" title="העתקה">
               <Copy className="w-3.5 h-3.5 text-muted-foreground" />
             </button>
+            {order.status === 'confirmed' && (
+              <button onClick={e => { e.stopPropagation(); onDelete(order); }} className="p-1 rounded hover:bg-red-50 transition-colors" title="מחיקה">
+                <Trash2 className="w-3.5 h-3.5 text-destructive" />
+              </button>
+            )}
             {open ? <ChevronUp className="w-4 h-4 text-muted-foreground" /> : <ChevronDown className="w-4 h-4 text-muted-foreground" />}
           </div>
         </div>
@@ -162,6 +166,14 @@ export default function Orders() {
     });
     toast({ description: `הזמנה הועתקה בהצלחה — ${newOrderNum}` });
     reload();
+  };
+
+  const handleDelete = async (order) => {
+    if (confirm(`האם אתה בטוח שברצונך למחוק את ההזמנה ${order.order_number}?`)) {
+      await base44.entities.Order.delete(order.id);
+      toast({ description: 'ההזמנה נמחקה בהצלחה' });
+      reload();
+    }
   };
 
   const filtered = orders.filter(o => {
@@ -253,6 +265,7 @@ export default function Orders() {
             officeWhatsapp={officeWhatsapp}
             onEdit={setEditingOrder}
             onCopy={handleCopy}
+            onDelete={handleDelete}
           />
         ))}
       </div>
