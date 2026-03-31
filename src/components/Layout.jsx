@@ -21,7 +21,7 @@ export default function Layout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-background flex flex-row-reverse">
+    <div className="min-h-screen bg-background flex flex-row">
 
       {/* Sidebar */}
       <>
@@ -37,7 +37,7 @@ export default function Layout() {
         <aside
           className={cn(
             'fixed top-0 right-0 h-full w-60 bg-primary text-primary-foreground z-50 flex flex-col shadow-2xl transition-transform duration-300',
-            'md:static md:translate-x-0 md:flex md:shrink-0',
+            'md:relative md:translate-x-0 md:flex md:shrink-0',
             sidebarOpen ? 'translate-x-0' : 'translate-x-full md:translate-x-0'
           )}
         >
