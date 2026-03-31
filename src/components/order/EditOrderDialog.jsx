@@ -61,7 +61,7 @@ export default function EditOrderDialog({ order, onClose, onSave }) {
         <div>
           <Label>סטטוס</Label>
           <Select value={form.status} onValueChange={v => setForm(p => ({ ...p, status: v }))}>
-            <SelectTrigger className="mt-1">
+            <SelectTrigger className="mt-1" dir="rtl">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
