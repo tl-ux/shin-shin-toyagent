@@ -10,7 +10,7 @@ import NewOrder from '@/pages/NewOrder';
 import Orders from '@/pages/Orders';
 import Customers from '@/pages/Customers';
 import Products from '@/pages/Products';
-import PriceGroups from '@/pages/PriceGroups';
+import Settings from '@/pages/Settings';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -39,7 +39,7 @@ const AuthenticatedApp = () => {
         <Route path="/orders" element={<Orders />} />
         <Route path="/customers" element={<Customers />} />
         <Route path="/products" element={<Products />} />
-        <Route path="/price-groups" element={<PriceGroups />} />
+        <Route path="/settings" element={<Settings />} />
       </Route>
       <Route path="*" element={<PageNotFound />} />
     </Routes>

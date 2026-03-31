@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
-import { Plus, Tag } from 'lucide-react';
+import { Plus, Tag, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -54,7 +54,7 @@ function PriceGroupForm({ group, onSave, onClose }) {
   );
 }
 
-export default function PriceGroups() {
+export default function Settings() {
   const [groups, setGroups] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState(null);
@@ -70,41 +70,52 @@ export default function PriceGroups() {
   );
 
   return (
-    <div className="p-4 pb-24 space-y-4">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">קבוצות מחיר</h1>
-        <Button onClick={() => { setEditing(null); setShowForm(true); }} size="sm" className="gap-1">
-          <Plus className="w-4 h-4" />
-          קבוצה חדשה
-        </Button>
+    <div className="p-4 pb-24 space-y-6">
+      <div>
+        <h1 className="text-2xl font-bold">הגדרות</h1>
+        <p className="text-sm text-muted-foreground mt-1">ניהול הגדרות המערכת</p>
       </div>
 
-      <div className="space-y-2">
-        {groups.length === 0 && (
-          <div className="text-center py-16 text-muted-foreground">
-            <Tag className="w-12 h-12 mx-auto mb-3 opacity-30" />
-            <p>אין קבוצות מחיר עדיין</p>
+      {/* Price Groups Section */}
+      <div className="space-y-3">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Tag className="w-5 h-5 text-primary" />
+            <h2 className="text-lg font-semibold">קבוצות מחיר</h2>
           </div>
-        )}
-        {groups.map(g => (
-          <button
-            key={g.id}
-            onClick={() => { setEditing(g); setShowForm(true); }}
-            className="w-full text-right bg-card border border-border rounded-xl p-4 hover:border-primary/40 hover:shadow-sm transition-all"
-          >
-            <div className="flex items-center justify-between">
+          <Button onClick={() => { setEditing(null); setShowForm(true); }} size="sm" className="gap-1">
+            <Plus className="w-4 h-4" />
+            חדש
+          </Button>
+        </div>
+
+        <div className="space-y-2">
+          {groups.length === 0 && (
+            <div className="text-center py-8 text-muted-foreground bg-card rounded-xl border border-border">
+              <p>אין קבוצות מחיר</p>
+            </div>
+          )}
+          {groups.map(g => (
+            <button
+              key={g.id}
+              onClick={() => { setEditing(g); setShowForm(true); }}
+              className="w-full text-right bg-card border border-border rounded-xl p-4 hover:border-primary/40 hover:shadow-sm transition-all flex items-center justify-between"
+            >
               <div>
                 <div className="font-semibold text-foreground">{g.name}</div>
                 {g.description && <div className="text-sm text-muted-foreground mt-0.5">{g.description}</div>}
               </div>
-              {g.discount_percent > 0 && (
-                <span className="text-sm font-bold text-primary bg-accent px-2 py-1 rounded-lg">
-                  {g.discount_percent}% הנחה
-                </span>
-              )}
-            </div>
-          </button>
-        ))}
+              <div className="flex items-center gap-2">
+                {g.discount_percent > 0 && (
+                  <span className="text-sm font-bold text-primary bg-accent px-2 py-1 rounded-lg">
+                    {g.discount_percent}%
+                  </span>
+                )}
+                <ChevronRight className="w-4 h-4 text-muted-foreground" />
+              </div>
+            </button>
+          ))}
+        </div>
       </div>
 
       <Dialog open={showForm} onOpenChange={v => { if (!v) setShowForm(false); }}>
