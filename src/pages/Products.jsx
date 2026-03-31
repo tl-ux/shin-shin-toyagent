@@ -265,7 +265,7 @@ export default function Products() {
               <div className="font-semibold text-base leading-tight truncate text-center">{p.name}</div>
               {p.sku && <div className="text-xs text-muted-foreground mt-0.5 text-center">מק"ט: {p.sku}</div>}
               <div className="flex items-center justify-between mt-2">
-                <span className="font-bold text-primary text-sm">₪{(p.price || 0).toLocaleString()}</span>
+                <span className="font-bold text-primary text-base">₪{(p.price || 0).toLocaleString()}</span>
                 {p.stock !== null && p.stock !== undefined && (
                   <span className={cn(
                     'text-xs font-medium px-1.5 py-0.5 rounded',
