@@ -1,14 +1,15 @@
 import { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
-import { Search, Plus, Users, Phone, MapPin, FileText, X, Check } from 'lucide-react';
+import { Search, Plus, Users, Phone, MapPin } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
-function CustomerForm({ customer, onSave, onClose }) {
-  const [form, setForm] = useState(customer || { name: '', contact_name: '', phone: '', address: '', city: '', notes: '', is_active: true });
+function CustomerForm({ customer, onSave, onClose, priceGroups }) {
+  const [form, setForm] = useState(customer || { name: '', contact_name: '', phone: '', address: '', city: '', notes: '', price_group_id: '', is_active: true });
   const [saving, setSaving] = useState(false);
 
   const set = (k, v) => setForm(prev => ({ ...prev, [k]: v }));
@@ -55,6 +56,20 @@ function CustomerForm({ customer, onSave, onClose }) {
           </div>
         </div>
         <div>
+          <Label>קבוצת מחיר</Label>
+          <Select value={form.price_group_id || ''} onValueChange={v => set('price_group_id', v === 'none' ? '' : v)}>
+            <SelectTrigger className="mt-1">
+              <SelectValue placeholder="ללא קבוצה" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="none">ללא קבוצה</SelectItem>
+              {priceGroups.map(g => (
+                <SelectItem key={g.id} value={g.id}>{g.name}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+        <div>
           <Label>הערות</Label>
           <Textarea value={form.notes} onChange={e => set('notes', e.target.value)} rows={2} className="mt-1 resize-none" />
         </div>
@@ -71,12 +86,16 @@ function CustomerForm({ customer, onSave, onClose }) {
 
 export default function Customers() {
   const [customers, setCustomers] = useState([]);
+  const [priceGroups, setPriceGroups] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [editing, setEditing] = useState(null);
   const [showForm, setShowForm] = useState(false);
 
-  const load = () => base44.entities.Customer.list('-created_date').then(d => { setCustomers(d); setLoading(false); });
+  const load = () => Promise.all([
+    base44.entities.Customer.list('-created_date'),
+    base44.entities.PriceGroup.list(),
+  ]).then(([d, pg]) => { setCustomers(d); setPriceGroups(pg); setLoading(false); });
   useEffect(() => { load(); }, []);
 
   const filtered = customers.filter(c =>
@@ -140,7 +159,14 @@ export default function Customers() {
                   )}
                 </div>
               </div>
-              <div className={`w-2 h-2 rounded-full mt-1.5 ${c.is_active ? 'bg-success' : 'bg-muted-foreground'}`} />
+              <div className="flex flex-col items-end gap-1">
+                <div className={`w-2 h-2 rounded-full ${c.is_active ? 'bg-success' : 'bg-muted-foreground'}`} />
+                {c.price_group_id && (
+                  <span className="text-xs bg-accent text-accent-foreground px-1.5 py-0.5 rounded font-medium">
+                    {priceGroups.find(g => g.id === c.price_group_id)?.name || ''}
+                  </span>
+                )}
+              </div>
             </div>
           </button>
         ))}
@@ -150,6 +176,7 @@ export default function Customers() {
         {showForm && (
           <CustomerForm
             customer={editing}
+            priceGroups={priceGroups}
             onSave={() => { setShowForm(false); load(); }}
             onClose={() => setShowForm(false)}
           />

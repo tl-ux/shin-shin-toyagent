@@ -27,7 +27,14 @@ export default function NewOrder() {
     });
   }, []);
 
+  const getProductPrice = (product) => {
+    if (!selectedCustomer?.price_group_id) return product.price;
+    const gp = product.group_prices?.find(g => g.price_group_id === selectedCustomer.price_group_id);
+    return gp ? gp.price : product.price;
+  };
+
   const addToCart = (product, qty) => {
+    const unitPrice = getProductPrice(product);
     setCart(prev => {
       const existing = prev.find(i => i.product_id === product.id);
       if (existing) {
@@ -42,8 +49,8 @@ export default function NewOrder() {
         product_name: product.name,
         sku: product.sku || '',
         quantity: qty,
-        unit_price: product.price,
-        total: qty * product.price,
+        unit_price: unitPrice,
+        total: qty * unitPrice,
       }];
     });
   };
@@ -139,6 +146,7 @@ export default function NewOrder() {
           onAdd={addToCart}
           onGoToCart={() => setStep('cart')}
           cartCount={cartCount}
+          getProductPrice={getProductPrice}
         />
       )}
 

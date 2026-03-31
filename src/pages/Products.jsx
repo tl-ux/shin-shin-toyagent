@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
-import { Search, Plus, Package, AlertTriangle } from 'lucide-react';
+import { Search, Plus, Package, AlertTriangle, Tag } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -9,18 +9,30 @@ import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 
-function ProductForm({ product, onSave, onClose }) {
+function ProductForm({ product, onSave, onClose, priceGroups }) {
   const [form, setForm] = useState(product || {
-    name: '', sku: '', category: '', price: '', unit: 'יח\'', stock: '', description: '', image_url: '', is_active: true
+    name: '', sku: '', category: '', price: '', unit: "יח'", stock: '', description: '', image_url: '', is_active: true, group_prices: []
   });
   const [saving, setSaving] = useState(false);
+
+  const setGroupPrice = (groupId, groupName, price) => {
+    setForm(prev => {
+      const existing = (prev.group_prices || []).filter(gp => gp.price_group_id !== groupId);
+      if (price === '') return { ...prev, group_prices: existing };
+      return { ...prev, group_prices: [...existing, { price_group_id: groupId, price_group_name: groupName, price: parseFloat(price) }] };
+    });
+  };
+
+  const getGroupPrice = (groupId) => {
+    return form.group_prices?.find(gp => gp.price_group_id === groupId)?.price ?? '';
+  };
 
   const set = (k, v) => setForm(prev => ({ ...prev, [k]: v }));
 
   const save = async () => {
     if (!form.name || !form.price) return;
     setSaving(true);
-    const data = { ...form, price: parseFloat(form.price), stock: form.stock !== '' ? parseInt(form.stock) : null };
+    const data = { ...form, price: parseFloat(form.price), stock: form.stock !== '' ? parseInt(form.stock) : null, group_prices: form.group_prices || [] };
     if (product?.id) {
       await base44.entities.Product.update(product.id, data);
     } else {
@@ -63,6 +75,26 @@ function ProductForm({ product, onSave, onClose }) {
           <Label>כמות במלאי</Label>
           <Input value={form.stock} onChange={e => set('stock', e.target.value)} type="number" placeholder="0" className="mt-1" dir="ltr" />
         </div>
+        {priceGroups.length > 0 && (
+          <div>
+            <Label className="flex items-center gap-1"><Tag className="w-3 h-3" /> מחירים לפי קבוצה</Label>
+            <div className="space-y-2 mt-1">
+              {priceGroups.map(g => (
+                <div key={g.id} className="flex items-center gap-2">
+                  <span className="text-sm text-muted-foreground w-24 flex-shrink-0">{g.name}</span>
+                  <Input
+                    type="number"
+                    placeholder={`מחיר בסיס: ${form.price || '0'}`}
+                    value={getGroupPrice(g.id)}
+                    onChange={e => setGroupPrice(g.id, g.name, e.target.value)}
+                    className="flex-1"
+                    dir="ltr"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
         <div>
           <Label>תיאור</Label>
           <Textarea value={form.description} onChange={e => set('description', e.target.value)} rows={2} className="mt-1 resize-none" />
@@ -84,13 +116,17 @@ function ProductForm({ product, onSave, onClose }) {
 
 export default function Products() {
   const [products, setProducts] = useState([]);
+  const [priceGroups, setPriceGroups] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('הכל');
   const [editing, setEditing] = useState(null);
   const [showForm, setShowForm] = useState(false);
 
-  const load = () => base44.entities.Product.list('-created_date').then(d => { setProducts(d); setLoading(false); });
+  const load = () => Promise.all([
+    base44.entities.Product.list('-created_date'),
+    base44.entities.PriceGroup.list(),
+  ]).then(([d, pg]) => { setProducts(d); setPriceGroups(pg); setLoading(false); });
   useEffect(() => { load(); }, []);
 
   const cats = ['הכל', ...new Set(products.map(p => p.category).filter(Boolean))];
@@ -194,6 +230,7 @@ export default function Products() {
         {showForm && (
           <ProductForm
             product={editing}
+            priceGroups={priceGroups}
             onSave={() => { setShowForm(false); load(); }}
             onClose={() => setShowForm(false)}
           />

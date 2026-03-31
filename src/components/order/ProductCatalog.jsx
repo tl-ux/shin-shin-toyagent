@@ -10,7 +10,7 @@ const categories = (products) => {
   return ['הכל', ...cats];
 };
 
-export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cartCount }) {
+export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cartCount, getProductPrice }) {
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('הכל');
 
@@ -78,8 +78,10 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
                 {product.sku && <div className="text-xs text-muted-foreground mt-0.5">מק"ט: {product.sku}</div>}
                 <div className="mt-1 flex items-center justify-between">
                   <span className="font-bold text-primary text-sm">
-                    ₪{product.price.toLocaleString()}
-                    {product.unit && <span className="text-xs text-muted-foreground font-normal">/{product.unit}</span>}
+                    {(() => {
+                      const price = getProductPrice ? getProductPrice(product) : product.price;
+                      return <>₪{price.toLocaleString()}{product.unit && <span className="text-xs text-muted-foreground font-normal">/{product.unit}</span>}</>;
+                    })()}
                   </span>
                   {product.stock !== undefined && product.stock !== null && (
                     <span className={cn('text-xs font-medium', product.stock > 0 ? 'text-success' : 'text-destructive')}>
