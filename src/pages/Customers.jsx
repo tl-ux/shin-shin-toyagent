@@ -130,20 +130,20 @@ export default function Customers() {
     <div className="p-4 pb-24 space-y-4">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">לקוחות</h1>
-        <Button onClick={() => { setEditing(null); setShowForm(true); }} size="sm" className="gap-1">
+        <Button onClick={() => { setEditing(null); setShowForm(true); }} className="gap-1 h-10 text-base">
           <Plus className="w-4 h-4" />
           לקוח חדש
         </Button>
       </div>
 
       <div className="relative">
-        <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-        <Input
-          value={search}
-          onChange={e => setSearch(e.target.value)}
-          placeholder="חיפוש לקוח..."
-          className="pr-9"
-        />
+       <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+       <Input
+         value={search}
+         onChange={e => setSearch(e.target.value)}
+         placeholder="חיפוש לקוח..."
+         className="pr-9 h-11 text-base"
+       />
       </div>
 
       {cities.length > 1 && (
