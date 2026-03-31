@@ -152,7 +152,7 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
             </DialogHeader>
             <div className="space-y-4 pt-2">
               <div>
-                <label className="text-sm font-medium block mb-2">כמות להוספה</label>
+                <label className="text-sm font-medium block mb-2 text-right">כמות להוספה</label>
                 <Input
                   type="number"
                   min="1"
@@ -160,7 +160,8 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
                   onChange={e => setInputQty(e.target.value)}
                   placeholder="הקלד כמות..."
                   autoFocus
-                  dir="ltr"
+                  dir="rtl"
+                  className="text-right"
                 />
               </div>
               <div className="flex gap-2">
