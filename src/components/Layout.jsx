@@ -64,7 +64,7 @@ export default function Layout() {
               to={path}
               onClick={() => setSidebarOpen(false)}
               className={cn(
-                'flex items-center gap-3 px-3 py-3 rounded-xl text-base font-medium transition-colors',
+               'flex items-center gap-3 px-3 py-3 rounded-xl text-lg font-medium transition-colors',
                 location.pathname === path
                   ? 'bg-white/20 text-white'
                   : 'text-white/75 hover:bg-white/10 hover:text-white'
