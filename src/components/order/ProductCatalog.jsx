@@ -147,8 +147,8 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
       <Dialog open={!!selectedProduct} onOpenChange={v => { if (!v) setSelectedProduct(null); }}>
         {selectedProduct && (
           <DialogContent className="max-w-xs">
-            <DialogHeader>
-              <DialogTitle className="text-center">{selectedProduct.name}</DialogTitle>
+            <DialogHeader className="text-center">
+              <DialogTitle>{selectedProduct.name}</DialogTitle>
             </DialogHeader>
             <div className="space-y-4 pt-2">
               <div>
