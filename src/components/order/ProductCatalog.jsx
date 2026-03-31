@@ -149,6 +149,7 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
           <DialogContent className="max-w-xs">
             <DialogHeader className="text-center">
               <DialogTitle className="text-center">{selectedProduct.name}</DialogTitle>
+              {selectedProduct.sku && <div className="text-xs text-muted-foreground mt-1">מק"ט: {selectedProduct.sku}</div>}
             </DialogHeader>
             <div className="space-y-4 pt-2">
               <div>
