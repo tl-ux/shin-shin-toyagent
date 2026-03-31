@@ -205,7 +205,7 @@ export default function Products() {
             <Upload className="w-4 h-4" />
             {importing ? 'מייבא...' : 'ייבוא'}
           </Button>
-          <Button onClick={() => { setEditing(null); setShowForm(true); }} size="sm" className="gap-1">
+          <Button onClick={() => { setEditing(null); setShowForm(true); }} className="gap-1 h-10 text-base">
             <Plus className="w-4 h-4" />
             פריט חדש
           </Button>
@@ -221,7 +221,7 @@ export default function Products() {
 
       <div className="relative">
         <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-        <Input value={search} onChange={e => setSearch(e.target.value)} placeholder="חיפוש פריט..." className="pr-9" />
+        <Input value={search} onChange={e => setSearch(e.target.value)} placeholder="חיפוש פריט..." className="pr-9 h-11 text-base" />
       </div>
 
       {cats.length > 1 && (
