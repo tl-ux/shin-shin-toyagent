@@ -141,10 +141,10 @@ export default function NewOrder() {
               }`}
             >
               <span className="flex items-center justify-center gap-1.5">
-                <span className={`w-5 h-5 rounded-full text-xs flex items-center justify-center font-bold ${
+                <span className={`w-6 h-6 rounded-full text-sm flex items-center justify-center font-bold ${
                   step === s.key ? 'bg-primary text-white' : 'bg-muted text-muted-foreground'
                 }`}>{idx + 1}</span>
-                {s.label}
+                <span className="text-base">{s.label}</span>
                 {s.key === 'cart' && cartCount > 0 && (
                   <Badge className="h-4 px-1 text-xs bg-primary">{cartCount}</Badge>
                 )}
