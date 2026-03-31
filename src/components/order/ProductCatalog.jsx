@@ -147,11 +147,9 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
       <Dialog open={!!selectedProduct} onOpenChange={v => { if (!v) setSelectedProduct(null); }}>
         {selectedProduct && (
           <DialogContent className="max-w-xs">
-            <div className="flex flex-col items-center text-center">
-              <DialogHeader className="w-full">
-                <DialogTitle className="text-center">{selectedProduct.name}</DialogTitle>
-                {selectedProduct.sku && <div className="text-xs text-muted-foreground text-center">מק"ט: {selectedProduct.sku}</div>}
-              </DialogHeader>
+            <div className="flex flex-col items-center justify-center gap-1 py-2">
+              <DialogTitle>{selectedProduct.name}</DialogTitle>
+              {selectedProduct.sku && <div className="text-xs text-muted-foreground">מק"ט: {selectedProduct.sku}</div>}
             </div>
             <div className="space-y-4 pt-2">
               <div>
