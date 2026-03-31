@@ -36,6 +36,12 @@ export default function Layout() {
           </div>
           <div className="flex items-center gap-2">
             <GlobalSearch />
+            <button
+              className="p-1.5 rounded-lg hover:bg-white/10 transition-colors lg:hidden"
+              onClick={() => setMoreOpen(!moreOpen)}
+            >
+              {moreOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </button>
           </div>
           {/* Desktop Nav */}
           <nav className="hidden lg:flex items-center gap-1">
