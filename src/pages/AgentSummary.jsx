@@ -140,7 +140,7 @@ export default function AgentSummary() {
          <BarChart2 className="w-4 h-4 text-primary" />
          ביצועים חודשיים
         </h2>
-        <div className="grid grid-cols-6 gap-2 text-xs font-semibold text-muted-foreground mb-3">
+        <div className="grid grid-cols-6 gap-2 text-sm font-semibold text-muted-foreground mb-3">
           {monthlyData.map(d => (
             <div key={d.month} className="text-center">{d.month}</div>
           ))}
