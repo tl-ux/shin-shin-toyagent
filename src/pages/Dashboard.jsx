@@ -196,7 +196,7 @@ export default function Dashboard() {
           const pending = orders.filter(o => o.status === 'confirmed').slice(0, 5);
           return pending.length > 0 ? (
             <div className="bg-card border border-border rounded-xl p-4">
-              <h2 className="font-semibold text-sm mb-3 flex items-center gap-2">
+              <h2 className="font-semibold text-base mb-3 flex items-center gap-2">
                 <ShoppingCart className="w-4 h-4 text-primary" />
                 הזמנות מאושרות (ממתינות למסירה)
               </h2>
