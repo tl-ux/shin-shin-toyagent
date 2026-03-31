@@ -14,6 +14,7 @@ import Settings from '@/pages/Settings';
 import Debts from '@/pages/Debts';
 import Dashboard from '@/pages/Dashboard';
 import AgentSummary from '@/pages/AgentSummary';
+import Help from '@/pages/Help';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -47,6 +48,7 @@ const AuthenticatedApp = () => {
         <Route path="/settings" element={<Settings />} />
         <Route path="/debts" element={<Debts />} />
         <Route path="/agent-summary" element={<AgentSummary />} />
+        <Route path="/help" element={<Help />} />
       </Route>
       <Route path="*" element={<PageNotFound />} />
     </Routes>

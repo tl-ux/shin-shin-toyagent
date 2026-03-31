@@ -1,5 +1,5 @@
 import { Link, useLocation, Outlet } from 'react-router-dom';
-import { Baby, Package, Users, BarChart3, Menu, X, Settings, CreditCard, LayoutDashboard, UserCircle, ShoppingCart } from 'lucide-react';
+import { Baby, Package, Users, BarChart3, Menu, X, Settings, CreditCard, LayoutDashboard, UserCircle, ShoppingCart, HelpCircle } from 'lucide-react';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
 import GlobalSearch from '@/components/GlobalSearch';
@@ -13,6 +13,7 @@ const navItems = [
   { path: '/settings', label: 'הגדרות', icon: Settings },
   { path: '/dashboard', label: 'דשבורד', icon: LayoutDashboard },
   { path: '/agent-summary', label: 'ביצועים', icon: UserCircle },
+  { path: '/help', label: 'עזרה', icon: HelpCircle },
 ];
 
 export default function Layout() {
