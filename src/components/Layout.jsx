@@ -1,5 +1,5 @@
 import { Link, useLocation, Outlet } from 'react-router-dom';
-import { Baby, Package, Users, BarChart3, Menu, X, Settings, CreditCard, LayoutDashboard, UserCircle, ShoppingCart, HelpCircle, MoreHorizontal } from 'lucide-react';
+import { Baby, Package, Users, BarChart3, Settings, CreditCard, LayoutDashboard, UserCircle, ShoppingCart, HelpCircle, Menu, X } from 'lucide-react';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
 import GlobalSearch from '@/components/GlobalSearch';
@@ -10,149 +10,104 @@ const navItems = [
   { path: '/customers', label: 'לקוחות', icon: Users },
   { path: '/debts', label: 'חובות', icon: CreditCard },
   { path: '/products', label: 'מלאי', icon: Package },
-  { path: '/settings', label: 'הגדרות', icon: Settings },
   { path: '/dashboard', label: 'דשבורד', icon: LayoutDashboard },
   { path: '/agent-summary', label: 'ביצועים', icon: UserCircle },
+  { path: '/settings', label: 'הגדרות', icon: Settings },
   { path: '/help', label: 'עזרה', icon: HelpCircle },
 ];
 
-const bottomNavMain = navItems.slice(0, 4);
-const bottomNavMore = navItems.slice(4);
-
 export default function Layout() {
   const location = useLocation();
-  const [moreOpen, setMoreOpen] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  const isMoreActive = bottomNavMore.some(i => i.path === location.pathname);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
-      {/* Top Bar */}
-      <header className="bg-primary text-primary-foreground shadow-lg sticky top-0 z-50">
-        <div className="flex items-center justify-between px-4 py-3">
+    <div className="min-h-screen bg-background flex flex-row-reverse">
+
+      {/* Sidebar */}
+      <>
+        {/* Overlay (mobile) */}
+        {sidebarOpen && (
+          <div
+            className="fixed inset-0 bg-black/40 z-40 md:hidden"
+            onClick={() => setSidebarOpen(false)}
+          />
+        )}
+
+        {/* Sidebar panel */}
+        <aside
+          className={cn(
+            'fixed top-0 right-0 h-full w-60 bg-primary text-primary-foreground z-50 flex flex-col shadow-2xl transition-transform duration-300',
+            'md:static md:translate-x-0 md:flex md:shrink-0',
+            sidebarOpen ? 'translate-x-0' : 'translate-x-full md:translate-x-0'
+          )}
+        >
+          {/* Logo */}
+          <div className="flex items-center justify-between px-5 py-5 border-b border-white/20">
+            <div className="flex items-center gap-2">
+              <Baby className="w-6 h-6" />
+              <span className="font-bold text-lg tracking-tight">ToyAgent 🧸</span>
+            </div>
+            <button
+              className="md:hidden p-1 rounded hover:bg-white/10"
+              onClick={() => setSidebarOpen(false)}
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+
+          {/* Nav */}
+          <nav className="flex-1 overflow-y-auto py-3 px-2 space-y-0.5">
+            {navItems.map(({ path, label, icon: Icon }) => (
+              <Link
+                key={path}
+                to={path}
+                onClick={() => setSidebarOpen(false)}
+                className={cn(
+                  'flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors',
+                  location.pathname === path
+                    ? 'bg-white/20 text-white'
+                    : 'text-white/75 hover:bg-white/10 hover:text-white'
+                )}
+              >
+                <Icon className="w-5 h-5 flex-shrink-0" />
+                {label}
+              </Link>
+            ))}
+          </nav>
+        </aside>
+      </>
+
+      {/* Main area */}
+      <div className="flex-1 flex flex-col min-w-0">
+        {/* Top bar (mobile only — just hamburger + search) */}
+        <header className="md:hidden bg-primary text-primary-foreground px-4 py-3 flex items-center justify-between sticky top-0 z-30 shadow">
           <div className="flex items-center gap-2">
-            <Baby className="w-6 h-6" />
-            <span className="font-bold text-lg tracking-tight">ToyAgent 🧸</span>
+            <Baby className="w-5 h-5" />
+            <span className="font-bold">ToyAgent 🧸</span>
           </div>
           <div className="flex items-center gap-2">
             <GlobalSearch />
             <button
-              className="p-1.5 rounded-lg hover:bg-white/10 transition-colors lg:hidden"
-              onClick={() => setMenuOpen(!menuOpen)}
+              className="p-1.5 rounded-lg hover:bg-white/10"
+              onClick={() => setSidebarOpen(true)}
             >
-              {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              <Menu className="w-5 h-5" />
             </button>
           </div>
-          {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-1">
-            {navItems.map(({ path, label, icon: Icon }) => (
-              <Link
-                key={path}
-                to={path}
-                className={cn(
-                  'flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors',
-                  location.pathname === path
-                    ? 'bg-white/20 text-white'
-                    : 'hover:bg-white/10 text-white/80'
-                )}
-              >
-                <Icon className="w-4 h-4" />
-                {label}
-              </Link>
-            ))}
-          </nav>
-        </div>
-        {/* Mobile dropdown menu */}
-        {menuOpen && (
-          <nav className="lg:hidden border-t border-white/20 px-3 pb-3 pt-2 grid grid-cols-3 gap-1">
-            {navItems.map(({ path, label, icon: Icon }) => (
-              <Link
-                key={path}
-                to={path}
-                onClick={() => setMenuOpen(false)}
-                className={cn(
-                  'flex flex-col items-center gap-1 px-2 py-3 rounded-xl text-xs font-medium transition-colors',
-                  location.pathname === path
-                    ? 'bg-white/20 text-white'
-                    : 'hover:bg-white/10 text-white/80'
-                )}
-              >
-                <Icon className="w-5 h-5" />
-                {label}
-              </Link>
-            ))}
-          </nav>
-        )}
-      </header>
+        </header>
 
-      {/* Page Content */}
-      <main className="flex-1 overflow-auto pb-16 lg:pb-0">
-        <Outlet />
-      </main>
+        {/* Desktop top bar (search only) */}
+        <header className="hidden md:flex bg-white border-b border-border px-6 py-3 items-center justify-between sticky top-0 z-30 shadow-sm">
+          <span className="text-sm text-muted-foreground font-medium">
+            {navItems.find(n => n.path === location.pathname)?.label || ''}
+          </span>
+          <GlobalSearch />
+        </header>
 
-      {/* Bottom Nav (Mobile) */}
-      <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-border shadow-lg z-40">
-        <div className="flex items-center justify-around py-1">
-          {bottomNavMain.map(({ path, label, icon: Icon }) => (
-            <Link
-              key={path}
-              to={path}
-              className={cn(
-                'flex flex-col items-center gap-0.5 px-3 py-2 rounded-lg transition-colors min-w-0 flex-1',
-                location.pathname === path
-                  ? 'text-primary'
-                  : 'text-muted-foreground'
-              )}
-            >
-              <Icon className="w-5 h-5" />
-              <span className="text-xs font-medium truncate">{label}</span>
-            </Link>
-          ))}
-
-          {/* More button */}
-          <button
-            onClick={() => setMoreOpen(!moreOpen)}
-            className={cn(
-              'flex flex-col items-center gap-0.5 px-3 py-2 rounded-lg transition-colors min-w-0 flex-1',
-              isMoreActive ? 'text-primary' : 'text-muted-foreground'
-            )}
-          >
-            <MoreHorizontal className="w-5 h-5" />
-            <span className="text-xs font-medium">עוד</span>
-          </button>
-        </div>
-
-        {/* More drawer */}
-        {moreOpen && (
-          <>
-            <div
-              className="fixed inset-0 bg-black/30 z-40"
-              onClick={() => setMoreOpen(false)}
-            />
-            <div className="fixed bottom-16 left-0 right-0 bg-white border-t border-border shadow-xl z-50 rounded-t-2xl">
-              <div className="p-2 grid grid-cols-3 gap-1">
-                {bottomNavMore.map(({ path, label, icon: Icon }) => (
-                  <Link
-                    key={path}
-                    to={path}
-                    onClick={() => setMoreOpen(false)}
-                    className={cn(
-                      'flex flex-col items-center gap-1.5 px-2 py-4 rounded-xl transition-colors',
-                      location.pathname === path
-                        ? 'bg-primary/10 text-primary'
-                        : 'text-muted-foreground hover:bg-muted'
-                    )}
-                  >
-                    <Icon className="w-6 h-6" />
-                    <span className="text-xs font-medium text-center">{label}</span>
-                  </Link>
-                ))}
-              </div>
-            </div>
-          </>
-        )}
-      </nav>
+        <main className="flex-1 overflow-auto">
+          <Outlet />
+        </main>
+      </div>
     </div>
   );
 }
