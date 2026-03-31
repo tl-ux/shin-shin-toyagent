@@ -1,5 +1,5 @@
 import { Link, useLocation, Outlet } from 'react-router-dom';
-import { ShoppingCart, Package, Users, BarChart3, Menu, X, Settings, CreditCard, LayoutDashboard, UserCircle } from 'lucide-react';
+import { Baby, Package, Users, BarChart3, Menu, X, Settings, CreditCard, LayoutDashboard, UserCircle, ShoppingCart } from 'lucide-react';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
 import GlobalSearch from '@/components/GlobalSearch';
@@ -25,8 +25,8 @@ export default function Layout() {
       <header className="bg-primary text-primary-foreground shadow-lg sticky top-0 z-50">
         <div className="flex items-center justify-between px-4 py-3">
           <div className="flex items-center gap-2">
-            <ShoppingCart className="w-6 h-6" />
-            <span className="font-bold text-lg tracking-tight">SalesAgent</span>
+            <Baby className="w-6 h-6" />
+            <span className="font-bold text-lg tracking-tight">ToyAgent 🧸</span>
           </div>
           <div className="flex items-center gap-2">
             <GlobalSearch />
