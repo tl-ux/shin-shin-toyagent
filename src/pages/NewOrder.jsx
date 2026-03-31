@@ -113,6 +113,9 @@ export default function NewOrder() {
       {selectedCustomer && (
         <div className="bg-primary/10 border-b border-primary/20 px-4 py-3 text-center">
           <div className="text-lg font-bold text-primary">{selectedCustomer.name}</div>
+          {selectedCustomer.customer_number && (
+            <div className="text-xs text-primary/70 mt-1">מספר לקוח: {selectedCustomer.customer_number}</div>
+          )}
         </div>
       )}
 
