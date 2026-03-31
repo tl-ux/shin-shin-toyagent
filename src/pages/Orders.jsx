@@ -199,7 +199,7 @@ export default function Orders() {
         <div className="flex items-center gap-2">
          <div className="text-center">
            <div className="text-sm text-muted-foreground">סה"כ</div>
-           <div className="font-bold text-primary text-xl">₪{totalSales.toLocaleString()}</div>
+           <div className="font-bold text-primary text-2xl">₪{totalSales.toLocaleString()}</div>
          </div>
         </div>
       </div>
