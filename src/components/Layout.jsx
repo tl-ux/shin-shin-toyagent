@@ -30,7 +30,7 @@ export default function Layout() {
       {/* Overlay (mobile only) */}
       {sidebarOpen && (
         <div
-          className="fixed inset-0 bg-black/40 z-40 md:hidden"
+          className="fixed inset-0 bg-black/40 z-40 lg:hidden"
           onClick={() => setSidebarOpen(false)}
         />
       )}
@@ -38,7 +38,7 @@ export default function Layout() {
       {/* Sidebar */}
       <aside
         className={cn(
-          'fixed md:sticky top-0 right-0 h-full w-64 bg-primary text-primary-foreground z-50 flex flex-col shadow-2xl transition-all duration-300 md:translate-x-0',
+          'fixed lg:sticky top-0 right-0 h-full w-64 bg-primary text-primary-foreground z-50 flex flex-col shadow-2xl transition-all duration-300 lg:translate-x-0',
           sidebarOpen ? 'translate-x-0' : 'translate-x-full'
         )}
       >
@@ -49,7 +49,7 @@ export default function Layout() {
             <span className="font-bold text-lg tracking-tight">ToyAgent 🧸</span>
           </button>
           <button
-            className="md:hidden p-1 rounded hover:bg-white/10"
+            className="lg:hidden p-1 rounded hover:bg-white/10"
             onClick={() => setSidebarOpen(false)}
           >
             <X className="w-5 h-5" />
@@ -80,20 +80,20 @@ export default function Layout() {
       {/* Main area */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* Top bar */}
-        <header className="bg-primary text-primary-foreground px-4 py-3 flex items-center justify-between sticky top-0 z-30 shadow md:bg-white md:text-foreground md:border-b md:border-border md:shadow-sm">
+        <header className="bg-primary text-primary-foreground px-4 py-3 flex items-center justify-between sticky top-0 z-30 shadow lg:bg-white lg:text-foreground lg:border-b lg:border-border lg:shadow-sm">
           <div className="flex items-center gap-2">
             <button
-              className="md:hidden p-1.5 rounded-lg hover:bg-white/10"
+              className="lg:hidden p-1.5 rounded-lg hover:bg-white/10"
               onClick={() => setSidebarOpen(true)}
             >
               <Menu className="w-5 h-5" />
             </button>
-            <div className="flex md:hidden items-center gap-2">
+            <div className="flex lg:hidden items-center gap-2">
               <Baby className="w-5 h-5" />
               <span className="font-bold">ToyAgent 🧸</span>
             </div>
           </div>
-          <span className="hidden md:block text-sm text-muted-foreground font-medium">
+          <span className="hidden lg:block text-sm text-muted-foreground font-medium">
             {navItems.find(n => n.path === location.pathname)?.label || ''}
           </span>
           <div className="flex items-center gap-2">
