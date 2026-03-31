@@ -11,7 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { cn } from '@/lib/utils';
 
 function CustomerForm({ customer, onSave, onClose, priceGroups }) {
-  const [form, setForm] = useState(customer || { name: '', contact_name: '', phone: '', address: '', city: '', notes: '', price_group_id: '', is_active: true });
+  const [form, setForm] = useState(customer || { customer_number: '', name: '', contact_name: '', phone: '', address: '', city: '', notes: '', price_group_id: '', is_active: true });
   const [saving, setSaving] = useState(false);
 
   const set = (k, v) => setForm(prev => ({ ...prev, [k]: v }));
@@ -33,6 +33,10 @@ function CustomerForm({ customer, onSave, onClose, priceGroups }) {
         <DialogTitle>{customer ? 'עריכת לקוח' : 'לקוח חדש'}</DialogTitle>
       </DialogHeader>
       <div className="space-y-3 pt-2">
+        <div>
+          <Label>מספר לקוח</Label>
+          <Input value={form.customer_number} onChange={e => set('customer_number', e.target.value)} placeholder="למשל: 001" className="mt-1" />
+        </div>
         <div>
           <Label>שם עסק / לקוח *</Label>
           <Input value={form.name} onChange={e => set('name', e.target.value)} placeholder="שם הלקוח" className="mt-1" />
