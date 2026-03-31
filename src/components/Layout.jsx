@@ -86,7 +86,7 @@ export default function Layout() {
               className="lg:hidden p-1.5 rounded-lg hover:bg-white/10"
               onClick={() => setSidebarOpen(true)}
             >
-              <Menu className="w-5 h-5" />
+              <Menu className="w-6 h-6" />
             </button>
             <div className="flex lg:hidden items-center gap-2">
               <Baby className="w-5 h-5" />
