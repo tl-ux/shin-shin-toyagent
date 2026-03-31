@@ -153,7 +153,7 @@ export default function Customers() {
               key={city}
               onClick={() => setCityFilter(city)}
               className={cn(
-                'flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-medium transition-colors border',
+                'flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-colors border',
                 cityFilter === city ? 'bg-primary text-white border-primary' : 'bg-white border-border text-muted-foreground'
               )}
             >
