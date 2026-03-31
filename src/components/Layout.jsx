@@ -90,7 +90,7 @@ export default function Layout() {
             </button>
             <div className="flex lg:hidden items-center gap-2">
               <Baby className="w-5 h-5" />
-              <span className="font-bold">ToyAgent 🧸</span>
+              <span className="font-bold text-lg">ToyAgent 🧸</span>
             </div>
           </div>
           <span className="hidden lg:block text-sm text-muted-foreground font-medium">
