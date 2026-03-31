@@ -136,9 +136,9 @@ export default function AgentSummary() {
 
       {/* Monthly table */}
       <div className="bg-card border border-border rounded-xl p-4">
-        <h2 className="font-semibold text-sm mb-4 flex items-center gap-2">
-          <BarChart2 className="w-4 h-4 text-primary" />
-          ביצועים חודשיים
+        <h2 className="font-semibold text-base mb-4 flex items-center gap-2">
+         <BarChart2 className="w-4 h-4 text-primary" />
+         ביצועים חודשיים
         </h2>
         <div className="grid grid-cols-6 gap-2 text-xs font-semibold text-muted-foreground mb-3">
           {monthlyData.map(d => (
