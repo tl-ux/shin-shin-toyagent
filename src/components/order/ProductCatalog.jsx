@@ -146,45 +146,63 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
       {/* Quantity input dialog */}
       <Dialog open={!!selectedProduct} onOpenChange={v => { if (!v) setSelectedProduct(null); }}>
         {selectedProduct && (
-          <DialogContent className="max-w-xs flex flex-col items-center text-center">
-           <h2 className="text-lg font-semibold">{selectedProduct.name}</h2>
-           {selectedProduct.sku && <div className="text-xs text-muted-foreground mt-1">מק"ט: {selectedProduct.sku}</div>}
-           <div className="space-y-4">
-              <div>
-                <Input
-                  type="number"
-                  min="1"
-                  value={inputQty}
-                  onChange={e => setInputQty(e.target.value)}
-                  placeholder="הקלד כמות..."
-                  autoFocus
-                  dir="rtl"
-                  className="text-right"
-                />
-              </div>
-              <div className="flex gap-2">
-                <Button
-                  className="flex-1"
-                  onClick={() => {
-                    const qty = parseInt(inputQty) || 1;
-                    if (qty > 0) {
-                      onAdd(selectedProduct, qty);
-                      setSelectedProduct(null);
-                      setInputQty('');
-                    }
-                  }}
-                >
-                  הוסף
-                </Button>
-                <Button
-                  variant="outline"
-                  className="flex-1"
-                  onClick={() => setSelectedProduct(null)}
-                >
-                  ביטול
-                </Button>
-              </div>
-            </div>
+          <DialogContent className="max-w-xs p-0 overflow-hidden">
+           {/* Product Image */}
+           {selectedProduct.image_url ? (
+             <img src={selectedProduct.image_url} alt={selectedProduct.name} className="w-full h-32 object-cover" />
+           ) : (
+             <div className="w-full h-32 bg-gradient-to-br from-accent to-primary/10 flex items-center justify-center">
+               <span className="text-4xl font-bold text-primary/30">{selectedProduct.name[0]}</span>
+             </div>
+           )}
+
+           {/* Content */}
+           <div className="p-4 space-y-3">
+             <div className="text-center">
+               <h2 className="text-base font-semibold">{selectedProduct.name}</h2>
+               {selectedProduct.sku && <div className="text-xs text-muted-foreground mt-0.5">מק"ט: {selectedProduct.sku}</div>}
+             </div>
+
+             {/* Price and Stock */}
+             <div className="flex items-center justify-between text-sm">
+               <span className="font-bold text-primary">
+                 ₪{getProductPrice ? getProductPrice(selectedProduct) : selectedProduct.price}
+               </span>
+               {selectedProduct.stock !== undefined && selectedProduct.stock !== null && (
+                 <span className="text-muted-foreground text-xs">
+                   {selectedProduct.stock > 0 ? `${selectedProduct.stock} במלאי` : 'אזל'}
+                 </span>
+               )}
+             </div>
+
+             {/* Quantity Input */}
+             <Input
+               type="number"
+               min="1"
+               value={inputQty}
+               onChange={e => setInputQty(e.target.value)}
+               placeholder="הקלד כמות..."
+               autoFocus
+               dir="rtl"
+               className="text-right text-center"
+             />
+
+             {/* Add Button */}
+             <Button
+               className="w-full"
+               onClick={() => {
+                 const qty = parseInt(inputQty) || 1;
+                 if (qty > 0) {
+                   onAdd(selectedProduct, qty);
+                   setSelectedProduct(null);
+                   setInputQty('');
+                 }
+               }}
+             >
+               <Plus className="w-4 h-4 ml-1" />
+               הוסף
+             </Button>
+           </div>
           </DialogContent>
         )}
       </Dialog>
