@@ -134,7 +134,7 @@ export default function NewOrder() {
                 if (s.key === 'cart' && cart.length === 0) return;
                 setStep(s.key);
               }}
-              className={`flex-1 py-3 text-sm font-medium border-b-2 transition-colors relative ${
+              className={`flex-1 py-4 text-base font-medium border-b-2 transition-colors relative ${
                 step === s.key
                   ? 'border-primary text-primary'
                   : 'border-transparent text-muted-foreground hover:text-foreground'
