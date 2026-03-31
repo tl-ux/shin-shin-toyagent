@@ -159,13 +159,13 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
            {/* Content */}
            <div className="p-4 space-y-3">
              <div className="text-center">
-               <h2 className="text-base font-semibold">{selectedProduct.name}</h2>
-               {selectedProduct.sku && <div className="text-xs text-muted-foreground mt-0.5">מק"ט: {selectedProduct.sku}</div>}
+               <h2 className="text-base font-semibold text-center">{selectedProduct.name}</h2>
+               {selectedProduct.sku && <div className="text-xs text-muted-foreground mt-0.5 text-center">מק"ט: {selectedProduct.sku}</div>}
              </div>
 
              {/* Price and Stock */}
-             <div className="flex items-center justify-center gap-4 text-sm">
-               <span className="font-bold text-primary text-lg">
+             <div className="flex items-center justify-between text-sm">
+               <span className="font-bold text-primary">
                  ₪{getProductPrice ? getProductPrice(selectedProduct) : selectedProduct.price}
                </span>
                {selectedProduct.stock !== undefined && selectedProduct.stock !== null && (
