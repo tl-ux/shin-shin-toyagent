@@ -26,6 +26,7 @@ const DATE_FILTERS = [
   { key: 'month', label: 'החודש' },
   { key: 'prev_month', label: 'חודש קודם' },
   { key: 'unshipped', label: '⚠️ לא שודרו' },
+  { key: 'unsent', label: '📬 לא נשלחו' },
 ];
 
 function matchesDateFilter(order, dateFilter) {
@@ -41,6 +42,7 @@ function matchesDateFilter(order, dateFilter) {
     return date >= start && date < end;
   }
   if (dateFilter === 'unshipped') return order.status === 'draft';
+  if (dateFilter === 'unsent') return order.status === 'confirmed' && (!order.sent_via || order.sent_via.length === 0);
   return true;
 }
 
@@ -133,6 +135,16 @@ function OrderCard({ order, officeEmail, officeWhatsapp, onEdit, onCopy }) {
             {order.visit_date && <span>{format(new Date(order.visit_date), 'dd/MM/yyyy')}</span>}
             {order.agent_name && <span>סוכן: {order.agent_name}</span>}
           </div>
+          {order.status === 'confirmed' && (!order.sent_via || order.sent_via.length === 0) && (
+            <div className="text-xs text-destructive mt-1 font-medium">⚠️ לא נשלחה</div>
+          )}
+          {order.sent_via && order.sent_via.length > 0 && (
+            <div className="text-xs text-muted-foreground mt-1 flex gap-1">
+              {order.sent_via.includes('whatsapp') && <span>💬</span>}
+              {order.sent_via.includes('email') && <span>📧</span>}
+              {order.sent_via.includes('pdf') && <span>📄</span>}
+            </div>
+          )}
         </div>
         <div className="text-left flex flex-col items-end gap-1">
           <span className="font-bold text-primary text-lg">₪{(order.total_amount || 0).toLocaleString()}</span>

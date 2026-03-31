@@ -75,10 +75,16 @@ export default function OrderShareMenu({ order, officeEmail, officeWhatsapp }) {
   const [sendingEmail, setSendingEmail] = useState(false);
   const { toast } = useToast();
 
-  const handleWhatsApp = () => {
+  const handleWhatsApp = async () => {
     const text = encodeURIComponent(buildOrderText(order));
     const phone = officeWhatsapp ? officeWhatsapp.replace(/\D/g, '') : '';
     window.open(`https://wa.me/${phone}?text=${text}`, '_blank');
+    // Mark as sent via WhatsApp
+    const sent_via = [...(order.sent_via || [])];
+    if (!sent_via.includes('whatsapp')) {
+      sent_via.push('whatsapp');
+      await base44.entities.Order.update(order.id, { sent_via });
+    }
   };
 
   const handleEmail = async () => {
@@ -89,12 +95,24 @@ export default function OrderShareMenu({ order, officeEmail, officeWhatsapp }) {
     setSendingEmail(true);
     await base44.functions.invoke('sendOrderEmail', { order, toEmail: officeEmail });
     setSendingEmail(false);
+    // Mark as sent via email
+    const sent_via = [...(order.sent_via || [])];
+    if (!sent_via.includes('email')) {
+      sent_via.push('email');
+      await base44.entities.Order.update(order.id, { sent_via });
+    }
     toast({ description: 'המייל נשלח בהצלחה!' });
   };
 
-  const handlePDF = () => {
+  const handlePDF = async () => {
     const doc = generatePDF(order);
     doc.save(`order-${order.order_number || order.id}.pdf`);
+    // Mark as sent via PDF
+    const sent_via = [...(order.sent_via || [])];
+    if (!sent_via.includes('pdf')) {
+      sent_via.push('pdf');
+      await base44.entities.Order.update(order.id, { sent_via });
+    }
   };
 
   return (
