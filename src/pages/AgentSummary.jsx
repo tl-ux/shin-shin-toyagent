@@ -155,9 +155,9 @@ export default function AgentSummary() {
       {/* Agents ranking */}
       {agentRanking.length > 1 && (
         <div className="bg-card border border-border rounded-xl p-4">
-          <h2 className="font-semibold text-sm mb-3 flex items-center gap-2">
-            <Award className="w-4 h-4 text-primary" />
-            טבלת סוכנים
+          <h2 className="font-semibold text-base mb-3 flex items-center gap-2">
+           <Award className="w-4 h-4 text-primary" />
+           טבלת סוכנים
           </h2>
           <div className="space-y-2">
             {agentRanking.map(([name, data], i) => (
