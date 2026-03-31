@@ -81,7 +81,7 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
                   <div className="font-semibold text-sm leading-tight text-center">{product.name}</div>
                   {product.sku && <div className="text-xs text-muted-foreground mt-0.5 text-center">מק"ט: {product.sku}</div>}
                   <div className="mt-1 flex items-center justify-between">
-                    <span className="font-bold text-primary text-sm">
+                    <span className="font-bold text-primary text-base">
                       {(() => {
                         const price = getProductPrice ? getProductPrice(product) : product.price;
                         return <>₪{price.toLocaleString()}{product.unit && <span className="text-xs text-muted-foreground font-normal">/{product.unit}</span>}</>;
