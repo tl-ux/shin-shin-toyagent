@@ -112,7 +112,6 @@ export default function NewOrder() {
       {/* Customer header */}
       {selectedCustomer && (
         <div className="bg-primary/10 border-b border-primary/20 px-4 py-3">
-          <div className="text-sm text-muted-foreground">לקוח נבחר</div>
           <div className="text-lg font-bold text-primary">{selectedCustomer.name}</div>
         </div>
       )}
