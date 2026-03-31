@@ -23,21 +23,11 @@ export default function Layout() {
   return (
     <div className="min-h-screen bg-background flex">
 
-      {/* Overlay (mobile) */}
-      {sidebarOpen && (
-        <div
-          className="fixed inset-0 bg-black/40 z-40 md:hidden"
-          onClick={() => setSidebarOpen(false)}
-        />
-      )}
+
 
       {/* Sidebar — fixed on right */}
       <aside
-        className={cn(
-          'fixed top-0 right-0 h-full w-64 bg-primary text-primary-foreground z-50 flex flex-col shadow-2xl transition-transform duration-300',
-          'md:sticky md:translate-x-0 md:shrink-0 md:h-screen md:top-0',
-          sidebarOpen ? 'translate-x-0' : 'translate-x-full md:translate-x-0'
-        )}
+        className="sticky top-0 h-screen w-64 bg-primary text-primary-foreground z-50 flex flex-col shadow-2xl flex-shrink-0"
       >
         {/* Logo */}
         <div className="flex items-center justify-between px-5 py-5 border-b border-white/20">
@@ -45,12 +35,7 @@ export default function Layout() {
             <Baby className="w-6 h-6" />
             <span className="font-bold text-lg tracking-tight">ToyAgent 🧸</span>
           </div>
-          <button
-            className="md:hidden p-1 rounded hover:bg-white/10"
-            onClick={() => setSidebarOpen(false)}
-          >
-            <X className="w-5 h-5" />
-          </button>
+
         </div>
 
         {/* Nav */}
@@ -87,12 +72,7 @@ export default function Layout() {
           </div>
           <div className="flex items-center gap-2">
             <GlobalSearch />
-            <button
-              className="md:hidden p-1.5 rounded-lg hover:bg-white/10"
-              onClick={() => setSidebarOpen(true)}
-            >
-              <Menu className="w-5 h-5" />
-            </button>
+
           </div>
         </header>
 
