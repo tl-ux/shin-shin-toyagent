@@ -81,17 +81,17 @@ function OrderCard({ order, officeEmail, officeWhatsapp, onEdit, onCopy, onDelet
           <span className="font-bold text-primary text-lg">₪{(order.total_amount || 0).toLocaleString()}</span>
           <div className="flex items-center gap-1">
             <button onClick={e => { e.stopPropagation(); onEdit(order); }} className="p-1 rounded hover:bg-muted transition-colors" title="עריכה">
-              <Pencil className="w-3.5 h-3.5 text-muted-foreground" />
+              <Pencil className="w-4 h-4 text-muted-foreground" />
             </button>
             <button onClick={e => { e.stopPropagation(); onCopy(order); }} className="p-1 rounded hover:bg-muted transition-colors" title="העתקה">
-              <Copy className="w-3.5 h-3.5 text-muted-foreground" />
+              <Copy className="w-4 h-4 text-muted-foreground" />
             </button>
             {order.status === 'confirmed' && (
               <button onClick={e => { e.stopPropagation(); onDelete(order); }} className="p-1 rounded hover:bg-red-50 transition-colors" title="מחיקה">
-                <Trash2 className="w-3.5 h-3.5 text-destructive" />
+                <Trash2 className="w-4 h-4 text-destructive" />
               </button>
             )}
-            {open ? <ChevronUp className="w-4 h-4 text-muted-foreground" /> : <ChevronDown className="w-4 h-4 text-muted-foreground" />}
+            {open ? <ChevronUp className="w-5 h-5 text-muted-foreground" /> : <ChevronDown className="w-5 h-5 text-muted-foreground" />}
           </div>
         </div>
       </button>
