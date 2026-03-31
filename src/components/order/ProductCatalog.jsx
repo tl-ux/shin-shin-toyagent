@@ -158,7 +158,7 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
 
            {/* Content */}
            <div className="p-4 space-y-3">
-             <div className="flex flex-col items-center justify-center">
+             <div className="text-center">
                <h2 className="text-base font-semibold">{selectedProduct.name}</h2>
                {selectedProduct.sku && <div className="text-xs text-muted-foreground mt-0.5">מק"ט: {selectedProduct.sku}</div>}
              </div>
