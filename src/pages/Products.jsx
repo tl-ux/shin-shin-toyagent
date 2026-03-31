@@ -52,15 +52,9 @@ function ProductForm({ product, onSave, onClose, priceGroups }) {
           <Label>שם הפריט *</Label>
           <Input value={form.name} onChange={e => set('name', e.target.value)} placeholder="שם הפריט" className="mt-1" />
         </div>
-        <div className="grid grid-cols-2 gap-3">
-          <div>
-            <Label>מחיר *</Label>
-            <Input value={form.price} onChange={e => set('price', e.target.value)} type="number" placeholder="0.00" className="mt-1" dir="ltr" />
-          </div>
-          <div>
-            <Label>יחידת מידה</Label>
-            <Input value={form.unit} onChange={e => set('unit', e.target.value)} placeholder={"יח', ק\"ג, ל'"} className="mt-1" />
-          </div>
+        <div>
+          <Label>מחיר *</Label>
+          <Input value={form.price} onChange={e => set('price', e.target.value)} type="number" placeholder="0.00" className="mt-1" dir="ltr" />
         </div>
         <div className="grid grid-cols-2 gap-3">
           <div>
