@@ -164,8 +164,8 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
              </div>
 
              {/* Price and Stock */}
-             <div className="flex items-center justify-between text-sm">
-               <span className="font-bold text-primary">
+             <div className="flex items-center justify-center gap-4 text-sm">
+               <span className="font-bold text-primary text-lg">
                  ₪{getProductPrice ? getProductPrice(selectedProduct) : selectedProduct.price}
                </span>
                {selectedProduct.stock !== undefined && selectedProduct.stock !== null && (
