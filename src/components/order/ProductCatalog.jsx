@@ -148,7 +148,7 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
         {selectedProduct && (
           <DialogContent className="max-w-xs">
             <DialogHeader className="text-center">
-              <DialogTitle>{selectedProduct.name}</DialogTitle>
+              <DialogTitle className="text-center">{selectedProduct.name}</DialogTitle>
             </DialogHeader>
             <div className="space-y-4 pt-2">
               <div>
