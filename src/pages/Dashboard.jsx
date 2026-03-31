@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 import { TrendingUp, Users, ShoppingCart, CreditCard, Package, AlertTriangle } from 'lucide-react';
-import { format, subMonths, startOfMonth, endOfMonth } from 'date-fns';
+import { format, subMonths, subYears, startOfMonth, endOfMonth } from 'date-fns';
 import { he } from 'date-fns/locale';
 import { Link } from 'react-router-dom';
 
@@ -50,19 +50,30 @@ export default function Dashboard() {
     </div>
   );
 
-  // Monthly sales - last 6 months
+  // Monthly sales - last 6 months, with year-over-year comparison
   const now = new Date();
   const monthlyData = Array.from({ length: 6 }, (_, i) => {
     const date = subMonths(now, 5 - i);
+    const dateLastYear = subYears(date, 1);
     const start = startOfMonth(date);
     const end = endOfMonth(date);
+    const startLY = startOfMonth(dateLastYear);
+    const endLY = endOfMonth(dateLastYear);
+
     const total = orders
-      .filter(o => {
-        const d = new Date(o.created_date);
-        return d >= start && d <= end && o.status !== 'cancelled';
-      })
+      .filter(o => { const d = new Date(o.created_date); return d >= start && d <= end && o.status !== 'cancelled'; })
       .reduce((s, o) => s + (o.total_amount || 0), 0);
-    return { month: format(date, 'MMM', { locale: he }), total };
+
+    const totalLastYear = orders
+      .filter(o => { const d = new Date(o.created_date); return d >= startLY && d <= endLY && o.status !== 'cancelled'; })
+      .reduce((s, o) => s + (o.total_amount || 0), 0);
+
+    return {
+      month: format(date, 'MMM yy', { locale: he }),
+      monthLY: format(dateLastYear, 'MMM yy', { locale: he }),
+      total,
+      totalLastYear,
+    };
   });
 
   // Top customers
@@ -103,23 +114,41 @@ export default function Dashboard() {
         <StatCard icon={CreditCard} label="חובות פתוחים" value={`₪${openDebts.toLocaleString()}`} color="destructive" />
       </div>
 
-      {/* Monthly Table */}
+      {/* Monthly Table YoY */}
       <div className="bg-card border border-border rounded-xl p-4">
-        <h2 className="font-semibold text-sm mb-3">מכירות לפי חודש</h2>
+        <h2 className="font-semibold text-sm mb-3">מכירות לפי חודש — שנה מול שנה</h2>
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-border text-muted-foreground text-xs">
               <th className="text-right pb-2 font-medium">חודש</th>
-              <th className="text-left pb-2 font-medium">סה"כ מכירות</th>
+              <th className="text-center pb-2 font-medium">השנה</th>
+              <th className="text-center pb-2 font-medium">שנה קודמת</th>
+              <th className="text-center pb-2 font-medium">שינוי</th>
             </tr>
           </thead>
           <tbody>
-            {[...monthlyData].reverse().map((row, i) => (
-              <tr key={row.month} className={`border-b border-border/50 last:border-0 ${i === 0 ? 'font-semibold' : ''}`}>
-                <td className="py-2 text-right">{row.month}</td>
-                <td className="py-2 text-left text-primary">₪{row.total.toLocaleString()}</td>
-              </tr>
-            ))}
+            {[...monthlyData].reverse().map((row, i) => {
+              const diff = row.totalLastYear > 0
+                ? Math.round(((row.total - row.totalLastYear) / row.totalLastYear) * 100)
+                : null;
+              const isCurrentMonth = i === 0;
+              return (
+                <tr key={row.month} className={`border-b border-border/50 last:border-0 ${isCurrentMonth ? 'bg-accent/30' : ''}`}>
+                  <td className="py-2 text-right font-medium">{row.month}</td>
+                  <td className="py-2 text-center font-bold text-primary">₪{row.total.toLocaleString()}</td>
+                  <td className="py-2 text-center text-muted-foreground">₪{row.totalLastYear.toLocaleString()}</td>
+                  <td className="py-2 text-center">
+                    {diff === null ? (
+                      <span className="text-muted-foreground text-xs">—</span>
+                    ) : (
+                      <span className={`text-xs font-semibold px-1.5 py-0.5 rounded ${diff > 0 ? 'bg-success/10 text-success' : diff < 0 ? 'bg-destructive/10 text-destructive' : 'text-muted-foreground'}`}>
+                        {diff > 0 ? '+' : ''}{diff}%
+                      </span>
+                    )}
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
