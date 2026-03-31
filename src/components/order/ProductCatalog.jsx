@@ -1,0 +1,135 @@
+import { useState } from 'react';
+import { Search, ShoppingCart, Plus, Minus } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { cn } from '@/lib/utils';
+
+const categories = (products) => {
+  const cats = [...new Set(products.map(p => p.category).filter(Boolean))];
+  return ['הכל', ...cats];
+};
+
+export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cartCount }) {
+  const [search, setSearch] = useState('');
+  const [category, setCategory] = useState('הכל');
+
+  const filtered = products.filter(p => {
+    const matchSearch = p.name.toLowerCase().includes(search.toLowerCase()) ||
+      (p.sku || '').toLowerCase().includes(search.toLowerCase());
+    const matchCat = category === 'הכל' || p.category === category;
+    return matchSearch && matchCat;
+  });
+
+  const cats = categories(products);
+
+  const getCartQty = (productId) => {
+    return cart.find(i => i.product_id === productId)?.quantity || 0;
+  };
+
+  return (
+    <div className="flex flex-col h-full">
+      {/* Search + Filter */}
+      <div className="p-4 space-y-3 bg-white border-b border-border">
+        <div className="relative">
+          <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+          <Input
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            placeholder="חיפוש פריט..."
+            className="pr-9"
+          />
+        </div>
+        {cats.length > 1 && (
+          <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+            {cats.map(cat => (
+              <button
+                key={cat}
+                onClick={() => setCategory(cat)}
+                className={cn(
+                  'flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-medium transition-colors border',
+                  category === cat
+                    ? 'bg-primary text-primary-foreground border-primary'
+                    : 'bg-white text-muted-foreground border-border hover:border-primary/50'
+                )}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Products Grid */}
+      <div className="p-4 grid grid-cols-2 gap-3 lg:grid-cols-3 xl:grid-cols-4">
+        {filtered.map(product => {
+          const qty = getCartQty(product.id);
+          return (
+            <div key={product.id} className="bg-card rounded-xl border border-border overflow-hidden shadow-sm">
+              {product.image_url ? (
+                <img src={product.image_url} alt={product.name} className="w-full h-28 object-cover" />
+              ) : (
+                <div className="w-full h-28 bg-gradient-to-br from-accent to-primary/10 flex items-center justify-center">
+                  <span className="text-3xl font-bold text-primary/30">{product.name[0]}</span>
+                </div>
+              )}
+              <div className="p-3">
+                <div className="font-semibold text-sm leading-tight">{product.name}</div>
+                {product.sku && <div className="text-xs text-muted-foreground mt-0.5">מק"ט: {product.sku}</div>}
+                <div className="mt-1 flex items-center justify-between">
+                  <span className="font-bold text-primary text-sm">
+                    ₪{product.price.toLocaleString()}
+                    {product.unit && <span className="text-xs text-muted-foreground font-normal">/{product.unit}</span>}
+                  </span>
+                  {product.stock !== undefined && product.stock !== null && (
+                    <span className={cn('text-xs font-medium', product.stock > 0 ? 'text-success' : 'text-destructive')}>
+                      {product.stock > 0 ? `${product.stock} במלאי` : 'אזל'}
+                    </span>
+                  )}
+                </div>
+
+                {qty === 0 ? (
+                  <Button
+                    size="sm"
+                    className="w-full mt-2 h-8 text-xs"
+                    onClick={() => onAdd(product, 1)}
+                  >
+                    <Plus className="w-3 h-3 ml-1" />
+                    הוסף
+                  </Button>
+                ) : (
+                  <div className="flex items-center justify-between mt-2 bg-accent rounded-lg p-1">
+                    <button
+                      onClick={() => onAdd(product, qty - 1)}
+                      className="w-7 h-7 rounded-md bg-primary text-primary-foreground flex items-center justify-center hover:bg-primary/90"
+                    >
+                      <Minus className="w-3 h-3" />
+                    </button>
+                    <span className="font-bold text-primary text-sm">{qty}</span>
+                    <button
+                      onClick={() => onAdd(product, qty + 1)}
+                      className="w-7 h-7 rounded-md bg-primary text-primary-foreground flex items-center justify-center hover:bg-primary/90"
+                    >
+                      <Plus className="w-3 h-3" />
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Floating cart button */}
+      {cartCount > 0 && (
+        <div className="fixed bottom-20 lg:bottom-6 left-1/2 -translate-x-1/2 z-40">
+          <Button onClick={onGoToCart} className="shadow-xl px-6 py-3 h-auto rounded-full gap-2">
+            <ShoppingCart className="w-5 h-5" />
+            לסיכום הזמנה
+            <Badge className="bg-white text-primary font-bold">{cartCount}</Badge>
+          </Button>
+        </div>
+      )}
+    </div>
+  );
+}
