@@ -234,7 +234,7 @@ export default function Orders() {
               )}
             >
               <div className="text-xl font-bold text-foreground">{count}</div>
-              <div className="text-sm text-muted-foreground mt-0.5">{val.label}</div>
+              <div className="text-base text-muted-foreground mt-0.5">{val.label}</div>
             </button>
           );
         })}
