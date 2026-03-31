@@ -65,7 +65,7 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
         {filtered.map(product => {
           const qty = getCartQty(product.id);
           return (
-            <div key={product.id} className="bg-card rounded-xl border border-border overflow-hidden shadow-sm">
+            <div key={product.id} className="bg-card rounded-xl border border-border overflow-hidden shadow-sm flex flex-col">
               {product.image_url ? (
                 <img src={product.image_url} alt={product.name} className="w-full h-28 object-cover" />
               ) : (
@@ -73,7 +73,7 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
                   <span className="text-3xl font-bold text-primary/30">{product.name[0]}</span>
                 </div>
               )}
-              <div className="p-3 flex flex-col h-full">
+              <div className="p-3 flex flex-col flex-1">
                 <div>
                   <div className="font-semibold text-sm leading-tight">{product.name}</div>
                   {product.sku && <div className="text-xs text-muted-foreground mt-0.5">מק"ט: {product.sku}</div>}
