@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
 import { format, startOfDay, startOfWeek, startOfMonth, subMonths } from 'date-fns';
-import { Package, ChevronDown, ChevronUp, Search, Pencil, Copy, FileDown } from 'lucide-react';
+import { Package, ChevronDown, ChevronUp, Search, Pencil, Copy } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -43,25 +43,7 @@ function matchesDateFilter(order, dateFilter) {
   return true;
 }
 
-function exportOrdersExcel(orders) {
-  const rows = [
-    ['מספר הזמנה', 'לקוח', 'סוכן', 'תאריך', 'סטטוס', 'סה"כ'],
-    ...orders.map(o => [
-      o.order_number || '',
-      o.customer_name || '',
-      o.agent_name || '',
-      o.visit_date ? format(new Date(o.visit_date), 'dd/MM/yyyy') : '',
-      STATUS_MAP[o.status]?.label || o.status,
-      o.total_amount || 0,
-    ])
-  ];
-  const ws = rows.map(r => r.join('\t')).join('\n');
-  const blob = new Blob(['\uFEFF' + ws], { type: 'text/tab-separated-values;charset=utf-8' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url; a.download = `orders-${format(new Date(), 'yyyy-MM-dd')}.xls`; a.click();
-  URL.revokeObjectURL(url);
-}
+
 
 
 
@@ -203,12 +185,6 @@ export default function Orders() {
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">הזמנות</h1>
         <div className="flex items-center gap-2">
-          <div className="flex gap-1.5">
-            <Button variant="outline" size="sm" onClick={() => exportOrdersExcel(filtered)} className="gap-1.5 text-green-700 border-green-200 hover:bg-green-50">
-              <FileDown className="w-4 h-4" />
-              Excel
-            </Button>
-          </div>
           <div className="text-left">
             <div className="text-xs text-muted-foreground">סה"כ</div>
             <div className="font-bold text-primary text-lg">₪{totalSales.toLocaleString()}</div>
