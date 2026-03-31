@@ -46,7 +46,7 @@ export default function Layout() {
         <div className="flex items-center justify-between px-5 py-5 border-b border-white/20">
           <button onClick={() => setSidebarOpen(false)} className="flex items-center gap-2 hover:opacity-80 transition-opacity">
             <Baby className="w-6 h-6" />
-            <span className="font-bold text-xl tracking-tight">ToyAgent 🧸</span>
+            <span className="font-bold text-2xl tracking-tight">ToyAgent 🧸</span>
           </button>
           <button
             className="lg:hidden p-1 rounded hover:bg-white/10"
