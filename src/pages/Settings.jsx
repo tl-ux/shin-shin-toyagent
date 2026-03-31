@@ -149,7 +149,7 @@ export default function Settings() {
             <Tag className="w-5 h-5 text-primary" />
             <h2 className="text-lg font-semibold">קבוצות מחיר</h2>
           </div>
-          <Button onClick={() => { setEditing(null); setShowForm(true); }} size="sm" className="gap-1">
+          <Button onClick={() => { setEditing(null); setShowForm(true); }} className="gap-1">
             <Plus className="w-4 h-4" />
             חדש
           </Button>
