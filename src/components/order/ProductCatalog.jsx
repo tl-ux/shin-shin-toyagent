@@ -166,13 +166,6 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
               </div>
               <div className="flex gap-2">
                 <Button
-                  variant="outline"
-                  className="flex-1"
-                  onClick={() => setSelectedProduct(null)}
-                >
-                  ביטול
-                </Button>
-                <Button
                   className="flex-1"
                   onClick={() => {
                     const qty = parseInt(inputQty) || 1;
@@ -184,6 +177,13 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
                   }}
                 >
                   הוסף
+                </Button>
+                <Button
+                  variant="outline"
+                  className="flex-1"
+                  onClick={() => setSelectedProduct(null)}
+                >
+                  ביטול
                 </Button>
               </div>
             </div>
