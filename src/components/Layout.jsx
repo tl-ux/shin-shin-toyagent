@@ -10,9 +10,9 @@ const navItems = [
   { path: '/customers', label: 'לקוחות', icon: Users },
   { path: '/debts', label: 'חובות', icon: CreditCard },
   { path: '/products', label: 'מלאי', icon: Package },
-  { path: '/agent-summary', label: 'ביצועים', icon: UserCircle },
   { path: '/settings', label: 'הגדרות', icon: Settings },
   { path: '/dashboard', label: 'דשבורד', icon: LayoutDashboard },
+  { path: '/agent-summary', label: 'ביצועים', icon: UserCircle },
 ];
 
 export default function Layout() {
