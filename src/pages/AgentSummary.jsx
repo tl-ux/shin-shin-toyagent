@@ -152,6 +152,20 @@ export default function AgentSummary() {
             </Bar>
           </BarChart>
         </ResponsiveContainer>
+
+        {/* Monthly table */}
+        <div className="mt-4 border-t border-border pt-3">
+          <div className="grid grid-cols-6 gap-2 text-xs font-semibold text-muted-foreground mb-2">
+            {monthlyData.map(d => (
+              <div key={d.month} className="text-center">{d.month}</div>
+            ))}
+          </div>
+          <div className="grid grid-cols-6 gap-2 text-xs">
+            {monthlyData.map(d => (
+              <div key={d.month} className="text-center font-bold text-primary">₪{(d.total / 1000).toFixed(0)}K</div>
+            ))}
+          </div>
+        </div>
       </div>
 
       {/* Agents ranking */}
