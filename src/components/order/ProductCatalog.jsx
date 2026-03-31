@@ -99,7 +99,7 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
                   {qty === 0 ?
                   <Button
                     size="sm"
-                    className="w-full h-8 text-xs"
+                    className="w-full h-10 text-sm"
                     onClick={() => {
                       setSelectedProduct(product);
                       setInputQty('');
