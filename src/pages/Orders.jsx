@@ -1,14 +1,16 @@
 import { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
-import { format } from 'date-fns';
-import { he } from 'date-fns/locale';
-import { Package, ChevronDown, ChevronUp, Search, Pencil } from 'lucide-react';
+import { format, startOfDay, startOfWeek, startOfMonth, subMonths } from 'date-fns';
+import { Package, ChevronDown, ChevronUp, Search, Pencil, Copy, FileDown } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import OrderShareMenu from '@/components/order/OrderShareMenu';
 import EditOrderDialog from '@/components/order/EditOrderDialog';
 import { Dialog } from '@/components/ui/dialog';
+import { useToast } from '@/components/ui/use-toast';
+import jsPDF from 'jspdf';
 
 const STATUS_MAP = {
   draft: { label: 'טיוטה', color: 'bg-muted text-muted-foreground' },
@@ -17,7 +19,79 @@ const STATUS_MAP = {
   cancelled: { label: 'בוטל', color: 'bg-destructive/10 text-destructive' },
 };
 
-function OrderCard({ order, officeEmail, officeWhatsapp, onEdit }) {
+const DATE_FILTERS = [
+  { key: 'all', label: 'הכל' },
+  { key: 'today', label: 'היום' },
+  { key: 'week', label: 'השבוע' },
+  { key: 'month', label: 'החודש' },
+  { key: 'prev_month', label: 'חודש קודם' },
+];
+
+function matchesDateFilter(order, dateFilter) {
+  if (dateFilter === 'all') return true;
+  const date = order.visit_date ? new Date(order.visit_date) : new Date(order.created_date);
+  const now = new Date();
+  if (dateFilter === 'today') return date >= startOfDay(now);
+  if (dateFilter === 'week') return date >= startOfWeek(now, { weekStartsOn: 0 });
+  if (dateFilter === 'month') return date >= startOfMonth(now);
+  if (dateFilter === 'prev_month') {
+    const start = startOfMonth(subMonths(now, 1));
+    const end = startOfMonth(now);
+    return date >= start && date < end;
+  }
+  return true;
+}
+
+function exportOrdersPDF(orders) {
+  const doc = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' });
+  doc.setFont('helvetica');
+
+  doc.setFontSize(16);
+  doc.setTextColor(26, 86, 168);
+  doc.text('Orders Report', 105, 18, { align: 'center' });
+
+  doc.setFontSize(9);
+  doc.setTextColor(100, 100, 100);
+  doc.text(`Generated: ${format(new Date(), 'dd/MM/yyyy HH:mm')}`, 14, 26);
+  doc.text(`Total orders: ${orders.length}`, 14, 31);
+  const total = orders.reduce((s, o) => s + (o.total_amount || 0), 0);
+  doc.text(`Total amount: ${total.toLocaleString()} ILS`, 14, 36);
+
+  // Table header
+  let y = 44;
+  doc.setFillColor(240, 244, 255);
+  doc.rect(14, y - 5, 182, 8, 'F');
+  doc.setFontSize(9);
+  doc.setTextColor(26, 86, 168);
+  doc.text('#', 16, y);
+  doc.text('Customer', 28, y);
+  doc.text('Date', 100, y);
+  doc.text('Status', 125, y);
+  doc.text('Agent', 150, y);
+  doc.text('Total', 185, y, { align: 'right' });
+
+  y += 7;
+  doc.setTextColor(40, 40, 40);
+  orders.forEach((order, idx) => {
+    if (y > 275) { doc.addPage(); y = 20; }
+    if (idx % 2 === 0) {
+      doc.setFillColor(248, 250, 252);
+      doc.rect(14, y - 4, 182, 7, 'F');
+    }
+    doc.setFontSize(8.5);
+    doc.text(order.order_number || '-', 16, y);
+    doc.text((order.customer_name || '').substring(0, 30), 28, y);
+    doc.text(order.visit_date ? format(new Date(order.visit_date), 'dd/MM/yy') : '-', 100, y);
+    doc.text(STATUS_MAP[order.status]?.label || order.status, 125, y);
+    doc.text((order.agent_name || '').substring(0, 14), 150, y);
+    doc.text(`${(order.total_amount || 0).toLocaleString()}`, 196, y, { align: 'right' });
+    y += 8;
+  });
+
+  doc.save(`orders-${format(new Date(), 'yyyy-MM-dd')}.pdf`);
+}
+
+function OrderCard({ order, officeEmail, officeWhatsapp, onEdit, onCopy }) {
   const [open, setOpen] = useState(false);
   const st = STATUS_MAP[order.status] || STATUS_MAP.draft;
 
@@ -41,8 +115,11 @@ function OrderCard({ order, officeEmail, officeWhatsapp, onEdit }) {
         <div className="text-left flex flex-col items-end gap-1">
           <span className="font-bold text-primary text-lg">₪{(order.total_amount || 0).toLocaleString()}</span>
           <div className="flex items-center gap-1">
-            <button onClick={e => { e.stopPropagation(); onEdit(order); }} className="p-1 rounded hover:bg-muted transition-colors">
+            <button onClick={e => { e.stopPropagation(); onEdit(order); }} className="p-1 rounded hover:bg-muted transition-colors" title="עריכה">
               <Pencil className="w-3.5 h-3.5 text-muted-foreground" />
+            </button>
+            <button onClick={e => { e.stopPropagation(); onCopy(order); }} className="p-1 rounded hover:bg-muted transition-colors" title="העתקה">
+              <Copy className="w-3.5 h-3.5 text-muted-foreground" />
             </button>
             {open ? <ChevronUp className="w-4 h-4 text-muted-foreground" /> : <ChevronDown className="w-4 h-4 text-muted-foreground" />}
           </div>
@@ -82,9 +159,13 @@ export default function Orders() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
+  const [dateFilter, setDateFilter] = useState('all');
   const [officeEmail, setOfficeEmail] = useState('');
   const [officeWhatsapp, setOfficeWhatsapp] = useState('');
   const [editingOrder, setEditingOrder] = useState(null);
+  const { toast } = useToast();
+
+  const reload = () => base44.entities.Order.list('-created_date', 100).then(setOrders);
 
   useEffect(() => {
     Promise.all([
@@ -100,11 +181,29 @@ export default function Orders() {
     });
   }, []);
 
+  const handleCopy = async (order) => {
+    const newOrderNum = `ORD-${Date.now().toString().slice(-6)}`;
+    await base44.entities.Order.create({
+      order_number: newOrderNum,
+      customer_id: order.customer_id,
+      customer_name: order.customer_name,
+      agent_name: order.agent_name,
+      status: 'draft',
+      items: order.items || [],
+      total_amount: order.total_amount || 0,
+      notes: order.notes || '',
+      visit_date: new Date().toISOString().split('T')[0],
+    });
+    toast({ description: `הזמנה הועתקה בהצלחה — ${newOrderNum}` });
+    reload();
+  };
+
   const filtered = orders.filter(o => {
     const matchSearch = (o.customer_name || '').toLowerCase().includes(search.toLowerCase()) ||
       (o.order_number || '').toLowerCase().includes(search.toLowerCase());
     const matchStatus = statusFilter === 'all' || o.status === statusFilter;
-    return matchSearch && matchStatus;
+    const matchDate = matchesDateFilter(o, dateFilter);
+    return matchSearch && matchStatus && matchDate;
   });
 
   const totalSales = filtered.reduce((s, o) => s + (o.total_amount || 0), 0);
@@ -119,14 +218,36 @@ export default function Orders() {
     <div className="p-4 pb-24 space-y-4">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">הזמנות</h1>
-        <div className="text-left">
-          <div className="text-xs text-muted-foreground">סה"כ</div>
-          <div className="font-bold text-primary text-lg">₪{totalSales.toLocaleString()}</div>
+        <div className="flex items-center gap-2">
+          <Button variant="outline" size="sm" onClick={() => exportOrdersPDF(filtered)} className="gap-1.5 text-orange-600 border-orange-200 hover:bg-orange-50">
+            <FileDown className="w-4 h-4" />
+            PDF
+          </Button>
+          <div className="text-left">
+            <div className="text-xs text-muted-foreground">סה"כ</div>
+            <div className="font-bold text-primary text-lg">₪{totalSales.toLocaleString()}</div>
+          </div>
         </div>
       </div>
 
-      {/* Stats row */}
-      <div className="grid grid-cols-3 gap-2">
+      {/* Date filter */}
+      <div className="flex gap-1.5 overflow-x-auto pb-1">
+        {DATE_FILTERS.map(df => (
+          <button
+            key={df.key}
+            onClick={() => setDateFilter(df.key)}
+            className={cn(
+              'flex-shrink-0 px-3 py-1.5 rounded-lg text-sm font-medium border transition-all',
+              dateFilter === df.key ? 'bg-primary text-white border-primary' : 'bg-card border-border text-muted-foreground hover:text-foreground'
+            )}
+          >
+            {df.label}
+          </button>
+        ))}
+      </div>
+
+      {/* Status stats */}
+      <div className="grid grid-cols-4 gap-2">
         {Object.entries(STATUS_MAP).map(([key, val]) => {
           const count = orders.filter(o => o.status === key).length;
           return (
@@ -163,7 +284,14 @@ export default function Orders() {
           </div>
         )}
         {filtered.map(order => (
-          <OrderCard key={order.id} order={order} officeEmail={officeEmail} officeWhatsapp={officeWhatsapp} onEdit={setEditingOrder} />
+          <OrderCard
+            key={order.id}
+            order={order}
+            officeEmail={officeEmail}
+            officeWhatsapp={officeWhatsapp}
+            onEdit={setEditingOrder}
+            onCopy={handleCopy}
+          />
         ))}
       </div>
 
@@ -174,7 +302,7 @@ export default function Orders() {
             onClose={() => setEditingOrder(null)}
             onSave={() => {
               setEditingOrder(null);
-              base44.entities.Order.list('-created_date', 100).then(setOrders);
+              reload();
             }}
           />
         )}
