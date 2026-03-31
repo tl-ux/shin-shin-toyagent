@@ -84,7 +84,7 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
                     <span className="font-bold text-primary text-base">
                       {(() => {
                         const price = getProductPrice ? getProductPrice(product) : product.price;
-                        return <>₪{price.toLocaleString()}{product.unit && <span className="text-sm text-muted-foreground font-normal ml-3">{product.unit}</span>}</>;
+                        return <>₪<span className="ml-2">{price.toLocaleString()}</span>{product.unit && <span className="text-sm text-muted-foreground font-normal ml-3">{product.unit}</span>}</>;
                       })()}
                     </span>
                     {product.stock !== undefined && product.stock !== null && (
