@@ -134,37 +134,21 @@ export default function AgentSummary() {
         </div>
       </div>
 
-      {/* Monthly chart */}
+      {/* Monthly table */}
       <div className="bg-card border border-border rounded-xl p-4">
         <h2 className="font-semibold text-sm mb-4 flex items-center gap-2">
           <BarChart2 className="w-4 h-4 text-primary" />
           ביצועים חודשיים
         </h2>
-        <ResponsiveContainer width="100%" height={150}>
-          <BarChart data={monthlyData} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
-            <XAxis dataKey="month" tick={{ fontSize: 11 }} />
-            <YAxis tick={{ fontSize: 10 }} />
-            <Tooltip formatter={v => [`₪${v.toLocaleString()}`, 'מכירות']} />
-            <Bar dataKey="total" radius={[4, 4, 0, 0]}>
-              {monthlyData.map((_, i) => (
-                <Cell key={i} fill={i === monthlyData.length - 1 ? 'hsl(var(--primary))' : 'hsl(var(--primary)/0.35)'} />
-              ))}
-            </Bar>
-          </BarChart>
-        </ResponsiveContainer>
-
-        {/* Monthly table */}
-        <div className="mt-4 border-t border-border pt-3">
-          <div className="grid grid-cols-6 gap-2 text-xs font-semibold text-muted-foreground mb-2">
-            {monthlyData.map(d => (
-              <div key={d.month} className="text-center">{d.month}</div>
-            ))}
-          </div>
-          <div className="grid grid-cols-6 gap-2 text-xs">
-            {monthlyData.map(d => (
-              <div key={d.month} className="text-center font-bold text-primary">₪{(d.total / 1000).toFixed(0)}K</div>
-            ))}
-          </div>
+        <div className="grid grid-cols-6 gap-2 text-xs font-semibold text-muted-foreground mb-3">
+          {monthlyData.map(d => (
+            <div key={d.month} className="text-center">{d.month}</div>
+          ))}
+        </div>
+        <div className="grid grid-cols-6 gap-2 text-xs">
+          {monthlyData.map(d => (
+            <div key={d.month} className="text-center font-bold text-primary">₪{(d.total / 1000).toFixed(0)}K</div>
+          ))}
         </div>
       </div>
 
