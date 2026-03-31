@@ -156,7 +156,7 @@ export default function Dashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {/* Top customers */}
         <div className="bg-card border border-border rounded-xl p-4">
-          <h2 className="font-semibold text-sm mb-3 flex items-center gap-2"><Users className="w-4 h-4 text-primary" />לקוחות מובילים</h2>
+          <h2 className="font-semibold text-base mb-3 flex items-center gap-2"><Users className="w-4 h-4 text-primary" />לקוחות מובילים</h2>
           <div className="space-y-2">
             {topCustomers.map(([name, total], i) => (
               <div key={name} className="flex items-center justify-between">
