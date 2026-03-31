@@ -1,4 +1,4 @@
-import { Link, useLocation, Outlet } from 'react-router-dom';
+import { Link, useLocation, Outlet, useNavigate } from 'react-router-dom';
 import { Baby, Package, Users, BarChart3, Settings, CreditCard, LayoutDashboard, UserCircle, ShoppingCart, HelpCircle, Menu, X } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
@@ -18,11 +18,17 @@ const navItems = [
 
 export default function Layout() {
   const location = useLocation();
+  const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     setSidebarOpen(false);
   }, [location.pathname]);
+
+  const handleNavClick = (path) => {
+    setSidebarOpen(false);
+    navigate(path);
+  };
 
   return (
     <div className="min-h-screen bg-background flex" dir="rtl">
@@ -60,12 +66,11 @@ export default function Layout() {
         {/* Nav */}
         <nav className="flex-1 overflow-y-auto py-3 px-2 space-y-0.5">
           {navItems.map(({ path, label, icon: Icon }) => (
-            <Link
+            <button
               key={path}
-              to={path}
-              onClick={() => setSidebarOpen(false)}
+              onClick={() => handleNavClick(path)}
               className={cn(
-                'flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors',
+                'w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors text-left',
                 location.pathname === path
                   ? 'bg-white/20 text-white'
                   : 'text-white/75 hover:bg-white/10 hover:text-white'
@@ -73,7 +78,7 @@ export default function Layout() {
             >
               <Icon className="w-5 h-5 flex-shrink-0" />
               {label}
-            </Link>
+            </button>
           ))}
         </nav>
       </aside>
