@@ -110,7 +110,7 @@ export default function Settings() {
 
       {/* Office Contact Settings */}
       <div className="bg-card border border-border rounded-xl p-4 space-y-4">
-        <h2 className="text-lg font-semibold flex items-center gap-2">
+        <h2 className="text-xl font-semibold flex items-center gap-2">
           <Mail className="w-5 h-5 text-primary" />
           פרטי המשרד
         </h2>
