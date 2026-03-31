@@ -3,6 +3,7 @@ import { Search, ShoppingCart, Plus, Minus } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { cn } from '@/lib/utils';
 
 const categories = (products) => {
@@ -13,6 +14,8 @@ const categories = (products) => {
 export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cartCount, getProductPrice }) {
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('הכל');
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [inputQty, setInputQty] = useState('');
 
   const filtered = products.filter(p => {
     const matchSearch = p.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -97,7 +100,10 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
                     <Button
                       size="sm"
                       className="w-full h-8 text-xs"
-                      onClick={() => onAdd(product, 1)}
+                      onClick={() => {
+                        setSelectedProduct(product);
+                        setInputQty('');
+                      }}
                     >
                       <Plus className="w-3 h-3 ml-1" />
                       הוסף
@@ -136,6 +142,53 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
           </Button>
         </div>
       )}
+
+      {/* Quantity input dialog */}
+      <Dialog open={!!selectedProduct} onOpenChange={v => { if (!v) setSelectedProduct(null); }}>
+        {selectedProduct && (
+          <DialogContent className="max-w-xs">
+            <DialogHeader>
+              <DialogTitle>{selectedProduct.name}</DialogTitle>
+            </DialogHeader>
+            <div className="space-y-4 pt-2">
+              <div>
+                <label className="text-sm font-medium block mb-2">כמות להוספה</label>
+                <Input
+                  type="number"
+                  min="1"
+                  value={inputQty}
+                  onChange={e => setInputQty(e.target.value)}
+                  placeholder="הקלד כמות..."
+                  autoFocus
+                  dir="ltr"
+                />
+              </div>
+              <div className="flex gap-2">
+                <Button
+                  variant="outline"
+                  className="flex-1"
+                  onClick={() => setSelectedProduct(null)}
+                >
+                  ביטול
+                </Button>
+                <Button
+                  className="flex-1"
+                  onClick={() => {
+                    const qty = parseInt(inputQty) || 1;
+                    if (qty > 0) {
+                      onAdd(selectedProduct, qty);
+                      setSelectedProduct(null);
+                      setInputQty('');
+                    }
+                  }}
+                >
+                  הוסף
+                </Button>
+              </div>
+            </div>
+          </DialogContent>
+        )}
+      </Dialog>
     </div>
   );
 }
