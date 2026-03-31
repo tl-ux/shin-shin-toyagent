@@ -17,7 +17,7 @@ const sections = [
       { title: 'מחירים לפי קבוצה', desc: 'המערכת מחשבת אוטומטית את המחיר הנכון לפי קבוצת המחיר של הלקוח.' },
       { title: 'תבניות הזמנה', desc: 'טעינת הזמנות קבועות שמורות ושמירת הזמנה נוכחית כתבנית לשימוש עתידי.' },
       { title: 'הערות', desc: 'הוספת הערות חופשיות להזמנה.' },
-      { title: 'אישור הזמנה', desc: 'שליחת ההזמנה — נוצרת אוטומטית גם רשומת חוב ללקוח.' },
+      { title: 'אישור הזמנה', desc: 'שליחת ההזמנה - נוצרת אוטומטית גם רשומת חוב ללקוח.' },
       { title: 'שליחת אישור ב-WhatsApp', desc: 'לאחר אישור ההזמנה ניתן לשלוח ללקוח אישור ישירות ב-WhatsApp.' },
     ],
   },
@@ -31,7 +31,7 @@ const sections = [
        { title: 'עריכת הזמנה', desc: 'שינוי סטטוס, כמויות ופריטים בהזמנה קיימת.' },
        { title: 'העתקת הזמנה', desc: 'יצירת הזמנה חדשה זהה בלחיצה אחת.' },
        { title: 'שיתוף הזמנה', desc: 'שליחת פרטי הזמנה ב-WhatsApp, מייל או הורדה כ-PDF עם עדכון אוטומטי של סטטוס שליחה.' },
-       { title: 'מעקב שליחה', desc: 'סימונים (💬 וואטסאפ, 📧 מייל, 📄 PDF) וסימון "לא נשלחה" להזמנות מאושרות ללא שליחה.' },
+       { title: 'מעקב שליחה', desc: 'סימונים (💬 וואטסאפ, 📧 מייל, 📄 PDF) וסימון לא נשלחה להזמנות מאושרות ללא שליחה.' },
        { title: 'ייצוא לאקסל ו-PDF', desc: 'הורדת רשימת ההזמנות המסוננת לקובץ Excel או PDF.' },
     ],
   },
@@ -178,7 +178,7 @@ export default function Help() {
           <span className="font-semibold text-sm">טיפים מהירים</span>
         </div>
         <div className="space-y-2 text-sm text-muted-foreground">
-          <div className="flex gap-2"><Search className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" /><span>השתמש בחיפוש הגלובלי (🔍 בסרגל העליון) למציאת לקוח, הזמנה או מוצר מכל מקום באפליקציה.</span></div>
+          <div className="flex gap-2"><Search className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" /><span>השתמש בחיפוש הגלובלי בסרגל העליון למציאת לקוח, הזמנה או מוצר מכל מקום באפליקציה.</span></div>
           <div className="flex gap-2"><BookmarkCheck className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" /><span>שמור תבניות הזמנה ללקוחות שמזמינים תמיד את אותם פריטים — חוסך זמן רב.</span></div>
           <div className="flex gap-2"><MessageCircle className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" /><span>לאחר אישור הזמנה ניתן לשלוח אישור ישירות ב-WhatsApp ללקוח בלחיצה אחת.</span></div>
           <div className="flex gap-2"><FileDown className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" /><span>ניתן לייצא כל דוח (הזמנות, חובות) לאקסל או PDF לשימוש חיצוני.</span></div>
