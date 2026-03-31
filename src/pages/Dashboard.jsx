@@ -103,21 +103,25 @@ export default function Dashboard() {
         <StatCard icon={CreditCard} label="חובות פתוחים" value={`₪${openDebts.toLocaleString()}`} color="destructive" />
       </div>
 
-      {/* Monthly Chart */}
+      {/* Monthly Table */}
       <div className="bg-card border border-border rounded-xl p-4">
-        <h2 className="font-semibold text-sm mb-4">מכירות לפי חודש</h2>
-        <ResponsiveContainer width="100%" height={160}>
-          <BarChart data={monthlyData} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
-            <XAxis dataKey="month" tick={{ fontSize: 11 }} />
-            <YAxis tick={{ fontSize: 10 }} />
-            <Tooltip formatter={v => [`₪${v.toLocaleString()}`, 'מכירות']} />
-            <Bar dataKey="total" radius={[6, 6, 0, 0]}>
-              {monthlyData.map((_, i) => (
-                <Cell key={i} fill={i === monthlyData.length - 1 ? 'hsl(var(--primary))' : 'hsl(var(--primary)/0.3)'} />
-              ))}
-            </Bar>
-          </BarChart>
-        </ResponsiveContainer>
+        <h2 className="font-semibold text-sm mb-3">מכירות לפי חודש</h2>
+        <table className="w-full text-sm">
+          <thead>
+            <tr className="border-b border-border text-muted-foreground text-xs">
+              <th className="text-right pb-2 font-medium">חודש</th>
+              <th className="text-left pb-2 font-medium">סה"כ מכירות</th>
+            </tr>
+          </thead>
+          <tbody>
+            {[...monthlyData].reverse().map((row, i) => (
+              <tr key={row.month} className={`border-b border-border/50 last:border-0 ${i === 0 ? 'font-semibold' : ''}`}>
+                <td className="py-2 text-right">{row.month}</td>
+                <td className="py-2 text-left text-primary">₪{row.total.toLocaleString()}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
