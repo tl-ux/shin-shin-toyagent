@@ -146,11 +146,9 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
       {/* Quantity input dialog */}
       <Dialog open={!!selectedProduct} onOpenChange={v => { if (!v) setSelectedProduct(null); }}>
         {selectedProduct && (
-          <DialogContent className="max-w-xs">
-           <div className="text-center">
-             <h2 className="text-lg font-semibold">{selectedProduct.name}</h2>
-             {selectedProduct.sku && <div className="text-xs text-muted-foreground mt-1">מק"ט: {selectedProduct.sku}</div>}
-           </div>
+          <DialogContent className="max-w-xs flex flex-col items-center text-center">
+           <h2 className="text-lg font-semibold">{selectedProduct.name}</h2>
+           {selectedProduct.sku && <div className="text-xs text-muted-foreground mt-1">מק"ט: {selectedProduct.sku}</div>}
            <div className="space-y-4">
               <div>
                 <Input
