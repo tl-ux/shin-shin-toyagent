@@ -110,11 +110,11 @@ export default function EditOrderDialog({ order, onClose, onSave }) {
         </div>
 
         <div className="flex gap-3">
-          <Button variant="outline" onClick={onClose} className="flex-1">ביטול</Button>
           <Button onClick={save} disabled={saving} className="flex-1 gap-1">
             <Save className="w-4 h-4" />
             {saving ? 'שומר...' : 'שמור שינויים'}
           </Button>
+          <Button variant="outline" onClick={onClose} className="flex-1">ביטול</Button>
         </div>
       </div>
     </DialogContent>
