@@ -211,7 +211,7 @@ export default function Orders() {
             key={df.key}
             onClick={() => setDateFilter(df.key)}
             className={cn(
-              'flex-shrink-0 px-3 py-1.5 rounded-lg text-sm font-medium border transition-all',
+              'flex-shrink-0 px-4 py-2 rounded-lg text-base font-medium border transition-all',
               dateFilter === df.key ? 'bg-primary text-white border-primary' : 'bg-card border-border text-muted-foreground hover:text-foreground'
             )}
           >
