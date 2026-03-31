@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
 import { format, startOfDay, startOfWeek, startOfMonth, subMonths } from 'date-fns';
-import { Package, ChevronDown, ChevronUp, Search, Pencil, Copy, FileDown, Sheet } from 'lucide-react';
+import { Package, ChevronDown, ChevronUp, Search, Pencil, Copy, FileDown } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -10,7 +10,6 @@ import OrderShareMenu from '@/components/order/OrderShareMenu';
 import EditOrderDialog from '@/components/order/EditOrderDialog';
 import { Dialog } from '@/components/ui/dialog';
 import { useToast } from '@/components/ui/use-toast';
-import jsPDF from 'jspdf';
 
 const STATUS_MAP = {
   draft: { label: 'טיוטה', color: 'bg-muted text-muted-foreground' },
@@ -64,54 +63,7 @@ function exportOrdersExcel(orders) {
   URL.revokeObjectURL(url);
 }
 
-function exportOrdersPDF(orders) {
-  const doc = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' });
-  doc.setFont('helvetica');
 
-  doc.setFontSize(16);
-  doc.setTextColor(26, 86, 168);
-  doc.text('Orders Report', 105, 18, { align: 'center' });
-
-  doc.setFontSize(9);
-  doc.setTextColor(100, 100, 100);
-  doc.text(`Generated: ${format(new Date(), 'dd/MM/yyyy HH:mm')}`, 14, 26);
-  doc.text(`Total orders: ${orders.length}`, 14, 31);
-  const total = orders.reduce((s, o) => s + (o.total_amount || 0), 0);
-  doc.text(`Total amount: ${total.toLocaleString()} ILS`, 14, 36);
-
-  // Table header
-  let y = 44;
-  doc.setFillColor(240, 244, 255);
-  doc.rect(14, y - 5, 182, 8, 'F');
-  doc.setFontSize(9);
-  doc.setTextColor(26, 86, 168);
-  doc.text('#', 16, y);
-  doc.text('Customer', 28, y);
-  doc.text('Date', 100, y);
-  doc.text('Status', 125, y);
-  doc.text('Agent', 150, y);
-  doc.text('Total', 185, y, { align: 'right' });
-
-  y += 7;
-  doc.setTextColor(40, 40, 40);
-  orders.forEach((order, idx) => {
-    if (y > 275) { doc.addPage(); y = 20; }
-    if (idx % 2 === 0) {
-      doc.setFillColor(248, 250, 252);
-      doc.rect(14, y - 4, 182, 7, 'F');
-    }
-    doc.setFontSize(8.5);
-    doc.text(order.order_number || '-', 16, y);
-    doc.text((order.customer_name || '').substring(0, 30), 28, y);
-    doc.text(order.visit_date ? format(new Date(order.visit_date), 'dd/MM/yy') : '-', 100, y);
-    doc.text(STATUS_MAP[order.status]?.label || order.status, 125, y);
-    doc.text((order.agent_name || '').substring(0, 14), 150, y);
-    doc.text(`${(order.total_amount || 0).toLocaleString()}`, 196, y, { align: 'right' });
-    y += 8;
-  });
-
-  doc.save(`orders-${format(new Date(), 'yyyy-MM-dd')}.pdf`);
-}
 
 function OrderCard({ order, officeEmail, officeWhatsapp, onEdit, onCopy }) {
   const [open, setOpen] = useState(false);
@@ -255,10 +207,6 @@ export default function Orders() {
             <Button variant="outline" size="sm" onClick={() => exportOrdersExcel(filtered)} className="gap-1.5 text-green-700 border-green-200 hover:bg-green-50">
               <FileDown className="w-4 h-4" />
               Excel
-            </Button>
-            <Button variant="outline" size="sm" onClick={() => exportOrdersPDF(filtered)} className="gap-1.5 text-orange-600 border-orange-200 hover:bg-orange-50">
-              <FileDown className="w-4 h-4" />
-              PDF
             </Button>
           </div>
           <div className="text-left">
