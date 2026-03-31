@@ -62,7 +62,7 @@ function OrderCard({ order, officeEmail, officeWhatsapp, onEdit, onCopy, onDelet
             <span className="font-bold text-foreground text-lg">{order.customer_name}</span>
             <span className={cn('text-xs px-2 py-0.5 rounded-full font-medium', st.color)}>{st.label}</span>
           </div>
-          <div className="text-xs text-muted-foreground mt-1 flex gap-3">
+          <div className="text-sm text-muted-foreground mt-1 flex gap-3">
             {order.order_number && <span>{order.order_number}</span>}
             {order.visit_date && <span>{format(new Date(order.visit_date), 'dd/MM/yyyy')}</span>}
             {order.agent_name && <span>סוכן: {order.agent_name}</span>}
