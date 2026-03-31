@@ -85,7 +85,7 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
                       <span className="text-primary text-base font-bold">
                         {(() => {
                           const price = getProductPrice ? getProductPrice(product) : product.price;
-                          return <>₪{price.toLocaleString()}{product.unit && <span className="text-muted-foreground mr-1 ml-3 text-sm font-normal">/{product.unit}</span>}</>;
+                          return <>₪{price.toLocaleString()}{product.unit && <span className="text-muted-foreground mr-1 ml-3 text-sm font-normal">{product.unit}</span>}</>;
                         })()}
                       </span>
                       <span className="text-xs text-muted-foreground">ג.א</span>
