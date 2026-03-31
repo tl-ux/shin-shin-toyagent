@@ -21,7 +21,7 @@ function StatCard({ icon: Icon, label, value, sub, color = 'primary' }) {
       <div>
          <div className="text-3xl font-bold text-foreground">{value}</div>
          <div className="text-base text-muted-foreground">{label}</div>
-         {sub && <div className="text-sm text-muted-foreground mt-0.5">{sub}</div>}
+         {sub && <div className="text-base text-muted-foreground mt-0.5">{sub}</div>}
        </div>
     </div>
   );
