@@ -16,7 +16,6 @@ export default function CustomerSelect({ customers, selected, onSelect }) {
     <div className="p-4 space-y-4">
       <div>
         <h2 className="text-xl font-bold text-foreground mb-1">בחר לקוח</h2>
-        <p className="text-sm text-muted-foreground">בחר את הלקוח שאתה מבקר</p>
       </div>
 
       <div className="relative">
