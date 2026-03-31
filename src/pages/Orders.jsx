@@ -25,6 +25,7 @@ const DATE_FILTERS = [
   { key: 'week', label: 'השבוע' },
   { key: 'month', label: 'החודש' },
   { key: 'prev_month', label: 'חודש קודם' },
+  { key: 'unshipped', label: '⚠️ לא שודרו' },
 ];
 
 function matchesDateFilter(order, dateFilter) {
@@ -39,6 +40,7 @@ function matchesDateFilter(order, dateFilter) {
     const end = startOfMonth(now);
     return date >= start && date < end;
   }
+  if (dateFilter === 'unshipped') return order.status === 'draft';
   return true;
 }
 
