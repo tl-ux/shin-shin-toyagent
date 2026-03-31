@@ -12,6 +12,7 @@ import Customers from '@/pages/Customers';
 import Products from '@/pages/Products';
 import Settings from '@/pages/Settings';
 import Debts from '@/pages/Debts';
+import Dashboard from '@/pages/Dashboard';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -36,7 +37,8 @@ const AuthenticatedApp = () => {
   return (
     <Routes>
       <Route element={<Layout />}>
-        <Route path="/" element={<NewOrder />} />
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/new-order" element={<NewOrder />} />
         <Route path="/orders" element={<Orders />} />
         <Route path="/customers" element={<Customers />} />
         <Route path="/products" element={<Products />} />

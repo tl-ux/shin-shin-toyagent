@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
 import { Search, Plus, Users, Phone, MapPin } from 'lucide-react';
-import CustomerDebtHistory from '@/components/customer/CustomerDebtHistory';
+import CustomerCard from '@/components/customer/CustomerCard';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -76,8 +76,8 @@ function CustomerForm({ customer, onSave, onClose, priceGroups }) {
         </div>
         {customer?.id && (
           <div>
-            <div className="font-medium text-sm mb-2">היסטוריית חובות</div>
-            <CustomerDebtHistory customerId={customer.id} />
+            <div className="font-medium text-sm mb-2 border-t border-border pt-3">סיכום לקוח</div>
+            <CustomerCard customer={customer} priceGroups={priceGroups} />
           </div>
         )}
         <div className="flex gap-3 pt-2">

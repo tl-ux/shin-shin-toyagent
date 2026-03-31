@@ -2,11 +2,13 @@ import { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
 import { format } from 'date-fns';
 import { he } from 'date-fns/locale';
-import { Package, ChevronDown, ChevronUp, Search } from 'lucide-react';
+import { Package, ChevronDown, ChevronUp, Search, Pencil } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 import OrderShareMenu from '@/components/order/OrderShareMenu';
+import EditOrderDialog from '@/components/order/EditOrderDialog';
+import { Dialog } from '@/components/ui/dialog';
 
 const STATUS_MAP = {
   draft: { label: 'טיוטה', color: 'bg-muted text-muted-foreground' },
@@ -15,7 +17,7 @@ const STATUS_MAP = {
   cancelled: { label: 'בוטל', color: 'bg-destructive/10 text-destructive' },
 };
 
-function OrderCard({ order, officeEmail, officeWhatsapp }) {
+function OrderCard({ order, officeEmail, officeWhatsapp, onEdit }) {
   const [open, setOpen] = useState(false);
   const st = STATUS_MAP[order.status] || STATUS_MAP.draft;
 
@@ -38,7 +40,12 @@ function OrderCard({ order, officeEmail, officeWhatsapp }) {
         </div>
         <div className="text-left flex flex-col items-end gap-1">
           <span className="font-bold text-primary text-lg">₪{(order.total_amount || 0).toLocaleString()}</span>
-          {open ? <ChevronUp className="w-4 h-4 text-muted-foreground" /> : <ChevronDown className="w-4 h-4 text-muted-foreground" />}
+          <div className="flex items-center gap-1">
+            <button onClick={e => { e.stopPropagation(); onEdit(order); }} className="p-1 rounded hover:bg-muted transition-colors">
+              <Pencil className="w-3.5 h-3.5 text-muted-foreground" />
+            </button>
+            {open ? <ChevronUp className="w-4 h-4 text-muted-foreground" /> : <ChevronDown className="w-4 h-4 text-muted-foreground" />}
+          </div>
         </div>
       </button>
 
@@ -77,6 +84,7 @@ export default function Orders() {
   const [statusFilter, setStatusFilter] = useState('all');
   const [officeEmail, setOfficeEmail] = useState('');
   const [officeWhatsapp, setOfficeWhatsapp] = useState('');
+  const [editingOrder, setEditingOrder] = useState(null);
 
   useEffect(() => {
     Promise.all([
@@ -155,9 +163,22 @@ export default function Orders() {
           </div>
         )}
         {filtered.map(order => (
-          <OrderCard key={order.id} order={order} officeEmail={officeEmail} officeWhatsapp={officeWhatsapp} />
+          <OrderCard key={order.id} order={order} officeEmail={officeEmail} officeWhatsapp={officeWhatsapp} onEdit={setEditingOrder} />
         ))}
       </div>
+
+      <Dialog open={!!editingOrder} onOpenChange={v => { if (!v) setEditingOrder(null); }}>
+        {editingOrder && (
+          <EditOrderDialog
+            order={editingOrder}
+            onClose={() => setEditingOrder(null)}
+            onSave={() => {
+              setEditingOrder(null);
+              base44.entities.Order.list('-created_date', 100).then(setOrders);
+            }}
+          />
+        )}
+      </Dialog>
     </div>
   );
 }

@@ -1,14 +1,15 @@
 import { Link, useLocation, Outlet } from 'react-router-dom';
-import { ShoppingCart, Package, Users, BarChart3, Menu, X, Settings, CreditCard } from 'lucide-react';
+import { ShoppingCart, Package, Users, BarChart3, Menu, X, Settings, CreditCard, LayoutDashboard } from 'lucide-react';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
 
 const navItems = [
-  { path: '/', label: 'הזמנה חדשה', icon: ShoppingCart },
+  { path: '/', label: 'דשבורד', icon: LayoutDashboard },
+  { path: '/new-order', label: 'הזמנה חדשה', icon: ShoppingCart },
   { path: '/orders', label: 'הזמנות', icon: BarChart3 },
   { path: '/customers', label: 'לקוחות', icon: Users },
-  { path: '/products', label: 'מלאי', icon: Package },
   { path: '/debts', label: 'חובות', icon: CreditCard },
+  { path: '/products', label: 'מלאי', icon: Package },
   { path: '/settings', label: 'הגדרות', icon: Settings },
 ];
 
@@ -78,15 +79,15 @@ export default function Layout() {
         <Outlet />
       </main>
 
-      {/* Bottom Nav (Mobile) */}
+      {/* Bottom Nav (Mobile) - show only first 5 items to avoid overflow */}
       <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-border shadow-lg z-40">
         <div className="flex items-center justify-around py-2">
-          {navItems.map(({ path, label, icon: Icon }) => (
+          {navItems.slice(0, 5).map(({ path, label, icon: Icon }) => (
             <Link
               key={path}
               to={path}
               className={cn(
-                'flex flex-col items-center gap-0.5 px-3 py-1 rounded-lg transition-colors',
+                'flex flex-col items-center gap-0.5 px-2 py-1 rounded-lg transition-colors',
                 location.pathname === path
                   ? 'text-primary'
                   : 'text-muted-foreground'
