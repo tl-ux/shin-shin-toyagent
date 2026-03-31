@@ -159,9 +159,9 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
 
              {/* Content */}
              <div className="p-4 space-y-3 w-full flex flex-col items-center">
-               <div className="text-center w-full">
-                 <h2 className="text-base font-semibold">{selectedProduct.name}</h2>
-                 {selectedProduct.sku && <div className="text-xs text-muted-foreground mt-0.5">מק"ט: {selectedProduct.sku}</div>}
+               <div className="w-full text-center">
+                 <h2 className="text-base font-semibold text-center">{selectedProduct.name}</h2>
+                 {selectedProduct.sku && <div className="text-xs text-muted-foreground mt-0.5 text-center">מק"ט: {selectedProduct.sku}</div>}
                </div>
 
                {/* Price and Stock */}
