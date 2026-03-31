@@ -159,11 +159,13 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
 
              {/* Content */}
              <div className="p-4 space-y-3 w-full flex flex-col items-center">
-               <h2 className="text-base font-semibold text-center">{selectedProduct.name}</h2>
-               {selectedProduct.sku && <div className="text-xs text-muted-foreground mt-0.5 text-center">מק"ט: {selectedProduct.sku}</div>}
+               <div className="text-center w-full">
+                 <h2 className="text-base font-semibold">{selectedProduct.name}</h2>
+                 {selectedProduct.sku && <div className="text-xs text-muted-foreground mt-0.5">מק"ט: {selectedProduct.sku}</div>}
+               </div>
 
                {/* Price and Stock */}
-             <div className="w-full flex items-center justify-center gap-4 text-sm">
+               <div className="w-full flex items-center justify-center gap-4 text-sm">
                <span className="font-bold text-primary">
                  ₪{getProductPrice ? getProductPrice(selectedProduct) : selectedProduct.price}
                </span>
@@ -172,9 +174,9 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
                    {selectedProduct.stock > 0 ? `${selectedProduct.stock} במלאי` : 'אזל'}
                  </span>
                )}
-             </div>
+               </div>
 
-             {/* Quantity Input */}
+               {/* Quantity Input */}
              <Input
                type="number"
                min="1"
@@ -183,7 +185,7 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
                placeholder="הקלד כמות..."
                autoFocus
                dir="rtl"
-               className="text-right text-center"
+               className="text-center"
              />
 
              {/* Add Button */}
