@@ -162,7 +162,7 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
                <h2 className="text-base font-semibold text-center">{selectedProduct.name}</h2>
                {selectedProduct.sku && <div className="text-xs text-muted-foreground mt-0.5 text-center">מק"ט: {selectedProduct.sku}</div>}
 
-             {/* Price and Stock */}
+               {/* Price and Stock */}
              <div className="w-full flex items-center justify-center gap-4 text-sm">
                <span className="font-bold text-primary">
                  ₪{getProductPrice ? getProductPrice(selectedProduct) : selectedProduct.price}
