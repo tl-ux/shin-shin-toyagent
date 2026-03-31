@@ -211,7 +211,7 @@ export default function Dashboard() {
                   </div>
                 ))}
               </div>
-              <Link to="/orders" className="text-xs text-primary mt-3 block hover:underline">כל ההזמנות ←</Link>
+              <Link to="/orders" className="text-sm text-primary mt-3 block hover:underline font-medium">כל ההזמנות ←</Link>
             </div>
           ) : null;
         })()}
