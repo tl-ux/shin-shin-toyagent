@@ -22,6 +22,7 @@ const bottomNavMore = navItems.slice(4);
 export default function Layout() {
   const location = useLocation();
   const [moreOpen, setMoreOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const isMoreActive = bottomNavMore.some(i => i.path === location.pathname);
 
@@ -38,9 +39,9 @@ export default function Layout() {
             <GlobalSearch />
             <button
               className="p-1.5 rounded-lg hover:bg-white/10 transition-colors lg:hidden"
-              onClick={() => setMoreOpen(!moreOpen)}
+              onClick={() => setMenuOpen(!menuOpen)}
             >
-              {moreOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
           {/* Desktop Nav */}
@@ -62,6 +63,27 @@ export default function Layout() {
             ))}
           </nav>
         </div>
+        {/* Mobile dropdown menu */}
+        {menuOpen && (
+          <nav className="lg:hidden border-t border-white/20 px-3 pb-3 pt-2 grid grid-cols-3 gap-1">
+            {navItems.map(({ path, label, icon: Icon }) => (
+              <Link
+                key={path}
+                to={path}
+                onClick={() => setMenuOpen(false)}
+                className={cn(
+                  'flex flex-col items-center gap-1 px-2 py-3 rounded-xl text-xs font-medium transition-colors',
+                  location.pathname === path
+                    ? 'bg-white/20 text-white'
+                    : 'hover:bg-white/10 text-white/80'
+                )}
+              >
+                <Icon className="w-5 h-5" />
+                {label}
+              </Link>
+            ))}
+          </nav>
+        )}
       </header>
 
       {/* Page Content */}
