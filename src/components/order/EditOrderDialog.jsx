@@ -55,7 +55,7 @@ export default function EditOrderDialog({ order, onClose, onSave }) {
   return (
     <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
       <DialogHeader className="text-center">
-        <DialogTitle>עריכת הזמנה {order.order_number}</DialogTitle>
+        <DialogTitle className="text-center">עריכת הזמנה {order.order_number}</DialogTitle>
       </DialogHeader>
       <div className="space-y-4 pt-2">
         <div>
