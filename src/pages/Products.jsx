@@ -69,7 +69,7 @@ function ProductForm({ product, onSave, onClose, priceGroups }) {
         <div>
           <Label>סוג פריט</Label>
           <Select value={form.product_type || 'single'} onValueChange={v => set('product_type', v)}>
-            <SelectTrigger className="mt-1">
+            <SelectTrigger className="mt-1" dir="rtl">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
