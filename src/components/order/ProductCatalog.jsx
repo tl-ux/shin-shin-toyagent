@@ -73,49 +73,53 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
                   <span className="text-3xl font-bold text-primary/30">{product.name[0]}</span>
                 </div>
               )}
-              <div className="p-3">
-                <div className="font-semibold text-sm leading-tight">{product.name}</div>
-                {product.sku && <div className="text-xs text-muted-foreground mt-0.5">מק"ט: {product.sku}</div>}
-                <div className="mt-1 flex items-center justify-between">
-                  <span className="font-bold text-primary text-sm">
-                    {(() => {
-                      const price = getProductPrice ? getProductPrice(product) : product.price;
-                      return <>₪{price.toLocaleString()}{product.unit && <span className="text-xs text-muted-foreground font-normal">/{product.unit}</span>}</>;
-                    })()}
-                  </span>
-                  {product.stock !== undefined && product.stock !== null && (
-                    <span className={cn('text-xs font-medium', product.stock > 0 ? 'text-success' : 'text-destructive')}>
-                      {product.stock > 0 ? `${product.stock} במלאי` : 'אזל'}
+              <div className="p-3 flex flex-col h-full">
+                <div>
+                  <div className="font-semibold text-sm leading-tight">{product.name}</div>
+                  {product.sku && <div className="text-xs text-muted-foreground mt-0.5">מק"ט: {product.sku}</div>}
+                  <div className="mt-1 flex items-center justify-between">
+                    <span className="font-bold text-primary text-sm">
+                      {(() => {
+                        const price = getProductPrice ? getProductPrice(product) : product.price;
+                        return <>₪{price.toLocaleString()}{product.unit && <span className="text-xs text-muted-foreground font-normal">/{product.unit}</span>}</>;
+                      })()}
                     </span>
-                  )}
+                    {product.stock !== undefined && product.stock !== null && (
+                      <span className={cn('text-xs font-medium', product.stock > 0 ? 'text-success' : 'text-destructive')}>
+                        {product.stock > 0 ? `${product.stock} במלאי` : 'אזל'}
+                      </span>
+                    )}
+                  </div>
                 </div>
 
-                {qty === 0 ? (
-                  <Button
-                    size="sm"
-                    className="w-full mt-2 h-8 text-xs"
-                    onClick={() => onAdd(product, 1)}
-                  >
-                    <Plus className="w-3 h-3 ml-1" />
-                    הוסף
-                  </Button>
-                ) : (
-                  <div className="flex items-center justify-between mt-2 bg-accent rounded-lg p-1">
-                    <button
-                      onClick={() => onAdd(product, qty - 1)}
-                      className="w-7 h-7 rounded-md bg-primary text-primary-foreground flex items-center justify-center hover:bg-primary/90"
+                <div className="mt-auto pt-2">
+                  {qty === 0 ? (
+                    <Button
+                      size="sm"
+                      className="w-full h-8 text-xs"
+                      onClick={() => onAdd(product, 1)}
                     >
-                      <Minus className="w-3 h-3" />
-                    </button>
-                    <span className="font-bold text-primary text-sm">{qty}</span>
-                    <button
-                      onClick={() => onAdd(product, qty + 1)}
-                      className="w-7 h-7 rounded-md bg-primary text-primary-foreground flex items-center justify-center hover:bg-primary/90"
-                    >
-                      <Plus className="w-3 h-3" />
-                    </button>
-                  </div>
-                )}
+                      <Plus className="w-3 h-3 ml-1" />
+                      הוסף
+                    </Button>
+                  ) : (
+                    <div className="flex items-center justify-between bg-accent rounded-lg p-1">
+                      <button
+                        onClick={() => onAdd(product, qty - 1)}
+                        className="w-7 h-7 rounded-md bg-primary text-primary-foreground flex items-center justify-center hover:bg-primary/90"
+                      >
+                        <Minus className="w-3 h-3" />
+                      </button>
+                      <span className="font-bold text-primary text-sm">{qty}</span>
+                      <button
+                        onClick={() => onAdd(product, qty + 1)}
+                        className="w-7 h-7 rounded-md bg-primary text-primary-foreground flex items-center justify-center hover:bg-primary/90"
+                      >
+                        <Plus className="w-3 h-3" />
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           );
