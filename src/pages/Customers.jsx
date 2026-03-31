@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
 import { Search, Plus, Users, Phone, MapPin } from 'lucide-react';
+import CustomerDebtHistory from '@/components/customer/CustomerDebtHistory';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -73,6 +74,12 @@ function CustomerForm({ customer, onSave, onClose, priceGroups }) {
           <Label>הערות</Label>
           <Textarea value={form.notes} onChange={e => set('notes', e.target.value)} rows={2} className="mt-1 resize-none" />
         </div>
+        {customer?.id && (
+          <div>
+            <div className="font-medium text-sm mb-2">היסטוריית חובות</div>
+            <CustomerDebtHistory customerId={customer.id} />
+          </div>
+        )}
         <div className="flex gap-3 pt-2">
           <Button variant="outline" onClick={onClose} className="flex-1">ביטול</Button>
           <Button onClick={save} disabled={saving || !form.name} className="flex-1">

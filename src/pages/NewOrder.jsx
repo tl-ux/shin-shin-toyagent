@@ -85,6 +85,19 @@ export default function NewOrder() {
       notes,
       visit_date: new Date().toISOString().split('T')[0],
     });
+    // יצירה אוטומטית של חוב
+    if (totalAmount > 0) {
+      await base44.entities.Debt.create({
+        customer_id: selectedCustomer?.id || '',
+        customer_name: selectedCustomer?.name || '',
+        order_id: order.id,
+        order_number: orderNum,
+        amount: totalAmount,
+        amount_paid: 0,
+        balance_due: totalAmount,
+        status: 'open',
+      });
+    }
     navigate(`/orders`);
   };
 

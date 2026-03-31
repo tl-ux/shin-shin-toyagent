@@ -1,5 +1,5 @@
 import { Link, useLocation, Outlet } from 'react-router-dom';
-import { ShoppingCart, Package, Users, BarChart3, Menu, X, Settings } from 'lucide-react';
+import { ShoppingCart, Package, Users, BarChart3, Menu, X, Settings, CreditCard } from 'lucide-react';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
 
@@ -8,6 +8,7 @@ const navItems = [
   { path: '/orders', label: 'הזמנות', icon: BarChart3 },
   { path: '/customers', label: 'לקוחות', icon: Users },
   { path: '/products', label: 'מלאי', icon: Package },
+  { path: '/debts', label: 'חובות', icon: CreditCard },
   { path: '/settings', label: 'הגדרות', icon: Settings },
 ];
 
