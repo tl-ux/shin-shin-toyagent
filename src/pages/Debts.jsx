@@ -310,7 +310,7 @@ export default function Debts() {
       </div>
 
       {/* Status filters */}
-      <div className="grid grid-cols-4 gap-1.5">
+      <div className="grid grid-cols-4 gap-2">
         {[
           { key: 'all', label: 'הכל' },
           { key: 'open', label: 'פתוח' },
@@ -321,7 +321,7 @@ export default function Debts() {
             key={key}
             onClick={() => setStatusFilter(key)}
             className={cn(
-              'rounded-xl py-2 text-xs font-medium border transition-all',
+              'rounded-xl py-3 text-sm font-medium border transition-all',
               statusFilter === key ? 'border-primary bg-accent text-primary' : 'border-border bg-card text-muted-foreground'
             )}
           >
