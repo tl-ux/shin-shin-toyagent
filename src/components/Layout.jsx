@@ -38,9 +38,9 @@ export default function Layout() {
       {/* Sidebar */}
       <aside
         className={cn(
-          'fixed top-0 right-0 h-full w-64 bg-primary text-primary-foreground z-50 flex flex-col shadow-2xl transition-transform duration-300',
-          'md:sticky md:translate-x-0 md:h-screen md:flex-shrink-0',
-          sidebarOpen ? 'translate-x-0' : 'translate-x-full md:translate-x-0'
+          'fixed top-0 right-0 h-full w-64 bg-primary text-primary-foreground z-50 flex flex-col shadow-2xl transition-all duration-300',
+          'md:static md:h-screen md:flex-shrink-0',
+          sidebarOpen ? 'translate-x-0' : 'translate-x-full'
         )}
       >
         {/* Logo */}
