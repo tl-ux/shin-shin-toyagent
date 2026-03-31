@@ -19,10 +19,10 @@ function StatCard({ icon: Icon, label, value, sub, color = 'primary' }) {
         <Icon className="w-6 h-6" />
       </div>
       <div>
-        <div className="text-2xl font-bold text-foreground">{value}</div>
-        <div className="text-sm text-muted-foreground">{label}</div>
-        {sub && <div className="text-xs text-muted-foreground mt-0.5">{sub}</div>}
-      </div>
+         <div className="text-3xl font-bold text-foreground">{value}</div>
+         <div className="text-base text-muted-foreground">{label}</div>
+         {sub && <div className="text-sm text-muted-foreground mt-0.5">{sub}</div>}
+       </div>
     </div>
   );
 }
