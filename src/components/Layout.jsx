@@ -1,7 +1,8 @@
 import { Link, useLocation, Outlet } from 'react-router-dom';
-import { ShoppingCart, Package, Users, BarChart3, Menu, X, Settings, CreditCard, LayoutDashboard } from 'lucide-react';
+import { ShoppingCart, Package, Users, BarChart3, Menu, X, Settings, CreditCard, LayoutDashboard, UserCircle } from 'lucide-react';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
+import GlobalSearch from '@/components/GlobalSearch';
 
 const navItems = [
   { path: '/', label: 'דשבורד', icon: LayoutDashboard },
@@ -10,6 +11,7 @@ const navItems = [
   { path: '/customers', label: 'לקוחות', icon: Users },
   { path: '/debts', label: 'חובות', icon: CreditCard },
   { path: '/products', label: 'מלאי', icon: Package },
+  { path: '/agent-summary', label: 'ביצועים', icon: UserCircle },
   { path: '/settings', label: 'הגדרות', icon: Settings },
 ];
 
@@ -26,12 +28,15 @@ export default function Layout() {
             <ShoppingCart className="w-6 h-6" />
             <span className="font-bold text-lg tracking-tight">SalesAgent</span>
           </div>
-          <button
-            className="p-1.5 rounded-lg hover:bg-white/10 transition-colors lg:hidden"
-            onClick={() => setMenuOpen(!menuOpen)}
-          >
-            {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-          </button>
+          <div className="flex items-center gap-2">
+            <GlobalSearch />
+            <button
+              className="p-1.5 rounded-lg hover:bg-white/10 transition-colors lg:hidden"
+              onClick={() => setMenuOpen(!menuOpen)}
+            >
+              {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </button>
+            </div>
           {/* Desktop Nav */}
           <nav className="hidden lg:flex items-center gap-1">
             {navItems.map(({ path, label, icon: Icon }) => (

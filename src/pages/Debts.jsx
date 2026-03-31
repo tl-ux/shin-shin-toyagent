@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
 import { format, differenceInDays } from 'date-fns';
-import { Search, CreditCard, ChevronDown, ChevronUp, Check, MessageCircle, FileDown } from 'lucide-react';
+import { Search, CreditCard, ChevronDown, ChevronUp, Check, MessageCircle, FileDown, History } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -34,6 +34,15 @@ function PaymentDialog({ debt, onClose, onSave }) {
       amount_paid: newAmountPaid,
       balance_due: Math.max(0, newBalance),
       status: newStatus,
+    });
+    // Save payment history
+    await base44.entities.PaymentHistory.create({
+      debt_id: debt.id,
+      customer_id: debt.customer_id,
+      customer_name: debt.customer_name,
+      order_number: debt.order_number,
+      amount: paid,
+      payment_date: new Date().toISOString().split('T')[0],
     });
     toast({ description: `תשלום של ₪${paid.toLocaleString()} נרשם בהצלחה` });
     onSave();
@@ -83,6 +92,27 @@ function agingLabel(debt) {
   return { label: `${days} ימים`, color: 'text-destructive font-bold' };
 }
 
+function exportDebtsExcel(debts) {
+  const rows = [
+    ['לקוח', 'הזמנה', 'סכום מקורי', 'שולם', 'יתרה', 'ימים פתוח', 'סטטוס'],
+    ...debts.map(d => [
+      d.customer_name || '',
+      d.order_number || '',
+      d.amount || 0,
+      d.amount_paid || 0,
+      d.balance_due || 0,
+      differenceInDays(new Date(), new Date(d.created_date)),
+      STATUS_MAP[d.status]?.label || d.status,
+    ])
+  ];
+  const ws = rows.map(r => r.join('\t')).join('\n');
+  const blob = new Blob(['\uFEFF' + ws], { type: 'text/tab-separated-values;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = `debts-${format(new Date(), 'yyyy-MM-dd')}.xls`; a.click();
+  URL.revokeObjectURL(url);
+}
+
 function exportDebtsPDF(debts) {
   const doc = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' });
   doc.setFont('helvetica');
@@ -117,8 +147,42 @@ function exportDebtsPDF(debts) {
   doc.save(`debts-${format(new Date(), 'yyyy-MM-dd')}.pdf`);
 }
 
+function PaymentHistoryModal({ debt, onClose }) {
+  const [history, setHistory] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    base44.entities.PaymentHistory.filter({ debt_id: debt.id }, '-created_date')
+      .then(h => { setHistory(h); setLoading(false); });
+  }, [debt.id]);
+
+  return (
+    <DialogContent className="max-w-sm">
+      <DialogHeader><DialogTitle>היסטוריית תשלומים — {debt.customer_name}</DialogTitle></DialogHeader>
+      <div className="space-y-2 pt-2 max-h-72 overflow-y-auto">
+        {loading && <div className="text-center text-muted-foreground py-4">טוען...</div>}
+        {!loading && history.length === 0 && <div className="text-center text-muted-foreground py-6">אין תשלומים רשומים</div>}
+        {history.map((h, i) => (
+          <div key={h.id || i} className="flex items-center justify-between bg-muted/50 rounded-lg p-3 text-sm">
+            <div>
+              <div className="font-medium text-success">₪{(h.amount || 0).toLocaleString()}</div>
+              {h.notes && <div className="text-xs text-muted-foreground">{h.notes}</div>}
+            </div>
+            <div className="text-xs text-muted-foreground">{h.payment_date ? format(new Date(h.payment_date), 'dd/MM/yyyy') : format(new Date(h.created_date), 'dd/MM/yyyy')}</div>
+          </div>
+        ))}
+        <div className="border-t border-border pt-2 flex justify-between text-sm font-semibold">
+          <span>סה"כ שולם:</span>
+          <span className="text-success">₪{(debt.amount_paid || 0).toLocaleString()}</span>
+        </div>
+      </div>
+    </DialogContent>
+  );
+}
+
 function DebtCard({ debt, onPayment }) {
   const [open, setOpen] = useState(false);
+  const [historyOpen, setHistoryOpen] = useState(false);
   const st = STATUS_MAP[debt.status] || STATUS_MAP.open;
   const paidPercent = debt.amount > 0 ? Math.min(100, ((debt.amount_paid || 0) / debt.amount) * 100) : 0;
 
@@ -157,21 +221,32 @@ function DebtCard({ debt, onPayment }) {
           </div>
           {(() => { const a = agingLabel(debt); return a ? <div className="text-xs text-muted-foreground">גיל חוב: <span className={a.color}>{a.label}</span></div> : null; })()}
           {debt.notes && <div className="text-xs text-muted-foreground bg-white rounded-lg p-2 border border-border">💬 {debt.notes}</div>}
-          {debt.status !== 'paid' && (
-            <div className="flex gap-2">
-              <Button size="sm" onClick={() => onPayment(debt)} className="gap-1.5 flex-1">
-                <CreditCard className="w-4 h-4" />
-                רשום תשלום
+          <div className="flex gap-2 flex-wrap">
+            {(debt.amount_paid > 0) && (
+              <Button size="sm" variant="outline" onClick={() => setHistoryOpen(true)} className="gap-1.5">
+                <History className="w-4 h-4" />
+                היסטוריה
               </Button>
-              <Button size="sm" variant="outline" onClick={() => {
-                const msg = `שלום ${debt.customer_name}, יש יתרה פתוחה בסך ₪${(debt.balance_due||0).toLocaleString()} עבור הזמנה ${debt.order_number||''}. נא לסדר את התשלום. תודה!`;
-                window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
-              }} className="gap-1.5 text-green-600 border-green-200 hover:bg-green-50">
-                <MessageCircle className="w-4 h-4" />
-                וואטסאפ
-              </Button>
-            </div>
-          )}
+            )}
+            {debt.status !== 'paid' && (
+              <>
+                <Button size="sm" onClick={() => onPayment(debt)} className="gap-1.5 flex-1">
+                  <CreditCard className="w-4 h-4" />
+                  רשום תשלום
+                </Button>
+                <Button size="sm" variant="outline" onClick={() => {
+                  const msg = `שלום ${debt.customer_name}, יש יתרה פתוחה בסך ₪${(debt.balance_due||0).toLocaleString()} עבור הזמנה ${debt.order_number||''}. נא לסדר את התשלום. תודה!`;
+                  window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
+                }} className="gap-1.5 text-green-600 border-green-200 hover:bg-green-50">
+                  <MessageCircle className="w-4 h-4" />
+                  וואטסאפ
+                </Button>
+              </>
+            )}
+          </div>
+          <Dialog open={historyOpen} onOpenChange={v => { if (!v) setHistoryOpen(false); }}>
+            {historyOpen && <PaymentHistoryModal debt={debt} onClose={() => setHistoryOpen(false)} />}
+          </Dialog>
         </div>
       )}
     </div>
@@ -208,10 +283,16 @@ export default function Debts() {
     <div className="p-4 pb-24 space-y-4">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">חובות וגבייה</h1>
-        <Button variant="outline" size="sm" onClick={() => exportDebtsPDF(filtered.filter(d => d.status !== 'paid'))} className="gap-1.5 text-orange-600 border-orange-200 hover:bg-orange-50">
-          <FileDown className="w-4 h-4" />
-          PDF
-        </Button>
+        <div className="flex gap-1.5">
+          <Button variant="outline" size="sm" onClick={() => exportDebtsExcel(filtered.filter(d => d.status !== 'paid'))} className="gap-1.5 text-green-700 border-green-200 hover:bg-green-50">
+            <FileDown className="w-4 h-4" />
+            Excel
+          </Button>
+          <Button variant="outline" size="sm" onClick={() => exportDebtsPDF(filtered.filter(d => d.status !== 'paid'))} className="gap-1.5 text-orange-600 border-orange-200 hover:bg-orange-50">
+            <FileDown className="w-4 h-4" />
+            PDF
+          </Button>
+        </div>
       </div>
 
       {/* Summary cards */}

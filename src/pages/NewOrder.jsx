@@ -172,6 +172,22 @@ export default function NewOrder() {
           onRemove={removeFromCart}
           onSubmit={submitOrder}
           onBackToCatalog={() => setStep('catalog')}
+          onLoadTemplate={(template) => {
+            // Load template items into cart
+            const newCart = (template.items || []).map(item => ({
+              ...item,
+              // recalculate price based on current customer group
+              unit_price: item.unit_price,
+              total: item.quantity * item.unit_price,
+            }));
+            newCart.forEach(item => {
+              const product = products.find(p => p.id === item.product_id);
+              if (product) {
+                const price = getProductPrice(product);
+                addToCart(product, item.quantity);
+              }
+            });
+          }}
         />
       )}
     </div>
