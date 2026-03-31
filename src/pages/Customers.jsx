@@ -178,19 +178,19 @@ export default function Customers() {
           >
             <div className="flex items-start justify-between">
               <div>
-                <div className="font-semibold text-foreground">{c.name}</div>
-                {c.contact_name && <div className="text-sm text-muted-foreground mt-0.5">{c.contact_name}</div>}
+                <div className="font-semibold text-lg text-foreground">{c.name}</div>
+                {c.contact_name && <div className="text-base text-muted-foreground mt-0.5">{c.contact_name}</div>}
                 <div className="flex gap-3 mt-1.5">
-                  {c.phone && (
-                    <span className="text-xs text-muted-foreground flex items-center gap-1">
-                      <Phone className="w-3 h-3" />{c.phone}
-                    </span>
-                  )}
-                  {c.city && (
-                    <span className="text-xs text-muted-foreground flex items-center gap-1">
-                      <MapPin className="w-3 h-3" />{c.city}
-                    </span>
-                  )}
+                   {c.phone && (
+                     <span className="text-sm text-muted-foreground flex items-center gap-1">
+                       <Phone className="w-3 h-3" />{c.phone}
+                     </span>
+                   )}
+                   {c.city && (
+                     <span className="text-sm text-muted-foreground flex items-center gap-1">
+                       <MapPin className="w-3 h-3" />{c.city}
+                     </span>
+                   )}
                 </div>
               </div>
               <div className="flex flex-col items-end gap-1">
