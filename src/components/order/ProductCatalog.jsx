@@ -146,7 +146,7 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
       {/* Quantity input dialog */}
       <Dialog open={!!selectedProduct} onOpenChange={v => { if (!v) setSelectedProduct(null); }}>
         {selectedProduct && (
-          <DialogContent className="max-w-xs p-0 overflow-hidden">
+          <DialogContent className="max-w-xs p-0 overflow-hidden flex flex-col items-center">
            {/* Product Image */}
            {selectedProduct.image_url ? (
              <img src={selectedProduct.image_url} alt={selectedProduct.name} className="w-full h-32 object-cover" />
@@ -157,11 +157,11 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
            )}
 
            {/* Content */}
-            <div className="p-4 space-y-3 flex flex-col items-center">
-              <div className="text-center">
-                <h2 className="text-base font-semibold">{selectedProduct.name}</h2>
-                {selectedProduct.sku && <div className="text-xs text-muted-foreground mt-0.5">מק"ט: {selectedProduct.sku}</div>}
-              </div>
+           <div className="p-4 space-y-3 w-full flex flex-col items-center">
+             <div className="w-full text-center">
+               <h2 className="text-base font-semibold">{selectedProduct.name}</h2>
+               {selectedProduct.sku && <div className="text-xs text-muted-foreground mt-0.5">מק"ט: {selectedProduct.sku}</div>}
+             </div>
 
              {/* Price and Stock */}
              <div className="w-full flex items-center justify-center gap-4 text-sm">
