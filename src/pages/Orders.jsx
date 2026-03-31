@@ -2,10 +2,11 @@ import { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
 import { format } from 'date-fns';
 import { he } from 'date-fns/locale';
-import { Package, ChevronDown, ChevronUp, Search, Filter } from 'lucide-react';
+import { Package, ChevronDown, ChevronUp, Search } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
+import OrderShareMenu from '@/components/order/OrderShareMenu';
 
 const STATUS_MAP = {
   draft: { label: 'טיוטה', color: 'bg-muted text-muted-foreground' },
@@ -14,7 +15,7 @@ const STATUS_MAP = {
   cancelled: { label: 'בוטל', color: 'bg-destructive/10 text-destructive' },
 };
 
-function OrderCard({ order }) {
+function OrderCard({ order, officeEmail, officeWhatsapp }) {
   const [open, setOpen] = useState(false);
   const st = STATUS_MAP[order.status] || STATUS_MAP.draft;
 
@@ -60,6 +61,9 @@ function OrderCard({ order }) {
               💬 {order.notes}
             </div>
           )}
+          <div className="mt-3">
+            <OrderShareMenu order={order} officeEmail={officeEmail} officeWhatsapp={officeWhatsapp} />
+          </div>
         </div>
       )}
     </div>
@@ -71,10 +75,19 @@ export default function Orders() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
+  const [officeEmail, setOfficeEmail] = useState('');
+  const [officeWhatsapp, setOfficeWhatsapp] = useState('');
 
   useEffect(() => {
-    base44.entities.Order.list('-created_date', 100).then(data => {
+    Promise.all([
+      base44.entities.Order.list('-created_date', 100),
+      base44.entities.AppSettings.list(),
+    ]).then(([data, settings]) => {
       setOrders(data);
+      if (settings.length > 0) {
+        setOfficeEmail(settings[0].office_email || '');
+        setOfficeWhatsapp(settings[0].office_whatsapp || '');
+      }
       setLoading(false);
     });
   }, []);
@@ -142,7 +155,7 @@ export default function Orders() {
           </div>
         )}
         {filtered.map(order => (
-          <OrderCard key={order.id} order={order} />
+          <OrderCard key={order.id} order={order} officeEmail={officeEmail} officeWhatsapp={officeWhatsapp} />
         ))}
       </div>
     </div>
