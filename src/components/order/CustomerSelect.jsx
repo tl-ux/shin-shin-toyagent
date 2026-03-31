@@ -47,18 +47,18 @@ export default function CustomerSelect({ customers, selected, onSelect }) {
             )}
           >
             <div className="flex-1 min-w-0">
-              <div className="font-semibold text-foreground truncate">{customer.name}</div>
-              <div className="flex items-center gap-3 mt-0.5">
-                {customer.contact_name && (
-                  <span className="text-xs text-muted-foreground">{customer.contact_name}</span>
-                )}
-                {customer.city && (
-                  <span className="text-xs text-muted-foreground flex items-center gap-0.5">
-                    <MapPin className="w-3 h-3" />
-                    {customer.city}
-                  </span>
-                )}
-              </div>
+             <div className="font-semibold text-base text-foreground truncate">{customer.name}</div>
+             <div className="flex items-center gap-3 mt-0.5">
+               {customer.contact_name && (
+                 <span className="text-sm text-muted-foreground">{customer.contact_name}</span>
+               )}
+               {customer.city && (
+                 <span className="text-sm text-muted-foreground flex items-center gap-0.5">
+                   <MapPin className="w-3 h-3" />
+                   {customer.city}
+                 </span>
+               )}
+             </div>
             </div>
             <ChevronLeft className="w-4 h-4 text-muted-foreground flex-shrink-0" />
           </button>
