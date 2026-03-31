@@ -7,11 +7,12 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { cn } from '@/lib/utils';
 
 function ProductForm({ product, onSave, onClose, priceGroups }) {
   const [form, setForm] = useState(product || {
-    name: '', sku: '', category: '', price: '', unit: "יח'", stock: '', description: '', image_url: '', is_active: true, group_prices: []
+    name: '', sku: '', category: '', product_type: 'single', price: '', unit: "יח'", stock: '', description: '', image_url: '', is_active: true, group_prices: []
   });
   const [saving, setSaving] = useState(false);
 
@@ -70,6 +71,18 @@ function ProductForm({ product, onSave, onClose, priceGroups }) {
             <Label>קטגוריה</Label>
             <Input value={form.category} onChange={e => set('category', e.target.value)} placeholder="קטגוריה" className="mt-1" />
           </div>
+        </div>
+        <div>
+          <Label>סוג פריט</Label>
+          <Select value={form.product_type || 'single'} onValueChange={v => set('product_type', v)}>
+            <SelectTrigger className="mt-1">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="single">פריט בודד</SelectItem>
+              <SelectItem value="display">דיספליי</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
         <div>
           <Label>כמות במלאי</Label>
