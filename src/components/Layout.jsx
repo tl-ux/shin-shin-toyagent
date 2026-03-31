@@ -5,14 +5,14 @@ import { cn } from '@/lib/utils';
 import GlobalSearch from '@/components/GlobalSearch';
 
 const navItems = [
-  { path: '/', label: 'דשבורד', icon: LayoutDashboard },
-  { path: '/new-order', label: 'הזמנה חדשה', icon: ShoppingCart },
+  { path: '/', label: 'הזמנה חדשה', icon: ShoppingCart },
   { path: '/orders', label: 'הזמנות', icon: BarChart3 },
   { path: '/customers', label: 'לקוחות', icon: Users },
   { path: '/debts', label: 'חובות', icon: CreditCard },
   { path: '/products', label: 'מלאי', icon: Package },
   { path: '/agent-summary', label: 'ביצועים', icon: UserCircle },
   { path: '/settings', label: 'הגדרות', icon: Settings },
+  { path: '/dashboard', label: 'דשבורד', icon: LayoutDashboard },
 ];
 
 export default function Layout() {
@@ -36,7 +36,7 @@ export default function Layout() {
             >
               {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
-            </div>
+          </div>
           {/* Desktop Nav */}
           <nav className="hidden lg:flex items-center gap-1">
             {navItems.map(({ path, label, icon: Icon }) => (
