@@ -41,10 +41,10 @@ export default function Layout() {
       >
         {/* Logo */}
         <div className="flex items-center justify-between px-5 py-5 border-b border-white/20">
-          <div className="flex items-center gap-2">
+          <button onClick={() => setSidebarOpen(false)} className="flex items-center gap-2 hover:opacity-80 transition-opacity">
             <Baby className="w-6 h-6" />
             <span className="font-bold text-lg tracking-tight">ToyAgent 🧸</span>
-          </div>
+          </button>
           <button
             className="md:hidden p-1 rounded hover:bg-white/10"
             onClick={() => setSidebarOpen(false)}
