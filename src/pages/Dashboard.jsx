@@ -173,7 +173,7 @@ export default function Dashboard() {
 
         {/* Top products */}
         <div className="bg-card border border-border rounded-xl p-4">
-          <h2 className="font-semibold text-sm mb-3 flex items-center gap-2"><Package className="w-4 h-4 text-primary" />פריטים נמכרים ביותר</h2>
+          <h2 className="font-semibold text-base mb-3 flex items-center gap-2"><Package className="w-4 h-4 text-primary" />פריטים נמכרים ביותר</h2>
           <div className="space-y-2">
             {topProducts.map(([name, qty], i) => (
               <div key={name} className="flex items-center justify-between">
