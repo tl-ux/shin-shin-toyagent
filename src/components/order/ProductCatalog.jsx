@@ -146,18 +146,19 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
       {/* Quantity input dialog */}
       <Dialog open={!!selectedProduct} onOpenChange={v => { if (!v) setSelectedProduct(null); }}>
         {selectedProduct && (
-          <DialogContent className="max-w-xs p-0 overflow-hidden flex flex-col items-center">
-           {/* Product Image */}
-           {selectedProduct.image_url ? (
-             <img src={selectedProduct.image_url} alt={selectedProduct.name} className="w-full h-32 object-cover" />
-           ) : (
-             <div className="w-full h-32 bg-gradient-to-br from-accent to-primary/10 flex items-center justify-center">
-               <span className="text-4xl font-bold text-primary/30">{selectedProduct.name[0]}</span>
-             </div>
-           )}
+          <DialogContent className="max-w-xs p-0 overflow-hidden">
+           <div className="flex flex-col items-center w-full">
+             {/* Product Image */}
+             {selectedProduct.image_url ? (
+               <img src={selectedProduct.image_url} alt={selectedProduct.name} className="w-full h-32 object-cover" />
+             ) : (
+               <div className="w-full h-32 bg-gradient-to-br from-accent to-primary/10 flex items-center justify-center">
+                 <span className="text-4xl font-bold text-primary/30">{selectedProduct.name[0]}</span>
+               </div>
+             )}
 
-           {/* Content */}
-           <div className="p-4 space-y-3 w-full flex flex-col items-center">
+             {/* Content */}
+             <div className="p-4 space-y-3 w-full flex flex-col items-center">
              <div className="w-full text-center">
                <h2 className="text-base font-semibold">{selectedProduct.name}</h2>
                {selectedProduct.sku && <div className="text-xs text-muted-foreground mt-0.5">מק"ט: {selectedProduct.sku}</div>}
@@ -202,8 +203,9 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
                <Plus className="w-4 h-4 ml-1" />
                הוסף
              </Button>
-           </div>
-          </DialogContent>
+             </div>
+             </div>
+             </DialogContent>
         )}
       </Dialog>
     </div>
