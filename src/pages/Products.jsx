@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { base44 } from '@/api/base44Client';
-import { Search, Plus, Package, AlertTriangle, Tag } from 'lucide-react';
+import { Search, Plus, Package, AlertTriangle, Tag, Upload } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -122,6 +122,48 @@ export default function Products() {
   const [category, setCategory] = useState('הכל');
   const [editing, setEditing] = useState(null);
   const [showForm, setShowForm] = useState(false);
+  const [importing, setImporting] = useState(false);
+  const fileRef = useRef();
+
+  const handleImport = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setImporting(true);
+    const { file_url } = await base44.integrations.Core.UploadFile({ file });
+    const result = await base44.integrations.Core.ExtractDataFromUploadedFile({
+      file_url,
+      json_schema: {
+        type: 'object',
+        properties: {
+          items: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                name: { type: 'string' },
+                sku: { type: 'string' },
+                price: { type: 'number' },
+                stock: { type: 'number' },
+                category: { type: 'string' },
+                unit: { type: 'string' },
+              }
+            }
+          }
+        }
+      }
+    });
+    if (result.status === 'success') {
+      const rows = Array.isArray(result.output) ? result.output : result.output?.items || [];
+      for (const row of rows) {
+        if (row.name && row.price) {
+          await base44.entities.Product.create({ ...row, is_active: true });
+        }
+      }
+    }
+    setImporting(false);
+    e.target.value = '';
+    load();
+  };
 
   const load = () => Promise.all([
     base44.entities.Product.list('-created_date'),
@@ -150,10 +192,17 @@ export default function Products() {
     <div className="p-4 pb-24 space-y-4">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">מלאי</h1>
-        <Button onClick={() => { setEditing(null); setShowForm(true); }} size="sm" className="gap-1">
-          <Plus className="w-4 h-4" />
-          פריט חדש
-        </Button>
+        <div className="flex gap-2">
+          <input ref={fileRef} type="file" accept=".xlsx,.xls,.csv" className="hidden" onChange={handleImport} />
+          <Button variant="outline" size="sm" onClick={() => fileRef.current.click()} disabled={importing} className="gap-1">
+            <Upload className="w-4 h-4" />
+            {importing ? 'מייבא...' : 'ייבוא'}
+          </Button>
+          <Button onClick={() => { setEditing(null); setShowForm(true); }} size="sm" className="gap-1">
+            <Plus className="w-4 h-4" />
+            פריט חדש
+          </Button>
+        </div>
       </div>
 
       {lowStock > 0 && (

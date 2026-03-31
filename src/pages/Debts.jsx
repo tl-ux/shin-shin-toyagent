@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
-import { format } from 'date-fns';
-import { Search, CreditCard, ChevronDown, ChevronUp, Plus, Check } from 'lucide-react';
+import { format, differenceInDays } from 'date-fns';
+import { Search, CreditCard, ChevronDown, ChevronUp, Check, MessageCircle, FileDown } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
+import jsPDF from 'jspdf';
 
 const STATUS_MAP = {
   open: { label: 'פתוח', color: 'bg-destructive/10 text-destructive' },
@@ -73,6 +74,49 @@ function PaymentDialog({ debt, onClose, onSave }) {
   );
 }
 
+function agingLabel(debt) {
+  if (debt.status === 'paid') return null;
+  const created = new Date(debt.created_date);
+  const days = differenceInDays(new Date(), created);
+  if (days < 30) return { label: `${days} ימים`, color: 'text-success' };
+  if (days < 60) return { label: `${days} ימים`, color: 'text-warning' };
+  return { label: `${days} ימים`, color: 'text-destructive font-bold' };
+}
+
+function exportDebtsPDF(debts) {
+  const doc = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' });
+  doc.setFont('helvetica');
+  doc.setFontSize(16);
+  doc.setTextColor(26, 86, 168);
+  doc.text('Debts Report', 105, 18, { align: 'center' });
+  doc.setFontSize(9);
+  doc.setTextColor(100, 100, 100);
+  const total = debts.reduce((s, d) => s + (d.balance_due || 0), 0);
+  doc.text(`Total open: ${total.toLocaleString()} ILS  |  Count: ${debts.length}`, 14, 28);
+
+  let y = 38;
+  doc.setFillColor(240, 244, 255);
+  doc.rect(14, y - 5, 182, 8, 'F');
+  doc.setFontSize(9);
+  doc.setTextColor(26, 86, 168);
+  doc.text('Customer', 16, y); doc.text('Order', 80, y); doc.text('Days', 115, y); doc.text('Status', 135, y); doc.text('Balance', 185, y, { align: 'right' });
+  y += 7;
+  doc.setTextColor(40, 40, 40);
+  debts.forEach((d, idx) => {
+    if (y > 275) { doc.addPage(); y = 20; }
+    if (idx % 2 === 0) { doc.setFillColor(248, 250, 252); doc.rect(14, y - 4, 182, 7, 'F'); }
+    doc.setFontSize(8.5);
+    doc.text((d.customer_name || '').substring(0, 30), 16, y);
+    doc.text(d.order_number || '-', 80, y);
+    const days = differenceInDays(new Date(), new Date(d.created_date));
+    doc.text(String(days), 115, y);
+    doc.text(d.status || '-', 135, y);
+    doc.text(`${(d.balance_due || 0).toLocaleString()}`, 196, y, { align: 'right' });
+    y += 8;
+  });
+  doc.save(`debts-${format(new Date(), 'yyyy-MM-dd')}.pdf`);
+}
+
 function DebtCard({ debt, onPayment }) {
   const [open, setOpen] = useState(false);
   const st = STATUS_MAP[debt.status] || STATUS_MAP.open;
@@ -111,12 +155,22 @@ function DebtCard({ debt, onPayment }) {
             <div><span className="text-muted-foreground">סכום מקורי: </span><span className="font-medium">₪{(debt.amount || 0).toLocaleString()}</span></div>
             <div><span className="text-muted-foreground">שולם: </span><span className="font-medium text-success">₪{(debt.amount_paid || 0).toLocaleString()}</span></div>
           </div>
+          {(() => { const a = agingLabel(debt); return a ? <div className="text-xs text-muted-foreground">גיל חוב: <span className={a.color}>{a.label}</span></div> : null; })()}
           {debt.notes && <div className="text-xs text-muted-foreground bg-white rounded-lg p-2 border border-border">💬 {debt.notes}</div>}
           {debt.status !== 'paid' && (
-            <Button size="sm" onClick={() => onPayment(debt)} className="gap-1.5 w-full">
-              <CreditCard className="w-4 h-4" />
-              רשום תשלום
-            </Button>
+            <div className="flex gap-2">
+              <Button size="sm" onClick={() => onPayment(debt)} className="gap-1.5 flex-1">
+                <CreditCard className="w-4 h-4" />
+                רשום תשלום
+              </Button>
+              <Button size="sm" variant="outline" onClick={() => {
+                const msg = `שלום ${debt.customer_name}, יש יתרה פתוחה בסך ₪${(debt.balance_due||0).toLocaleString()} עבור הזמנה ${debt.order_number||''}. נא לסדר את התשלום. תודה!`;
+                window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
+              }} className="gap-1.5 text-green-600 border-green-200 hover:bg-green-50">
+                <MessageCircle className="w-4 h-4" />
+                וואטסאפ
+              </Button>
+            </div>
           )}
         </div>
       )}
@@ -154,6 +208,10 @@ export default function Debts() {
     <div className="p-4 pb-24 space-y-4">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">חובות וגבייה</h1>
+        <Button variant="outline" size="sm" onClick={() => exportDebtsPDF(filtered.filter(d => d.status !== 'paid'))} className="gap-1.5 text-orange-600 border-orange-200 hover:bg-orange-50">
+          <FileDown className="w-4 h-4" />
+          PDF
+        </Button>
       </div>
 
       {/* Summary cards */}
