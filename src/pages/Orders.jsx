@@ -68,7 +68,7 @@ function OrderCard({ order, officeEmail, officeWhatsapp, onEdit, onCopy, onDelet
             {order.agent_name && <span>סוכן: {order.agent_name}</span>}
           </div>
           {order.status === 'confirmed' && (!order.sent_via || order.sent_via.length === 0) && (
-            <div className="text-xs text-destructive mt-1 font-medium">⚠️ לא נשלחה</div>
+            <div className="text-sm text-destructive mt-1 font-medium">⚠️ לא נשלחה</div>
           )}
           {order.sent_via && order.sent_via.length > 0 && (
             <div className="text-xs text-muted-foreground mt-1 flex gap-1">
