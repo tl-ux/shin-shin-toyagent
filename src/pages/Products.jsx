@@ -44,8 +44,8 @@ function ProductForm({ product, onSave, onClose, priceGroups }) {
 
   return (
     <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto">
-      <DialogHeader>
-        <DialogTitle>{product ? 'עריכת פריט' : 'פריט חדש'}</DialogTitle>
+      <DialogHeader className="text-center">
+        <DialogTitle className="text-center">{product ? 'עריכת פריט' : 'פריט חדש'}</DialogTitle>
       </DialogHeader>
       <div className="space-y-3 pt-2">
         <div>
