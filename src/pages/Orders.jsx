@@ -246,7 +246,7 @@ export default function Orders() {
           value={search}
           onChange={e => setSearch(e.target.value)}
           placeholder="חיפוש לקוח / מספר הזמנה..."
-          className="pr-9"
+          className="pr-9 h-11 text-base"
         />
       </div>
 
