@@ -192,9 +192,9 @@ export default function AgentSummary() {
       {/* Recent orders */}
       {myOrders.length > 0 && (
         <div className="bg-card border border-border rounded-xl p-4">
-          <h2 className="font-semibold text-sm mb-3 flex items-center gap-2">
-            <ShoppingCart className="w-4 h-4 text-primary" />
-            הזמנות אחרונות
+          <h2 className="font-semibold text-base mb-3 flex items-center gap-2">
+           <ShoppingCart className="w-4 h-4 text-primary" />
+           הזמנות אחרונות
           </h2>
           <div className="space-y-2">
             {myOrders.slice(0, 5).map(o => (
