@@ -298,14 +298,14 @@ export default function Debts() {
       {/* Summary cards */}
       <div className="grid grid-cols-2 gap-3">
         <div className="bg-destructive/5 border border-destructive/20 rounded-xl p-4">
-          <div className="text-xs text-muted-foreground">סה"כ חובות פתוחים</div>
-          <div className="text-2xl font-bold text-destructive mt-1">₪{totalOpen.toLocaleString()}</div>
-          <div className="text-xs text-muted-foreground mt-1">{debts.filter(d => d.status !== 'paid').length} לקוחות</div>
+          <div className="text-sm text-muted-foreground">סה"כ חובות פתוחים</div>
+          <div className="text-3xl font-bold text-destructive mt-2">₪{totalOpen.toLocaleString()}</div>
+          <div className="text-sm text-muted-foreground mt-2">{debts.filter(d => d.status !== 'paid').length} לקוחות</div>
         </div>
         <div className="bg-warning/5 border border-warning/20 rounded-xl p-4">
-          <div className="text-xs text-muted-foreground">חובות באיחור</div>
-          <div className="text-2xl font-bold text-warning mt-1">₪{totalOverdue.toLocaleString()}</div>
-          <div className="text-xs text-muted-foreground mt-1">{debts.filter(d => d.status === 'overdue').length} לקוחות</div>
+          <div className="text-sm text-muted-foreground">חובות באיחור</div>
+          <div className="text-3xl font-bold text-warning mt-2">₪{totalOverdue.toLocaleString()}</div>
+          <div className="text-sm text-muted-foreground mt-2">{debts.filter(d => d.status === 'overdue').length} לקוחות</div>
         </div>
       </div>
 
@@ -332,7 +332,7 @@ export default function Debts() {
 
       <div className="relative">
         <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-        <Input value={search} onChange={e => setSearch(e.target.value)} placeholder="חיפוש לקוח / הזמנה..." className="pr-9" />
+        <Input value={search} onChange={e => setSearch(e.target.value)} placeholder="חיפוש לקוח / הזמנה..." className="pr-9 h-11 text-base" />
       </div>
 
       <div className="space-y-3">
