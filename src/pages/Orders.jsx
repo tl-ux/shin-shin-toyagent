@@ -198,8 +198,8 @@ export default function Orders() {
         <h1 className="text-2xl font-bold">הזמנות</h1>
         <div className="flex items-center gap-2">
           <div className="text-left">
-            <div className="text-xs text-muted-foreground">סה"כ</div>
-            <div className="font-bold text-primary text-lg">₪{totalSales.toLocaleString()}</div>
+            <div className="text-sm text-muted-foreground">סה"כ</div>
+            <div className="font-bold text-primary text-xl">₪{totalSales.toLocaleString()}</div>
           </div>
         </div>
       </div>
