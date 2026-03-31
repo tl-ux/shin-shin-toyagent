@@ -98,8 +98,8 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
                 <div className="mt-auto pt-2">
                   {qty === 0 ?
                   <Button
-                    size="sm"
-                    className="w-full h-10 text-sm"
+                   size="sm"
+                   className="w-full h-10 text-base"
                     onClick={() => {
                       setSelectedProduct(product);
                       setInputQty('');
