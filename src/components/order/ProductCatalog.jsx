@@ -152,7 +152,6 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
             </DialogHeader>
             <div className="space-y-4 pt-2">
               <div>
-                <label className="text-sm font-medium block mb-2 text-right">כמות להוספה</label>
                 <Input
                   type="number"
                   min="1"
