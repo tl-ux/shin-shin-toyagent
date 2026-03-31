@@ -262,7 +262,7 @@ export default function Products() {
               </div>
             )}
             <div className="p-3">
-              <div className="font-semibold text-sm leading-tight truncate text-center">{p.name}</div>
+              <div className="font-semibold text-base leading-tight truncate text-center">{p.name}</div>
               {p.sku && <div className="text-xs text-muted-foreground mt-0.5 text-center">מק"ט: {p.sku}</div>}
               <div className="flex items-center justify-between mt-2">
                 <span className="font-bold text-primary text-sm">₪{(p.price || 0).toLocaleString()}</span>
