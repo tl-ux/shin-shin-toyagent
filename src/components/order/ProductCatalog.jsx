@@ -79,7 +79,7 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
               <div className="p-3 flex flex-col flex-1">
                 <div>
                   <div className="font-semibold text-sm leading-tight text-center">{product.name}</div>
-                  {product.sku && <div className="text-xs text-muted-foreground mt-0.5">מק"ט: {product.sku}</div>}
+                  {product.sku && <div className="text-xs text-muted-foreground mt-0.5 text-center">מק"ט: {product.sku}</div>}
                   <div className="mt-1 flex items-center justify-between">
                     <span className="font-bold text-primary text-sm">
                       {(() => {
