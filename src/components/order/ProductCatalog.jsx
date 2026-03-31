@@ -88,7 +88,7 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
                       })()}
                     </span>
                     {product.stock !== undefined && product.stock !== null && (
-                      <span className={cn('text-xs font-medium', product.stock > 0 ? 'text-success' : 'text-destructive')}>
+                      <span className={cn('text-sm font-medium', product.stock > 0 ? 'text-success' : 'text-destructive')}>
                         {product.stock > 0 ? `${product.stock} במלאי` : 'אזל'}
                       </span>
                     )}
