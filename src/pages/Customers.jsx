@@ -8,6 +8,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { cn } from '@/lib/utils';
 
 function CustomerForm({ customer, onSave, onClose, priceGroups }) {
   const [form, setForm] = useState(customer || { name: '', contact_name: '', phone: '', address: '', city: '', notes: '', price_group_id: '', is_active: true });
@@ -96,6 +97,7 @@ export default function Customers() {
   const [priceGroups, setPriceGroups] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
+  const [cityFilter, setCityFilter] = useState('הכל');
   const [editing, setEditing] = useState(null);
   const [showForm, setShowForm] = useState(false);
 
@@ -105,10 +107,14 @@ export default function Customers() {
   ]).then(([d, pg]) => { setCustomers(d); setPriceGroups(pg); setLoading(false); });
   useEffect(() => { load(); }, []);
 
-  const filtered = customers.filter(c =>
-    c.name.toLowerCase().includes(search.toLowerCase()) ||
-    (c.city || '').toLowerCase().includes(search.toLowerCase())
-  );
+  const cities = ['הכל', ...new Set(customers.map(c => c.city).filter(Boolean))];
+
+  const filtered = customers.filter(c => {
+    const matchSearch = c.name.toLowerCase().includes(search.toLowerCase()) ||
+      (c.city || '').toLowerCase().includes(search.toLowerCase());
+    const matchCity = cityFilter === 'הכל' || c.city === cityFilter;
+    return matchSearch && matchCity;
+  });
 
   if (loading) return (
     <div className="flex items-center justify-center min-h-[60vh]">
@@ -135,6 +141,23 @@ export default function Customers() {
           className="pr-9"
         />
       </div>
+
+      {cities.length > 1 && (
+        <div className="flex gap-2 overflow-x-auto pb-1">
+          {cities.map(city => (
+            <button
+              key={city}
+              onClick={() => setCityFilter(city)}
+              className={cn(
+                'flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-medium transition-colors border',
+                cityFilter === city ? 'bg-primary text-white border-primary' : 'bg-white border-border text-muted-foreground'
+              )}
+            >
+              {city}
+            </button>
+          ))}
+        </div>
+      )}
 
       <div className="space-y-2">
         {filtered.length === 0 && (
