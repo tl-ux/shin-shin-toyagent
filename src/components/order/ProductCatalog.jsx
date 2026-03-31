@@ -81,15 +81,12 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
                   <div className="font-semibold text-base leading-tight text-center">{product.name}</div>
                   {product.sku && <div className="text-xs text-muted-foreground mt-0.5 text-center">מק"ט: {product.sku}</div>}
                   <div className="mt-1 flex items-center justify-between">
-                    <div className="flex flex-col items-center gap-1">
-                      <span className="text-primary text-base font-bold">
-                        {(() => {
-                          const price = getProductPrice ? getProductPrice(product) : product.price;
-                          return <>₪{price.toLocaleString()}{product.unit && <span className="text-muted-foreground mr-1 ml-3 text-sm font-normal">{product.unit}</span>}</>;
-                        })()}
-                      </span>
-                      <span className="text-xs text-muted-foreground">ג.א</span>
-                    </div>
+                    <span className="text-primary text-base font-bold">
+                      {(() => {
+                        const price = getProductPrice ? getProductPrice(product) : product.price;
+                        return <>₪{price.toLocaleString()}{product.unit && <span className="text-muted-foreground mr-1 ml-3 text-sm font-normal">{product.unit}</span>}</>;
+                      })()}
+                    </span>
                     {product.stock !== undefined && product.stock !== null &&
                     <span className={cn('text-xs font-medium', product.stock > 0 ? 'text-success' : 'text-destructive')}>
                         {product.stock > 0 ? `${product.stock} במלאי` : 'אזל'}
