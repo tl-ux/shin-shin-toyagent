@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { Search, ShoppingCart, Plus, Minus, ArrowUpDown } from 'lucide-react';
+import { Search, ShoppingCart, Plus, Minus, ArrowUpDown, LayoutList, LayoutGrid, Grid3X3 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -25,6 +25,7 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
   const [showSortMenu, setShowSortMenu] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [inputQty, setInputQty] = useState('');
+  const [cols, setCols] = useState(2);
 
   const filtered = useMemo(() => {
     let list = products.filter((p) => {
@@ -60,6 +61,19 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
               placeholder="חיפוש פריט..."
               className="pr-9" />
           </div>
+          {/* Layout toggle */}
+          <div className="flex gap-1 border border-border rounded-md p-0.5 bg-white">
+            {[{ c: 1, Icon: LayoutList }, { c: 2, Icon: LayoutGrid }, { c: 3, Icon: Grid3X3 }].map(({ c, Icon }) => (
+              <button
+                key={c}
+                onClick={() => setCols(c)}
+                className={cn('p-1.5 rounded transition-colors', cols === c ? 'bg-primary text-white' : 'text-muted-foreground hover:text-foreground')}
+              >
+                <Icon className="w-4 h-4" />
+              </button>
+            ))}
+          </div>
+
           {/* Sort button */}
           <div className="relative">
             <button
@@ -109,7 +123,7 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
       </div>
 
       {/* Products Grid */}
-      <div className="p-4 grid grid-cols-2 gap-3 lg:grid-cols-3 xl:grid-cols-4">
+      <div className={cn('p-4 gap-3', cols === 1 ? 'flex flex-col' : cols === 2 ? 'grid grid-cols-2' : 'grid grid-cols-3')}>
         {filtered.map((product) => {
           const qty = getCartQty(product.id);
           return (
