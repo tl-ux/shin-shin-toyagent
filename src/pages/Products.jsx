@@ -20,18 +20,18 @@ function ProductForm({ product, onSave, onClose, priceGroups }) {
   const imgInputRef = useRef();
 
   const setGroupPrice = (groupId, groupName, price) => {
-    setForm(prev => {
-      const existing = (prev.group_prices || []).filter(gp => gp.price_group_id !== groupId);
+    setForm((prev) => {
+      const existing = (prev.group_prices || []).filter((gp) => gp.price_group_id !== groupId);
       if (price === '') return { ...prev, group_prices: existing };
       return { ...prev, group_prices: [...existing, { price_group_id: groupId, price_group_name: groupName, price: parseFloat(price) }] };
     });
   };
 
   const getGroupPrice = (groupId) => {
-    return form.group_prices?.find(gp => gp.price_group_id === groupId)?.price ?? '';
+    return form.group_prices?.find((gp) => gp.price_group_id === groupId)?.price ?? '';
   };
 
-  const set = (k, v) => setForm(prev => ({ ...prev, [k]: v }));
+  const set = (k, v) => setForm((prev) => ({ ...prev, [k]: v }));
 
   const handleImageUpload = async (e) => {
     const files = Array.from(e.target.files);
@@ -39,7 +39,7 @@ function ProductForm({ product, onSave, onClose, priceGroups }) {
     setUploadingImg(true);
     for (const file of files) {
       const { file_url } = await base44.integrations.Core.UploadFile({ file });
-      setForm(prev => {
+      setForm((prev) => {
         const allUrls = [prev.image_url, ...(prev.image_urls || [])].filter(Boolean);
         if (allUrls.length === 0) {
           return { ...prev, image_url: file_url };
@@ -52,12 +52,12 @@ function ProductForm({ product, onSave, onClose, priceGroups }) {
   };
 
   const removeImage = (urlToRemove) => {
-    setForm(prev => {
+    setForm((prev) => {
       if (prev.image_url === urlToRemove) {
         const remaining = prev.image_urls || [];
         return { ...prev, image_url: remaining[0] || '', image_urls: remaining.slice(1) };
       }
-      return { ...prev, image_urls: (prev.image_urls || []).filter(u => u !== urlToRemove) };
+      return { ...prev, image_urls: (prev.image_urls || []).filter((u) => u !== urlToRemove) };
     });
   };
 
@@ -83,25 +83,25 @@ function ProductForm({ product, onSave, onClose, priceGroups }) {
       <div className="space-y-3 pt-2">
         <div>
           <Label>שם הפריט *</Label>
-          <Input value={form.name} onChange={e => set('name', e.target.value)} placeholder="שם הפריט" className="mt-1" />
+          <Input value={form.name} onChange={(e) => set('name', e.target.value)} placeholder="שם הפריט" className="mt-1" />
         </div>
         <div>
           <Label>מחיר *</Label>
-          <Input value={form.price} onChange={e => set('price', e.target.value)} type="number" placeholder="0.00" className="mt-1" dir="ltr" />
+          <Input value={form.price} onChange={(e) => set('price', e.target.value)} type="number" placeholder="0.00" className="mt-1" dir="ltr" />
         </div>
         <div className="grid grid-cols-2 gap-3">
           <div>
             <Label>מק"ט</Label>
-            <Input value={form.sku} onChange={e => set('sku', e.target.value)} placeholder="SKU-001" className="mt-1" dir="ltr" />
+            <Input value={form.sku} onChange={(e) => set('sku', e.target.value)} placeholder="SKU-001" className="mt-1" dir="ltr" />
           </div>
           <div>
             <Label>קטגוריה</Label>
-            <Input value={form.category} onChange={e => set('category', e.target.value)} placeholder="קטגוריה" className="mt-1" />
+            <Input value={form.category} onChange={(e) => set('category', e.target.value)} placeholder="קטגוריה" className="mt-1" />
           </div>
         </div>
         <div>
           <Label>סוג פריט</Label>
-          <Select value={form.product_type || 'single'} onValueChange={v => set('product_type', v)}>
+          <Select value={form.product_type || 'single'} onValueChange={(v) => set('product_type', v)}>
             <SelectTrigger className="mt-1" dir="rtl">
               <SelectValue />
             </SelectTrigger>
@@ -113,53 +113,53 @@ function ProductForm({ product, onSave, onClose, priceGroups }) {
         </div>
         <div>
           <Label>כמות במלאי</Label>
-          <Input value={form.stock} onChange={e => set('stock', e.target.value)} type="number" placeholder="0" className="mt-1" dir="ltr" />
+          <Input value={form.stock} onChange={(e) => set('stock', e.target.value)} type="number" placeholder="0" className="mt-1" dir="ltr" />
         </div>
-        {priceGroups.length > 0 && (
-          <div>
+        {priceGroups.length > 0 &&
+        <div>
             <Label className="flex items-center gap-1"><Tag className="w-3 h-3" /> מחירים לפי קבוצה</Label>
             <div className="space-y-2 mt-1">
-              {priceGroups.map(g => (
-                <div key={g.id} className="flex items-center gap-2">
+              {priceGroups.map((g) =>
+            <div key={g.id} className="flex items-center gap-2">
                   <span className="text-sm text-muted-foreground w-24 flex-shrink-0">{g.name}</span>
                   <Input
-                    type="number"
-                    placeholder={`מחיר בסיס: ${form.price || '0'}`}
-                    value={getGroupPrice(g.id)}
-                    onChange={e => setGroupPrice(g.id, g.name, e.target.value)}
-                    className="flex-1"
-                    dir="ltr"
-                  />
+                type="number"
+                placeholder={`מחיר בסיס: ${form.price || '0'}`}
+                value={getGroupPrice(g.id)}
+                onChange={(e) => setGroupPrice(g.id, g.name, e.target.value)}
+                className="flex-1"
+                dir="ltr" />
+              
                 </div>
-              ))}
+            )}
             </div>
           </div>
-        )}
+        }
         <div>
           <Label>תיאור</Label>
-          <Textarea value={form.description} onChange={e => set('description', e.target.value)} rows={2} className="mt-1 resize-none" />
+          <Textarea value={form.description} onChange={(e) => set('description', e.target.value)} rows={2} className="mt-1 resize-none" />
         </div>
         <div>
           <Label>תמונות</Label>
           <input ref={imgInputRef} type="file" accept="image/*" multiple className="hidden" onChange={handleImageUpload} />
           <div className="mt-1 space-y-2">
-            {allImages.length > 0 && (
-              <div className="flex gap-2 flex-wrap">
-                {allImages.map((url, i) => (
-                  <div key={i} className="relative group">
+            {allImages.length > 0 &&
+            <div className="flex gap-2 flex-wrap">
+                {allImages.map((url, i) =>
+              <div key={i} className="relative group">
                     <img src={url} alt="" className="w-16 h-16 object-cover rounded-lg border border-border" />
                     {i === 0 && <span className="absolute bottom-0 right-0 bg-primary text-white text-[9px] px-1 rounded-tr-none rounded-bl-none rounded-br-lg rounded-tl-lg">ראשית</span>}
                     <button
-                      type="button"
-                      onClick={() => removeImage(url)}
-                      className="absolute -top-1.5 -left-1.5 w-5 h-5 bg-destructive text-white rounded-full hidden group-hover:flex items-center justify-center"
-                    >
+                  type="button"
+                  onClick={() => removeImage(url)}
+                  className="absolute -top-1.5 -left-1.5 w-5 h-5 bg-destructive text-white rounded-full hidden group-hover:flex items-center justify-center">
+                  
                       <X className="w-3 h-3" />
                     </button>
                   </div>
-                ))}
+              )}
               </div>
-            )}
+            }
             <Button type="button" variant="outline" size="sm" onClick={() => imgInputRef.current.click()} disabled={uploadingImg} className="gap-1.5 w-full">
               <ImagePlus className="w-4 h-4" />
               {uploadingImg ? 'מעלה...' : allImages.length > 0 ? 'הוסף תמונה נוספת' : 'העלה תמונה'}
@@ -173,8 +173,8 @@ function ProductForm({ product, onSave, onClose, priceGroups }) {
           <Button variant="outline" onClick={onClose} className="flex-1">ביטול</Button>
         </div>
       </div>
-    </DialogContent>
-  );
+    </DialogContent>);
+
 }
 
 export default function Products() {
@@ -208,7 +208,7 @@ export default function Products() {
                 price: { type: 'number' },
                 stock: { type: 'number' },
                 category: { type: 'string' },
-                unit: { type: 'string' },
+                unit: { type: 'string' }
               }
             }
           }
@@ -229,96 +229,96 @@ export default function Products() {
   };
 
   const load = () => Promise.all([
-    base44.entities.Product.list('-created_date'),
-    base44.entities.PriceGroup.list(),
-  ]).then(([d, pg]) => { setProducts(d); setPriceGroups(pg); setLoading(false); });
-  useEffect(() => { load(); }, []);
+  base44.entities.Product.list('-created_date'),
+  base44.entities.PriceGroup.list()]
+  ).then(([d, pg]) => {setProducts(d);setPriceGroups(pg);setLoading(false);});
+  useEffect(() => {load();}, []);
 
-  const cats = ['הכל', ...new Set(products.map(p => p.category).filter(Boolean))];
+  const cats = ['הכל', ...new Set(products.map((p) => p.category).filter(Boolean))];
 
-  const filtered = products.filter(p => {
+  const filtered = products.filter((p) => {
     const matchSearch = p.name.toLowerCase().includes(search.toLowerCase()) ||
-      (p.sku || '').toLowerCase().includes(search.toLowerCase());
+    (p.sku || '').toLowerCase().includes(search.toLowerCase());
     const matchCat = category === 'הכל' || p.category === category;
     return matchSearch && matchCat;
   });
 
-  const lowStock = products.filter(p => p.stock !== null && p.stock !== undefined && p.stock <= 5).length;
+  const lowStock = products.filter((p) => p.stock !== null && p.stock !== undefined && p.stock <= 5).length;
 
   if (loading) return (
     <div className="flex items-center justify-center min-h-[60vh]">
       <div className="w-8 h-8 border-4 border-primary/30 border-t-primary rounded-full animate-spin" />
-    </div>
-  );
+    </div>);
+
 
   return (
     <div className="p-4 pb-24 space-y-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">מלאי</h1>
+        <h1 className="text-2xl font-bold">קטלוג מוצרים</h1>
         <div className="flex gap-2">
           <input ref={fileRef} type="file" accept=".xlsx,.xls,.csv" className="hidden" onChange={handleImport} />
           <Button variant="outline" onClick={() => fileRef.current.click()} disabled={importing} className="gap-1 h-10 text-base">
             <Upload className="w-4 h-4" />
             {importing ? 'מייבא...' : 'ייבוא'}
           </Button>
-          <Button onClick={() => { setEditing(null); setShowForm(true); }} className="gap-1 h-10 text-base">
+          <Button onClick={() => {setEditing(null);setShowForm(true);}} className="gap-1 h-10 text-base">
             <Plus className="w-4 h-4" />
             פריט חדש
           </Button>
         </div>
       </div>
 
-      {lowStock > 0 && (
-        <div className="bg-warning/10 border border-warning/30 rounded-xl p-3 flex items-center gap-2 text-sm">
+      {lowStock > 0 &&
+      <div className="bg-warning/10 border border-warning/30 rounded-xl p-3 flex items-center gap-2 text-sm">
           <AlertTriangle className="w-4 h-4 text-warning flex-shrink-0" />
           <span><strong>{lowStock}</strong> פריטים במלאי נמוך (5 ומטה)</span>
         </div>
-      )}
+      }
 
       <div className="relative">
         <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-        <Input value={search} onChange={e => setSearch(e.target.value)} placeholder="חיפוש פריט..." className="pr-9 h-11 text-base" />
+        <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="חיפוש פריט..." className="pr-9 h-11 text-base" />
       </div>
 
-      {cats.length > 1 && (
-        <div className="flex gap-2 overflow-x-auto pb-1">
-          {cats.map(cat => (
-            <button
-              key={cat}
-              onClick={() => setCategory(cat)}
-              className={cn(
-                'flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-colors border',
-                category === cat ? 'bg-primary text-white border-primary' : 'bg-white border-border text-muted-foreground'
-              )}
-            >
+      {cats.length > 1 &&
+      <div className="flex gap-2 overflow-x-auto pb-1">
+          {cats.map((cat) =>
+        <button
+          key={cat}
+          onClick={() => setCategory(cat)}
+          className={cn(
+            'flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-colors border',
+            category === cat ? 'bg-primary text-white border-primary' : 'bg-white border-border text-muted-foreground'
+          )}>
+          
               {cat}
             </button>
-          ))}
+        )}
         </div>
-      )}
+      }
 
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-3 xl:grid-cols-4">
-        {filtered.length === 0 && (
-          <div className="col-span-2 text-center py-16 text-muted-foreground">
+        {filtered.length === 0 &&
+        <div className="col-span-2 text-center py-16 text-muted-foreground">
             <Package className="w-12 h-12 mx-auto mb-3 opacity-30" />
             <p>אין פריטים</p>
           </div>
+        }
+        {filtered.map((p) =>
+        <ProductCard key={p.id} p={p} onClick={() => {setEditing(p);setShowForm(true);}} />
         )}
-        {filtered.map(p => (
-          <ProductCard key={p.id} p={p} onClick={() => { setEditing(p); setShowForm(true); }} />
-        ))}
       </div>
 
-      <Dialog open={showForm} onOpenChange={v => { if (!v) setShowForm(false); }}>
-        {showForm && (
-          <ProductForm
-            product={editing}
-            priceGroups={priceGroups}
-            onSave={() => { setShowForm(false); load(); }}
-            onClose={() => setShowForm(false)}
-          />
-        )}
+      <Dialog open={showForm} onOpenChange={(v) => {if (!v) setShowForm(false);}}>
+        {showForm &&
+        <ProductForm
+          product={editing}
+          priceGroups={priceGroups}
+          onSave={() => {setShowForm(false);load();}}
+          onClose={() => setShowForm(false)} />
+
+        }
       </Dialog>
-    </div>
-  );
+    </div>);
+
 }
