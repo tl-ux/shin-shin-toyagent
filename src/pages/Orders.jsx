@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
-import { format, startOfDay, startOfWeek, startOfMonth, subMonths } from 'date-fns';
-import { Package, ChevronDown, ChevronUp, Search, Pencil, Copy, Trash2 } from 'lucide-react';
+import { format, startOfDay, startOfWeek, startOfMonth, subMonths, differenceInDays } from 'date-fns';
+import { Package, ChevronDown, ChevronUp, Search, Pencil, Copy, Trash2, AlertTriangle, BarChart2 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -10,6 +10,7 @@ import OrderShareMenu from '@/components/order/OrderShareMenu';
 import EditOrderDialog from '@/components/order/EditOrderDialog';
 import { Dialog } from '@/components/ui/dialog';
 import { useToast } from '@/components/ui/use-toast';
+import MonthlySalesChart from '@/components/order/MonthlySalesChart';
 
 const STATUS_MAP = {
   draft: { label: 'טיוטה', color: 'bg-muted text-muted-foreground' },
@@ -62,10 +63,13 @@ function OrderCard({ order, officeEmail, officeWhatsapp, onEdit, onCopy, onDelet
             <span className="font-bold text-foreground text-lg">{order.customer_name}</span>
             <span className={cn('text-xs px-2 py-0.5 rounded-full font-medium', st.color)}>{st.label}</span>
           </div>
-          <div className="text-sm text-muted-foreground mt-1 flex gap-3">
+          <div className="text-sm text-muted-foreground mt-1 flex gap-3 flex-wrap">
             {order.order_number && <span>{order.order_number}</span>}
             {order.visit_date && <span>{format(new Date(order.visit_date), 'dd/MM/yyyy')}</span>}
             {order.agent_name && <span>סוכן: {order.agent_name}</span>}
+            {order.delivery_date && (
+              <span className="text-primary font-medium">🚚 משלוח: {format(new Date(order.delivery_date), 'dd/MM/yyyy')}</span>
+            )}
           </div>
           {order.status === 'confirmed' && (!order.sent_via || order.sent_via.length === 0) && (
             <div className="text-sm text-destructive mt-1 font-medium">⚠️ לא נשלחה</div>
@@ -133,6 +137,7 @@ export default function Orders() {
   const [officeEmail, setOfficeEmail] = useState('');
   const [officeWhatsapp, setOfficeWhatsapp] = useState('');
   const [editingOrder, setEditingOrder] = useState(null);
+  const [showChart, setShowChart] = useState(false);
   const { toast } = useToast();
 
   const reload = () => base44.entities.Order.list('-created_date', 100).then(setOrders);
@@ -186,6 +191,13 @@ export default function Orders() {
 
   const totalSales = filtered.reduce((s, o) => s + (o.total_amount || 0), 0);
 
+  // הזמנות מאושרות ישנות שלא נמסרו (מעל 3 ימים)
+  const staleOrders = orders.filter(o => {
+    if (o.status !== 'confirmed') return false;
+    const d = o.visit_date ? new Date(o.visit_date) : new Date(o.created_date);
+    return differenceInDays(new Date(), d) >= 3;
+  });
+
   if (loading) return (
     <div className="flex items-center justify-center min-h-[60vh]">
       <div className="w-8 h-8 border-4 border-primary/30 border-t-primary rounded-full animate-spin" />
@@ -196,13 +208,39 @@ export default function Orders() {
     <div className="p-4 pb-24 space-y-4">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">הזמנות</h1>
-        <div className="flex items-center gap-2">
-         <div className="text-center">
-           <div className="text-base text-muted-foreground">סה"כ</div>
-           <div className="font-bold text-primary text-2xl">₪{totalSales.toLocaleString()}</div>
-         </div>
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => setShowChart(v => !v)}
+            className={cn('p-2 rounded-lg border transition-colors', showChart ? 'bg-primary text-white border-primary' : 'border-border bg-card text-muted-foreground hover:text-foreground')}
+            title="גרף מכירות"
+          >
+            <BarChart2 className="w-5 h-5" />
+          </button>
+          <div className="text-center">
+            <div className="text-base text-muted-foreground">סה"כ</div>
+            <div className="font-bold text-primary text-2xl">₪{totalSales.toLocaleString()}</div>
+          </div>
         </div>
       </div>
+
+      {/* התראה על הזמנות ישנות */}
+      {staleOrders.length > 0 && (
+        <div
+          className="bg-warning/10 border border-warning/30 rounded-xl px-4 py-3 flex items-center gap-3 cursor-pointer hover:bg-warning/15 transition-colors"
+          onClick={() => { setStatusFilter('confirmed'); setDateFilter('all'); }}
+        >
+          <AlertTriangle className="w-5 h-5 text-warning flex-shrink-0" />
+          <div>
+            <div className="font-semibold text-sm text-warning-foreground">
+              {staleOrders.length} הזמנות מאושרות שלא נמסרו מעל 3 ימים
+            </div>
+            <div className="text-xs text-muted-foreground mt-0.5">לחץ לסינון הזמנות מאושרות</div>
+          </div>
+        </div>
+      )}
+
+      {/* גרף מכירות */}
+      {showChart && <MonthlySalesChart orders={orders} />}
 
       {/* Date filter */}
       <div className="flex gap-1.5 overflow-x-auto pb-1">

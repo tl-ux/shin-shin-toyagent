@@ -21,6 +21,7 @@ export default function EditOrderDialog({ order, onClose, onSave }) {
     status: order.status,
     notes: order.notes || '',
     items: order.items ? [...order.items] : [],
+    delivery_date: order.delivery_date || '',
   });
   const [saving, setSaving] = useState(false);
   const { toast } = useToast();
@@ -47,6 +48,7 @@ export default function EditOrderDialog({ order, onClose, onSave }) {
       notes: form.notes,
       items: form.items,
       total_amount: totalAmount,
+      delivery_date: form.delivery_date || null,
     });
     toast({ description: 'ההזמנה עודכנה בהצלחה' });
     onSave();
@@ -97,6 +99,17 @@ export default function EditOrderDialog({ order, onClose, onSave }) {
               </div>
             ))}
           </div>
+        </div>
+
+        <div>
+          <Label>תאריך משלוח רצוי</Label>
+          <input
+            type="date"
+            value={form.delivery_date}
+            onChange={e => setForm(p => ({ ...p, delivery_date: e.target.value }))}
+            className="mt-1 w-full rounded-md border border-input bg-transparent px-3 py-2 text-base shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+            dir="ltr"
+          />
         </div>
 
         <div>
