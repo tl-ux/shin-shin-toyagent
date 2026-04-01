@@ -14,6 +14,7 @@ export default function NewOrder() {
   const [customers, setCustomers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [step, setStep] = useState('customer'); // 'customer' | 'catalog' | 'cart'
+  const [recentProductIds, setRecentProductIds] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -26,6 +27,15 @@ export default function NewOrder() {
       setLoading(false);
     });
   }, []);
+
+  const loadRecentProducts = async (customer) => {
+    const orders = await base44.entities.Order.filter({ customer_id: customer.id }, '-created_date', 5);
+    const ids = [];
+    orders.forEach(o => (o.items || []).forEach(item => {
+      if (!ids.includes(item.product_id)) ids.push(item.product_id);
+    }));
+    setRecentProductIds(ids);
+  };
 
   const getProductPrice = (product) => {
     if (!selectedCustomer?.price_group_id) return product.price;
@@ -158,7 +168,7 @@ export default function NewOrder() {
         <CustomerSelect
           customers={customers}
           selected={selectedCustomer}
-          onSelect={(c) => { setSelectedCustomer(c); setStep('catalog'); }}
+          onSelect={(c) => { setSelectedCustomer(c); loadRecentProducts(c); setStep('catalog'); }}
         />
       )}
 
@@ -170,6 +180,7 @@ export default function NewOrder() {
           onGoToCart={() => setStep('cart')}
           cartCount={cartCount}
           getProductPrice={getProductPrice}
+          recentProductIds={recentProductIds}
         />
       )}
 

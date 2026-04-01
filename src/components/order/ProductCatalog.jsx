@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Search, ShoppingCart, Plus, Minus } from 'lucide-react';
+import { useState, useMemo } from 'react';
+import { Search, ShoppingCart, Plus, Minus, ArrowUpDown, Clock } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -11,18 +11,35 @@ const categories = (products) => {
   return ['הכל', ...cats];
 };
 
-export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cartCount, getProductPrice }) {
+const SORT_OPTIONS = [
+  { key: 'default', label: 'ברירת מחדל' },
+  { key: 'price_asc', label: 'מחיר ↑' },
+  { key: 'price_desc', label: 'מחיר ↓' },
+  { key: 'popular', label: 'פופולרי' },
+];
+
+export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cartCount, getProductPrice, recentProductIds = [] }) {
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('הכל');
+  const [sortKey, setSortKey] = useState('default');
+  const [showSortMenu, setShowSortMenu] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [inputQty, setInputQty] = useState('');
 
-  const filtered = products.filter((p) => {
-    const matchSearch = p.name.toLowerCase().includes(search.toLowerCase()) ||
-    (p.sku || '').toLowerCase().includes(search.toLowerCase());
-    const matchCat = category === 'הכל' || p.category === category;
-    return matchSearch && matchCat;
-  });
+  const filtered = useMemo(() => {
+    let list = products.filter((p) => {
+      const matchSearch = p.name.toLowerCase().includes(search.toLowerCase()) ||
+        (p.sku || '').toLowerCase().includes(search.toLowerCase());
+      const matchCat = category === 'הכל' || p.category === category;
+      return matchSearch && matchCat;
+    });
+
+    if (sortKey === 'price_asc') list = [...list].sort((a, b) => (getProductPrice ? getProductPrice(a) : a.price) - (getProductPrice ? getProductPrice(b) : b.price));
+    else if (sortKey === 'price_desc') list = [...list].sort((a, b) => (getProductPrice ? getProductPrice(b) : b.price) - (getProductPrice ? getProductPrice(a) : a.price));
+    else if (sortKey === 'popular') list = [...list].sort((a, b) => (recentProductIds.indexOf(a.id) === -1 ? 999 : recentProductIds.indexOf(a.id)) - (recentProductIds.indexOf(b.id) === -1 ? 999 : recentProductIds.indexOf(b.id)));
+
+    return list;
+  }, [products, search, category, sortKey, getProductPrice, recentProductIds]);
 
   const cats = categories(products);
 
@@ -34,15 +51,57 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
     <div className="flex flex-col h-full">
       {/* Search + Filter */}
       <div className="p-4 space-y-3 bg-white border-b border-border">
-        <div className="relative">
-          <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-          <Input
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="חיפוש פריט..."
-            className="pr-9" />
-          
+        <div className="flex gap-2">
+          <div className="relative flex-1">
+            <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+            <Input
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="חיפוש פריט..."
+              className="pr-9" />
+          </div>
+          {/* Sort button */}
+          <div className="relative">
+            <button
+              onClick={() => setShowSortMenu(v => !v)}
+              className={cn('flex items-center gap-1.5 px-3 h-9 rounded-md border text-sm font-medium transition-colors',
+                sortKey !== 'default' ? 'bg-primary text-white border-primary' : 'border-border text-muted-foreground hover:text-foreground bg-white'
+              )}
+            >
+              <ArrowUpDown className="w-4 h-4" />
+              {SORT_OPTIONS.find(s => s.key === sortKey)?.label}
+            </button>
+            {showSortMenu && (
+              <div className="absolute left-0 top-10 bg-white border border-border rounded-xl shadow-lg z-50 min-w-[130px] overflow-hidden">
+                {SORT_OPTIONS.map(opt => (
+                  <button
+                    key={opt.key}
+                    onClick={() => { setSortKey(opt.key); setShowSortMenu(false); }}
+                    className={cn('w-full text-right px-4 py-2.5 text-sm hover:bg-muted transition-colors',
+                      sortKey === opt.key ? 'font-bold text-primary' : 'text-foreground'
+                    )}
+                  >
+                    {opt.label}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
+
+        {/* Recently ordered by this customer */}
+        {recentProductIds.length > 0 && (
+          <button
+            onClick={() => setSortKey(sortKey === 'popular' ? 'default' : 'popular')}
+            className={cn('flex items-center gap-2 px-3 py-1.5 rounded-lg border text-sm font-medium transition-colors w-full',
+              sortKey === 'popular' ? 'bg-primary/10 border-primary text-primary' : 'border-border text-muted-foreground hover:text-foreground'
+            )}
+          >
+            <Clock className="w-4 h-4 flex-shrink-0" />
+            מוצרים אחרונים שהוזמנו על ידי לקוח זה ({recentProductIds.length})
+          </button>
+        )}
+
         {cats.length > 1 &&
         <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
             {cats.map((cat) =>
@@ -55,7 +114,6 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
               'bg-primary text-primary-foreground border-primary' :
               'bg-white text-muted-foreground border-border hover:border-primary/50'
             )}>
-            
                 {cat}
               </button>
           )}
@@ -68,7 +126,7 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
         {filtered.map((product) => {
           const qty = getCartQty(product.id);
           return (
-            <div key={product.id} className="bg-card rounded-xl border border-border overflow-hidden shadow-sm flex flex-col">
+            <div key={product.id} className={cn("bg-card rounded-xl border overflow-hidden shadow-sm flex flex-col", recentProductIds.includes(product.id) ? 'border-primary/40' : 'border-border')}>
               {product.image_url ?
               <img src={product.image_url} alt={product.name} className="w-full h-28 object-cover" /> :
 
@@ -79,6 +137,11 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
               <div className="p-3 flex flex-col flex-1">
                 <div>
                   <div className="font-semibold text-base leading-tight text-center">{product.name}</div>
+                  {recentProductIds.includes(product.id) && (
+                    <div className="text-center mt-0.5">
+                      <span className="text-xs bg-primary/10 text-primary rounded-full px-2 py-0.5 font-medium">⚡ הוזמן לאחרונה</span>
+                    </div>
+                  )}
                   {product.sku && <div className="text-xs text-muted-foreground mt-0.5 text-center">מק"ט: {product.sku}</div>}
                   <div className="mt-1 flex items-center justify-between">
                     <span className="text-primary text-base font-bold">
