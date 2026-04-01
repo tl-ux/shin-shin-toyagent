@@ -1,12 +1,12 @@
 import { Link, useLocation, Outlet } from 'react-router-dom';
-import { Baby, BookOpen, Users, BarChart3, Settings, CreditCard, LayoutDashboard, UserCircle, ShoppingCart, HelpCircle, Menu, X } from 'lucide-react';
+import { Baby, BookOpen, Users, BarChart3, Settings, CreditCard, LayoutDashboard, UserCircle, ShoppingCart, HelpCircle, Menu, X, ClipboardList } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import GlobalSearch from '@/components/GlobalSearch';
 
 const navItems = [
   { path: '/', label: 'הזמנה חדשה', icon: ShoppingCart },
-  { path: '/orders', label: 'הזמנות', icon: BarChart3 },
+  { path: '/orders', label: 'הזמנות', icon: ClipboardList },
   { path: '/customers', label: 'לקוחות', icon: Users },
   { path: '/debts', label: 'חובות', icon: CreditCard },
   { path: '/products', label: 'קטלוג', icon: BookOpen },
