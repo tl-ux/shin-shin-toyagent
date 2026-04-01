@@ -143,6 +143,47 @@ function ProductForm({ product, onSave, onClose, priceGroups }) {
           <Label>תמונות</Label>
           <input ref={imgInputRef} type="file" accept="image/*" multiple className="hidden" onChange={handleImageUpload} />
           <div className="mt-1 space-y-2">
+            <div className="flex gap-2">
+              <Input
+                type="url"
+                placeholder="כתובת תמונה (URL)"
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && e.target.value.trim()) {
+                    const url = e.target.value.trim();
+                    setForm((prev) => {
+                      const allUrls = [prev.image_url, ...(prev.image_urls || [])].filter(Boolean);
+                      if (allUrls.length === 0) {
+                        return { ...prev, image_url: url };
+                      }
+                      return { ...prev, image_urls: [...(prev.image_urls || []), url] };
+                    });
+                    e.target.value = '';
+                  }
+                }}
+                className="text-sm"
+              />
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  const input = event.target.previousSibling;
+                  if (input.value.trim()) {
+                    const url = input.value.trim();
+                    setForm((prev) => {
+                      const allUrls = [prev.image_url, ...(prev.image_urls || [])].filter(Boolean);
+                      if (allUrls.length === 0) {
+                        return { ...prev, image_url: url };
+                      }
+                      return { ...prev, image_urls: [...(prev.image_urls || []), url] };
+                    });
+                    input.value = '';
+                  }
+                }}
+              >
+                הוסף
+              </Button>
+            </div>
             {allImages.length > 0 &&
             <div className="flex gap-2 flex-wrap">
                 {allImages.map((url, i) =>
