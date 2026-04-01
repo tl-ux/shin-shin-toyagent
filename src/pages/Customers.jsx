@@ -64,7 +64,7 @@ function CustomerForm({ customer, onSave, onClose, priceGroups }) {
         <div>
           <Label>קבוצת מחיר</Label>
           <Select value={form.price_group_id || ''} onValueChange={v => set('price_group_id', v === 'none' ? '' : v)}>
-            <SelectTrigger className="mt-1">
+            <SelectTrigger className="mt-1 text-right">
               <SelectValue placeholder="ללא קבוצה" />
             </SelectTrigger>
             <SelectContent>
