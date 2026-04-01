@@ -63,7 +63,7 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
           </div>
           {/* Layout toggle */}
           <div className="flex gap-1 border border-border rounded-md p-0.5 bg-white">
-            {[{ c: 1, Icon: LayoutList }, { c: 2, Icon: LayoutGrid }, { c: 3, Icon: Grid3X3 }].map(({ c, Icon }) => (
+            {[{ c: 2, Icon: LayoutGrid }, { c: 3, Icon: Grid3X3 }].map(({ c, Icon }) => (
               <button
                 key={c}
                 onClick={() => setCols(c)}
