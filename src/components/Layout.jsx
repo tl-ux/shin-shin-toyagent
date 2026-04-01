@@ -7,12 +7,7 @@ import GlobalSearch from '@/components/GlobalSearch';
 
 const navItems = [
   { path: '/', label: 'הזמנה חדשה', icon: PenLine },
-  { path: '/orders', label: 'הזמנות', icon: ClipboardList },
-  { path: '/customers', label: 'לקוחות', icon: Users },
-  { path: '/debts', label: 'חובות', icon: CreditCard },
-  { path: '/products', label: 'קטלוג', icon: BookOpen },
   { path: '/dashboard', label: 'דשבורד', icon: LayoutDashboard },
-  { path: '/agent-summary', label: 'ביצועים', icon: TrendingUp },
   { path: '/help', label: 'עזרה', icon: HelpCircle },
   { path: '/settings', label: 'הגדרות', icon: Settings },
 ];

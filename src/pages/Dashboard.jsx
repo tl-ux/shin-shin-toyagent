@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
-import { TrendingUp, Users, ShoppingCart, CreditCard, Package, AlertTriangle } from 'lucide-react';
+import { TrendingUp, Users, ShoppingCart, CreditCard, Package, AlertTriangle, ClipboardList, BookOpen } from 'lucide-react';
 import { format, subMonths, subYears, startOfMonth, endOfMonth } from 'date-fns';
 import { he } from 'date-fns/locale';
 import { Link } from 'react-router-dom';
@@ -102,16 +101,30 @@ export default function Dashboard() {
   const openDebts = debts.filter(d => d.status !== 'paid').reduce((s, d) => s + (d.balance_due || 0), 0);
   const thisMonthRevenue = monthlyData[monthlyData.length - 1]?.total || 0;
 
+  const navCards = [
+    { path: '/orders', label: 'הזמנות', icon: ClipboardList, color: 'bg-primary/10 text-primary', count: orders.length, sub: `${orders.filter(o => o.status === 'confirmed').length} מאושרות` },
+    { path: '/customers', label: 'לקוחות', icon: Users, color: 'bg-success/10 text-success', count: customers.length, sub: 'לקוחות פעילים' },
+    { path: '/debts', label: 'חובות', icon: CreditCard, color: 'bg-destructive/10 text-destructive', count: `₪${openDebts.toLocaleString()}`, sub: 'חובות פתוחים' },
+    { path: '/products', label: 'קטלוג', icon: BookOpen, color: 'bg-warning/10 text-warning', count: products.length, sub: 'פריטים במלאי' },
+    { path: '/agent-summary', label: 'ביצועים', icon: TrendingUp, color: 'bg-primary/10 text-primary', count: `₪${thisMonthRevenue.toLocaleString()}`, sub: 'מכירות החודש' },
+  ];
+
   return (
     <div className="p-4 pb-24 space-y-6">
       <h1 className="text-2xl font-bold">דשבורד</h1>
 
-      {/* Stats */}
-      <div className="grid grid-cols-2 gap-3">
-        <StatCard icon={TrendingUp} label="מכירות החודש" value={`₪${thisMonthRevenue.toLocaleString()}`} color="primary" />
-        <StatCard icon={ShoppingCart} label="סה״כ הזמנות" value={orders.length} sub={`${orders.filter(o=>o.status==='confirmed').length} מאושרות`} color="success" />
-        <StatCard icon={Users} label="לקוחות" value={customers.length} color="primary" />
-        <StatCard icon={CreditCard} label="חובות פתוחים" value={`₪${openDebts.toLocaleString()}`} color="destructive" />
+      {/* Nav Cards */}
+      <div className="grid grid-cols-2 gap-3 lg:grid-cols-5">
+        {navCards.map(({ path, label, icon: Icon, color, count, sub }) => (
+          <Link key={path} to={path} className="bg-card border border-border rounded-xl p-4 flex flex-col items-center gap-2 hover:border-primary/40 hover:shadow-sm transition-all text-center">
+            <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${color}`}>
+              <Icon className="w-6 h-6" />
+            </div>
+            <div className="font-bold text-xl text-foreground">{count}</div>
+            <div className="text-sm font-semibold text-foreground">{label}</div>
+            <div className="text-xs text-muted-foreground">{sub}</div>
+          </Link>
+        ))}
       </div>
 
       {/* Monthly Table YoY */}
