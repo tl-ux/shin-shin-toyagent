@@ -9,7 +9,7 @@ const navItems = [
   { path: '/orders', label: 'הזמנות', icon: BarChart3 },
   { path: '/customers', label: 'לקוחות', icon: Users },
   { path: '/debts', label: 'חובות', icon: CreditCard },
-  { path: '/products', label: 'מלאי', icon: Package },
+  { path: '/products', label: 'קטלוג', icon: Package },
   { path: '/dashboard', label: 'דשבורד', icon: LayoutDashboard },
   { path: '/agent-summary', label: 'ביצועים', icon: UserCircle },
   { path: '/settings', label: 'הגדרות', icon: Settings },
