@@ -126,17 +126,17 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
       <div className={cn('p-4 gap-3', cols === 1 ? 'flex flex-col' : cols === 2 ? 'grid grid-cols-2' : 'grid grid-cols-3')}>
         {filtered.map((product) => {
           const qty = getCartQty(product.id);
-          const imgHeight = cols === 1 ? 'h-56' : cols === 2 ? 'h-36' : 'h-24';
           const placeholderText = cols === 1 ? 'text-6xl' : cols === 2 ? 'text-3xl' : 'text-2xl';
           return (
             <div key={product.id} className={cn("bg-card rounded-xl border overflow-hidden shadow-sm flex flex-col", recentProductIds.includes(product.id) ? 'border-primary/40' : 'border-border')}>
-              {product.image_url ?
-              <img src={product.image_url} alt={product.name} className={cn('w-full object-cover', imgHeight)} /> :
-
-              <div className={cn('w-full bg-gradient-to-br from-accent to-primary/10 flex items-center justify-center', imgHeight)}>
+              <div className="w-full aspect-square overflow-hidden">
+                {product.image_url ?
+                <img src={product.image_url} alt={product.name} className="w-full h-full object-cover" /> :
+                <div className="w-full h-full bg-gradient-to-br from-accent to-primary/10 flex items-center justify-center">
                   <span className={cn('font-bold text-primary/30', placeholderText)}>{product.name[0]}</span>
                 </div>
-              }
+                }
+              </div>
               <div className="p-3 flex flex-col flex-1">
                 <div>
                   <div className="font-semibold text-base leading-tight text-center">{product.name}</div>
