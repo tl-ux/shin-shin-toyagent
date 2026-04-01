@@ -126,8 +126,8 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
       <div className={cn('p-4 gap-3', cols === 1 ? 'flex flex-col' : cols === 2 ? 'grid grid-cols-2' : 'grid grid-cols-3')}>
         {filtered.map((product) => {
           const qty = getCartQty(product.id);
-          const imgHeight = cols === 1 ? 'h-40' : cols === 2 ? 'h-28' : 'h-20';
-          const placeholderText = cols === 1 ? 'text-5xl' : cols === 2 ? 'text-3xl' : 'text-2xl';
+          const imgHeight = cols === 1 ? 'h-56' : cols === 2 ? 'h-36' : 'h-24';
+          const placeholderText = cols === 1 ? 'text-6xl' : cols === 2 ? 'text-3xl' : 'text-2xl';
           return (
             <div key={product.id} className={cn("bg-card rounded-xl border overflow-hidden shadow-sm flex flex-col", recentProductIds.includes(product.id) ? 'border-primary/40' : 'border-border')}>
               {product.image_url ?
