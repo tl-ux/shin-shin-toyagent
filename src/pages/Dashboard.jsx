@@ -112,7 +112,7 @@ export default function Dashboard() {
 
   return (
     <div className="p-4 pb-24 space-y-6">
-      <h1 className="text-2xl font-bold">ניהול</h1>
+      <h1 className="text-2xl font-bold">פאנל ניהול</h1>
 
       {/* Nav Cards */}
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-5">
