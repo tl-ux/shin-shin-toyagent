@@ -30,7 +30,7 @@ function CustomerForm({ customer, onSave, onClose, priceGroups }) {
   return (
     <DialogContent className="max-w-md">
       <DialogHeader>
-        <DialogTitle>{customer ? 'עריכת לקוח' : 'לקוח חדש'}</DialogTitle>
+        <DialogTitle className="text-center">{customer ? 'עריכת לקוח' : 'לקוח חדש'}</DialogTitle>
       </DialogHeader>
       <div className="space-y-3 pt-2">
         <div>
