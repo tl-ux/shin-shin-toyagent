@@ -9,6 +9,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { cn } from '@/lib/utils';
+import ProductCard from '@/components/products/ProductCard';
 
 function ProductForm({ product, onSave, onClose, priceGroups }) {
   const [form, setForm] = useState(product || {
@@ -304,36 +305,7 @@ export default function Products() {
           </div>
         )}
         {filtered.map(p => (
-          <button
-            key={p.id}
-            onClick={() => { setEditing(p); setShowForm(true); }}
-            className="bg-card border border-border rounded-xl overflow-hidden hover:border-primary/40 hover:shadow-sm transition-all text-right"
-          >
-            {p.image_url ? (
-              <img src={p.image_url} alt={p.name} className="w-full h-48 object-cover" />
-            ) : (
-              <div className="w-full h-24 bg-gradient-to-br from-accent to-primary/10 flex items-center justify-center">
-                <span className="text-3xl font-bold text-primary/30">{p.name[0]}</span>
-              </div>
-            )}
-            <div className="p-3">
-              <div className="font-semibold text-base leading-tight truncate text-center">{p.name}</div>
-              {p.sku && <div className="text-xs text-muted-foreground mt-0.5 text-center">מק"ט: {p.sku}</div>}
-              <div className="flex items-center justify-between mt-2">
-                <span className="font-bold text-primary text-base">₪{(p.price || 0).toLocaleString()}</span>
-                {p.stock !== null && p.stock !== undefined && (
-                  <span className={cn(
-                    'text-xs font-medium px-1.5 py-0.5 rounded',
-                    p.stock === 0 ? 'bg-destructive/10 text-destructive' :
-                    p.stock <= 5 ? 'bg-warning/10 text-warning' :
-                    'bg-success/10 text-success'
-                  )}>
-                    {p.stock}
-                  </span>
-                )}
-              </div>
-            </div>
-          </button>
+          <ProductCard key={p.id} p={p} onClick={() => { setEditing(p); setShowForm(true); }} />
         ))}
       </div>
 
