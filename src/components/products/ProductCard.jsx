@@ -16,8 +16,8 @@ export default function ProductCard({ p, onClick }) {
       className="bg-card border border-border rounded-xl overflow-hidden hover:border-primary/40 hover:shadow-sm transition-all text-right cursor-pointer"
     >
       {allImages.length > 0 ? (
-        <div className="relative w-full h-48">
-          <img src={allImages[imgIndex]} alt={p.name} className="w-full h-48 object-cover" />
+        <div className="relative w-full">
+          <img src={allImages[imgIndex]} alt={p.name} className="w-full object-contain max-h-64" />
           {allImages.length > 1 && (
             <div className="absolute bottom-2 left-0 right-0 flex justify-center gap-1.5">
               {allImages.map((_, i) => (
@@ -34,7 +34,7 @@ export default function ProductCard({ p, onClick }) {
           )}
         </div>
       ) : (
-        <div className="w-full h-48 bg-gradient-to-br from-accent to-primary/10 flex items-center justify-center">
+        <div className="w-full h-32 bg-gradient-to-br from-accent to-primary/10 flex items-center justify-center">
           <span className="text-3xl font-bold text-primary/30">{p.name[0]}</span>
         </div>
       )}
