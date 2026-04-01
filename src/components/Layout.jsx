@@ -13,8 +13,8 @@ const navItems = [
   { path: '/products', label: 'קטלוג', icon: BookOpen },
   { path: '/dashboard', label: 'דשבורד', icon: LayoutDashboard },
   { path: '/agent-summary', label: 'ביצועים', icon: TrendingUp },
-  { path: '/settings', label: 'הגדרות', icon: Settings },
   { path: '/help', label: 'עזרה', icon: HelpCircle },
+  { path: '/settings', label: 'הגדרות', icon: Settings },
 ];
 
 export default function Layout() {
