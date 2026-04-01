@@ -211,7 +211,7 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
            <div className="flex flex-col items-center w-full">
              {/* Product Image */}
              {selectedProduct.image_url ?
-             <img src={selectedProduct.image_url} alt={selectedProduct.name} className="w-full h-96 object-cover" style={selectedProduct.image_url?.endsWith('.webp') ? { imageRendering: 'crisp-edges' } : {}} /> :
+             <img src={selectedProduct.image_url} alt={selectedProduct.name} className="w-full h-96 object-cover" style={selectedProduct.image_url?.endsWith('.webp') ? { imageRendering: 'crisp-edges', transform: 'scale(0.85)' } : {}} /> :
 
              <div className="w-full h-96 bg-gradient-to-br from-accent to-primary/10 flex items-center justify-center">
                  <span className="text-6xl font-bold text-primary/30">{selectedProduct.name[0]}</span>
