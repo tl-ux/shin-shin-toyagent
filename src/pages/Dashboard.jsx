@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
-import { TrendingUp, Users, ShoppingCart, CreditCard, Package, AlertTriangle, ClipboardList, BookOpen } from 'lucide-react';
+import { TrendingUp, Users, ShoppingCart, CreditCard, Package, AlertTriangle, ClipboardList, BookOpen, Settings } from 'lucide-react';
 import { format, subMonths, subYears, startOfMonth, endOfMonth } from 'date-fns';
 import { he } from 'date-fns/locale';
 import { Link } from 'react-router-dom';
@@ -107,6 +107,7 @@ export default function Dashboard() {
     { path: '/debts', label: 'חובות', icon: CreditCard, color: 'bg-destructive/10 text-destructive', count: `₪${openDebts.toLocaleString()}`, sub: 'חובות פתוחים' },
     { path: '/products', label: 'קטלוג', icon: BookOpen, color: 'bg-warning/10 text-warning', count: products.length, sub: 'פריטים במלאי' },
     { path: '/agent-summary', label: 'ביצועים', icon: TrendingUp, color: 'bg-primary/10 text-primary', count: `₪${thisMonthRevenue.toLocaleString()}`, sub: 'מכירות החודש' },
+    { path: '/settings', label: 'הגדרות', icon: Settings, color: 'bg-muted text-muted-foreground', count: '⚙️', sub: 'הגדרות מערכת' },
   ];
 
   return (

@@ -9,7 +9,6 @@ const navItems = [
   { path: '/', label: 'הזמנה חדשה', icon: PenLine },
   { path: '/dashboard', label: 'דשבורד', icon: LayoutDashboard },
   { path: '/help', label: 'עזרה', icon: HelpCircle },
-  { path: '/settings', label: 'הגדרות', icon: Settings },
 ];
 
 export default function Layout() {
