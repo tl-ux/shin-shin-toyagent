@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { base44 } from '@/api/base44Client';
-import { Search, Plus, Package, AlertTriangle, Tag, Upload, X, ImagePlus } from 'lucide-react';
+import { Search, Plus, Package, AlertTriangle, Tag, Upload, X, ImagePlus, Edit2, Trash2 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -186,6 +186,9 @@ export default function Products() {
   const [editing, setEditing] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [importing, setImporting] = useState(false);
+  const [showCategoryManager, setShowCategoryManager] = useState(false);
+  const [categoryInput, setCategoryInput] = useState('');
+  const [editingCat, setEditingCat] = useState(null);
   const fileRef = useRef();
 
   const handleImport = async (e) => {
@@ -281,7 +284,7 @@ export default function Products() {
       </div>
 
       {cats.length > 1 &&
-      <div className="flex gap-2 overflow-x-auto pb-1">
+      <div className="flex gap-2 overflow-x-auto pb-1 items-center">
           {cats.map((cat) =>
         <button
           key={cat}
@@ -294,6 +297,10 @@ export default function Products() {
               {cat}
             </button>
         )}
+        <Button variant="outline" size="sm" onClick={() => setShowCategoryManager(true)} className="gap-1.5 flex-shrink-0">
+          <Edit2 className="w-3.5 h-3.5" />
+          ערוך קטגוריות
+        </Button>
         </div>
       }
 
@@ -318,6 +325,99 @@ export default function Products() {
           onClose={() => setShowForm(false)} />
 
         }
+      </Dialog>
+
+      <Dialog open={showCategoryManager} onOpenChange={setShowCategoryManager}>
+        <DialogContent className="max-w-sm">
+          <DialogHeader>
+            <DialogTitle>ערוך קטגוריות</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-3 pt-2">
+            <div className="flex gap-2">
+              <Input
+                value={categoryInput}
+                onChange={(e) => setCategoryInput(e.target.value)}
+                placeholder="קטגוריה חדשה"
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && categoryInput.trim()) {
+                    // עדכן את כל המוצרים עם הקטגוריה החדשה
+                    setEditingCat(null);
+                    setCategoryInput('');
+                  }
+                }}
+              />
+              <Button onClick={() => {
+                if (categoryInput.trim()) {
+                  setEditingCat(null);
+                  setCategoryInput('');
+                }
+              }}>הוסף</Button>
+            </div>
+            <div className="space-y-2 max-h-60 overflow-y-auto">
+              {cats.filter(c => c !== 'הכל').map((cat) => (
+                <div key={cat} className="flex items-center justify-between p-2 bg-muted rounded-lg">
+                  {editingCat === cat ? (
+                    <Input
+                      value={categoryInput}
+                      onChange={(e) => setCategoryInput(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' && categoryInput.trim()) {
+                          // עדכן את הקטגוריה הקיימת
+                          setEditingCat(null);
+                          setCategoryInput('');
+                        }
+                      }}
+                      autoFocus
+                      className="flex-1 h-8"
+                    />
+                  ) : (
+                    <span className="text-sm">{cat}</span>
+                  )}
+                  <div className="flex gap-1">
+                    {editingCat === cat ? (
+                      <Button
+                        size="icon"
+                        variant="ghost"
+                        className="h-6 w-6"
+                        onClick={() => {
+                          // שמור עריכה
+                          setEditingCat(null);
+                          setCategoryInput('');
+                        }}
+                      >
+                        ✓
+                      </Button>
+                    ) : (
+                      <Button
+                        size="icon"
+                        variant="ghost"
+                        className="h-6 w-6"
+                        onClick={() => {
+                          setEditingCat(cat);
+                          setCategoryInput(cat);
+                        }}
+                      >
+                        <Edit2 className="w-3 h-3" />
+                      </Button>
+                    )}
+                    <Button
+                      size="icon"
+                      variant="ghost"
+                      className="h-6 w-6 text-destructive hover:text-destructive"
+                      onClick={() => {
+                        // מחק קטגוריה
+                        setEditingCat(null);
+                      }}
+                    >
+                      <Trash2 className="w-3 h-3" />
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <Button onClick={() => setShowCategoryManager(false)} className="w-full">סיום</Button>
+          </div>
+        </DialogContent>
       </Dialog>
     </div>);
 
