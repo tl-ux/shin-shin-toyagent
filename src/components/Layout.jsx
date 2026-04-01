@@ -1,5 +1,5 @@
 import { Link, useLocation, Outlet } from 'react-router-dom';
-import { Baby, Package, Users, BarChart3, Settings, CreditCard, LayoutDashboard, UserCircle, ShoppingCart, HelpCircle, Menu, X } from 'lucide-react';
+import { Baby, BookOpen, Users, BarChart3, Settings, CreditCard, LayoutDashboard, UserCircle, ShoppingCart, HelpCircle, Menu, X } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import GlobalSearch from '@/components/GlobalSearch';
@@ -9,7 +9,7 @@ const navItems = [
   { path: '/orders', label: 'הזמנות', icon: BarChart3 },
   { path: '/customers', label: 'לקוחות', icon: Users },
   { path: '/debts', label: 'חובות', icon: CreditCard },
-  { path: '/products', label: 'קטלוג', icon: Package },
+  { path: '/products', label: 'קטלוג', icon: BookOpen },
   { path: '/dashboard', label: 'דשבורד', icon: LayoutDashboard },
   { path: '/agent-summary', label: 'ביצועים', icon: UserCircle },
   { path: '/settings', label: 'הגדרות', icon: Settings },
