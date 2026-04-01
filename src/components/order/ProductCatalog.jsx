@@ -126,13 +126,15 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
       <div className={cn('p-4 gap-3', cols === 1 ? 'flex flex-col' : cols === 2 ? 'grid grid-cols-2' : 'grid grid-cols-3')}>
         {filtered.map((product) => {
           const qty = getCartQty(product.id);
+          const imgHeight = cols === 1 ? 'h-40' : cols === 2 ? 'h-28' : 'h-20';
+          const placeholderText = cols === 1 ? 'text-5xl' : cols === 2 ? 'text-3xl' : 'text-2xl';
           return (
-            <div key={product.id} className={cn("bg-card rounded-xl border overflow-hidden shadow-sm flex flex-col", recentProductIds.includes(product.id) ? 'border-primary/40' : 'border-border')}>
+            <div key={product.id} className={cn("bg-card rounded-xl border overflow-hidden shadow-sm flex flex-col", cols === 1 ? 'flex-row' : '', recentProductIds.includes(product.id) ? 'border-primary/40' : 'border-border')}>
               {product.image_url ?
-              <img src={product.image_url} alt={product.name} className="w-full h-28 object-cover" /> :
+              <img src={product.image_url} alt={product.name} className={cn('object-cover flex-shrink-0', cols === 1 ? 'w-40 h-full' : `w-full ${imgHeight}`)} /> :
 
-              <div className="w-full h-28 bg-gradient-to-br from-accent to-primary/10 flex items-center justify-center">
-                  <span className="text-3xl font-bold text-primary/30">{product.name[0]}</span>
+              <div className={cn('bg-gradient-to-br from-accent to-primary/10 flex items-center justify-center flex-shrink-0', cols === 1 ? 'w-40 h-full min-h-[100px]' : `w-full ${imgHeight}`)}>
+                  <span className={cn('font-bold text-primary/30', placeholderText)}>{product.name[0]}</span>
                 </div>
               }
               <div className="p-3 flex flex-col flex-1">
