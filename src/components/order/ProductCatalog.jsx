@@ -131,7 +131,7 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
             <div key={product.id} className={cn("bg-card rounded-xl border overflow-hidden shadow-sm flex flex-col", recentProductIds.includes(product.id) ? 'border-primary/40' : 'border-border')}>
               <div className="w-full aspect-square overflow-hidden">
                 {product.image_url ?
-                <img src={product.image_url} alt={product.name} className="w-full h-full object-cover" /> :
+                <img src={product.image_url} alt={product.name} className="w-full h-full object-cover" style={{ imageRendering: 'crisp-edges' }} /> :
                 <div className="w-full h-full bg-gradient-to-br from-accent to-primary/10 flex items-center justify-center">
                   <span className={cn('font-bold text-primary/30', placeholderText)}>{product.name[0]}</span>
                 </div>
@@ -211,9 +211,9 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
            <div className="flex flex-col items-center w-full">
              {/* Product Image */}
              {selectedProduct.image_url ?
-             <img src={selectedProduct.image_url} alt={selectedProduct.name} className="w-full h-96 object-cover" style={selectedProduct.image_url?.endsWith('.webp') ? { imageRendering: 'crisp-edges', transform: 'scale(0.5)' } : {}} /> :
+             <img src={selectedProduct.image_url} alt={selectedProduct.name} className="w-full h-48 object-cover" style={{ imageRendering: 'crisp-edges' }} /> :
 
-             <div className="w-full h-96 bg-gradient-to-br from-accent to-primary/10 flex items-center justify-center">
+             <div className="w-full h-48 bg-gradient-to-br from-accent to-primary/10 flex items-center justify-center">
                  <span className="text-6xl font-bold text-primary/30">{selectedProduct.name[0]}</span>
                </div>
             }

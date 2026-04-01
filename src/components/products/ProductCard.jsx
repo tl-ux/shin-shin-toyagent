@@ -17,7 +17,7 @@ export default function ProductCard({ p, onClick }) {
     >
       {allImages.length > 0 ? (
         <div className="relative w-full">
-          <img src={allImages[imgIndex]} alt={p.name} className="w-full object-contain h-48" />
+          <img src={allImages[imgIndex]} alt={p.name} className="w-full object-contain h-24" style={{ imageRendering: 'crisp-edges' }} />
           {allImages.length > 1 && (
             <div className="absolute bottom-2 left-0 right-0 flex justify-center gap-1.5">
               {allImages.map((_, i) => (
