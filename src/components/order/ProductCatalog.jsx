@@ -129,7 +129,7 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
           const placeholderText = cols === 1 ? 'text-6xl' : cols === 2 ? 'text-3xl' : 'text-2xl';
           return (
             <div key={product.id} className={cn("bg-card rounded-xl border overflow-hidden shadow-sm flex flex-col", recentProductIds.includes(product.id) ? 'border-primary/40' : 'border-border')}>
-              <div className="w-full aspect-square overflow-hidden">
+              <div className="w-full aspect-video overflow-hidden">
                 {product.image_url ?
                 <img src={product.image_url} alt={product.name} className="w-full h-full object-cover" /> :
                 <div className="w-full h-full bg-gradient-to-br from-accent to-primary/10 flex items-center justify-center">
