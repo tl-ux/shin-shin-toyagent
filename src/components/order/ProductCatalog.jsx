@@ -139,7 +139,7 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
               </div>
               <div className="p-3 flex flex-col flex-1">
                 <div>
-                  <div className="font-semibold text-base leading-tight text-center">{product.name}</div>
+                  <div className="font-semibold text-lg leading-tight text-center">{product.name}</div>
                   {product.sku && <div className="text-xs text-muted-foreground mt-0.5 text-center">מק"ט: {product.sku}</div>}
                   <div className="mt-1 flex items-center justify-between">
                     <span className="text-primary text-base font-bold">
