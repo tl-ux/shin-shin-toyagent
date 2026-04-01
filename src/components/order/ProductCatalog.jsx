@@ -104,16 +104,16 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
         </div>
 
         {cats.length > 1 &&
-        <div className="flex gap-4 overflow-x-auto pb-0 scrollbar-hide border-b border-border">
+        <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
             {cats.map((cat) =>
           <button
             key={cat}
             onClick={() => setCategory(cat)}
             className={cn(
-              'flex-shrink-0 px-0 py-3 text-base font-medium transition-colors border-b-2',
+              'flex-shrink-0 px-4 py-2 rounded-full text-base font-medium transition-colors border',
               category === cat ?
-              'border-primary text-primary' :
-              'border-transparent text-muted-foreground hover:text-foreground'
+              'bg-primary text-primary-foreground border-primary' :
+              'bg-white text-muted-foreground border-border hover:border-primary/50'
             )}>
                 {cat}
               </button>
