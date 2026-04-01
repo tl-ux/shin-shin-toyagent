@@ -310,7 +310,7 @@ export default function Products() {
             className="bg-card border border-border rounded-xl overflow-hidden hover:border-primary/40 hover:shadow-sm transition-all text-right"
           >
             {p.image_url ? (
-              <img src={p.image_url} alt={p.name} className="w-full h-24 object-cover" />
+              <img src={p.image_url} alt={p.name} className="w-full h-36 object-cover" />
             ) : (
               <div className="w-full h-24 bg-gradient-to-br from-accent to-primary/10 flex items-center justify-center">
                 <span className="text-3xl font-bold text-primary/30">{p.name[0]}</span>
