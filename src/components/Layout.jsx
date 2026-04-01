@@ -1,6 +1,7 @@
 import { Link, useLocation, Outlet } from 'react-router-dom';
-import { Baby, BookOpen, Users, BarChart3, Settings, CreditCard, LayoutDashboard, UserCircle, ShoppingCart, HelpCircle, Menu, X, ClipboardList, PenLine, TrendingUp } from 'lucide-react';
+import { Baby, BookOpen, Users, BarChart3, Settings, CreditCard, LayoutDashboard, UserCircle, ShoppingCart, HelpCircle, Menu, X, ClipboardList, PenLine, TrendingUp, LogOut } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { base44 } from '@/api/base44Client';
 import { cn } from '@/lib/utils';
 import GlobalSearch from '@/components/GlobalSearch';
 
@@ -75,6 +76,17 @@ export default function Layout() {
             </Link>
           ))}
         </nav>
+
+        {/* Logout */}
+        <div className="px-2 pb-4">
+          <button
+            onClick={() => base44.auth.logout()}
+            className="flex items-center gap-3 px-3 py-3 rounded-xl text-lg font-medium transition-colors w-full text-white/75 hover:bg-white/10 hover:text-white"
+          >
+            <LogOut className="w-5 h-5 flex-shrink-0" />
+            התנתק
+          </button>
+        </div>
       </aside>
 
       {/* Main area */}
