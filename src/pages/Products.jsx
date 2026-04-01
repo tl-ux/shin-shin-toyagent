@@ -404,9 +404,14 @@ export default function Products() {
                       size="icon"
                       variant="ghost"
                       className="h-6 w-6 text-destructive hover:text-destructive"
-                      onClick={() => {
-                        // מחק קטגוריה
+                      onClick={async () => {
+                        // מחק קטגוריה - עדכן את כל המוצרים עם הקטגוריה הזו
+                        const productsToUpdate = products.filter(p => p.category === cat);
+                        for (const p of productsToUpdate) {
+                          await base44.entities.Product.update(p.id, { ...p, category: '' });
+                        }
                         setEditingCat(null);
+                        load();
                       }}
                     >
                       <Trash2 className="w-3 h-3" />
