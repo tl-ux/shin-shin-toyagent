@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { Search, ShoppingCart, Plus, Minus, ArrowUpDown, Clock } from 'lucide-react';
+import { Search, ShoppingCart, Plus, Minus, ArrowUpDown } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -89,19 +89,6 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
           </div>
         </div>
 
-        {/* Recently ordered by this customer */}
-        {recentProductIds.length > 0 && (
-          <button
-            onClick={() => setSortKey(sortKey === 'popular' ? 'default' : 'popular')}
-            className={cn('flex items-center gap-2 px-3 py-1.5 rounded-lg border text-sm font-medium transition-colors w-full',
-              sortKey === 'popular' ? 'bg-primary/10 border-primary text-primary' : 'border-border text-muted-foreground hover:text-foreground'
-            )}
-          >
-            <Clock className="w-4 h-4 flex-shrink-0" />
-            מוצרים אחרונים שהוזמנו על ידי לקוח זה ({recentProductIds.length})
-          </button>
-        )}
-
         {cats.length > 1 &&
         <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
             {cats.map((cat) =>
@@ -137,11 +124,6 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
               <div className="p-3 flex flex-col flex-1">
                 <div>
                   <div className="font-semibold text-base leading-tight text-center">{product.name}</div>
-                  {recentProductIds.includes(product.id) && (
-                    <div className="text-center mt-0.5">
-                      <span className="text-xs bg-primary/10 text-primary rounded-full px-2 py-0.5 font-medium">⚡ הוזמן לאחרונה</span>
-                    </div>
-                  )}
                   {product.sku && <div className="text-xs text-muted-foreground mt-0.5 text-center">מק"ט: {product.sku}</div>}
                   <div className="mt-1 flex items-center justify-between">
                     <span className="text-primary text-base font-bold">
