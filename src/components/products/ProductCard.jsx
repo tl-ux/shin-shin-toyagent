@@ -11,9 +11,9 @@ export default function ProductCard({ p, onClick }) {
   };
 
   return (
-    <button
+    <div
       onClick={onClick}
-      className="bg-card border border-border rounded-xl overflow-hidden hover:border-primary/40 hover:shadow-sm transition-all text-right"
+      className="bg-card border border-border rounded-xl overflow-hidden hover:border-primary/40 hover:shadow-sm transition-all text-right cursor-pointer"
     >
       {allImages.length > 0 ? (
         <div className="relative w-full h-48">
@@ -21,11 +21,11 @@ export default function ProductCard({ p, onClick }) {
           {allImages.length > 1 && (
             <div className="absolute bottom-2 left-0 right-0 flex justify-center gap-1.5">
               {allImages.map((_, i) => (
-                <button
+                <div
                   key={i}
                   onClick={(e) => handleDotClick(e, i)}
                   className={cn(
-                    'w-2 h-2 rounded-full transition-colors',
+                    'w-2 h-2 rounded-full transition-colors cursor-pointer',
                     i === imgIndex ? 'bg-white' : 'bg-white/50'
                   )}
                 />
@@ -55,6 +55,6 @@ export default function ProductCard({ p, onClick }) {
           )}
         </div>
       </div>
-    </button>
+    </div>
   );
 }
