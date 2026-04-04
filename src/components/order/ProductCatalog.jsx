@@ -250,7 +250,7 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
              <img
                src={selectedProduct.image_url}
                alt={selectedProduct.name}
-               className="w-full h-80 object-cover cursor-zoom-in"
+               className="w-full h-80 object-contain cursor-zoom-in"
                style={{ imageRendering: 'crisp-edges' }}
                onClick={() => { setZoomedProduct(selectedProduct); setZoomedIndex(0); }}
              /> :
