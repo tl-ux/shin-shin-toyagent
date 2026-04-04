@@ -5,12 +5,17 @@ import { cn } from '@/lib/utils';
 
 export default function CustomerSelect({ customers, selected, onSelect }) {
   const [search, setSearch] = useState('');
+  const [cityFilter, setCityFilter] = useState('הכל');
 
-  const filtered = customers.filter(c =>
-    c.name.toLowerCase().includes(search.toLowerCase()) ||
-    (c.city || '').toLowerCase().includes(search.toLowerCase()) ||
-    (c.contact_name || '').toLowerCase().includes(search.toLowerCase())
-  );
+  const cities = ['הכל', ...new Set(customers.map(c => c.city).filter(Boolean))];
+
+  const filtered = customers.filter(c => {
+    const matchSearch = c.name.toLowerCase().includes(search.toLowerCase()) ||
+      (c.city || '').toLowerCase().includes(search.toLowerCase()) ||
+      (c.contact_name || '').toLowerCase().includes(search.toLowerCase());
+    const matchCity = cityFilter === 'הכל' || c.city === cityFilter;
+    return matchSearch && matchCity;
+  });
 
   return (
     <div className="p-4 space-y-4">
@@ -27,6 +32,23 @@ export default function CustomerSelect({ customers, selected, onSelect }) {
           className="pr-9"
         />
       </div>
+
+      {cities.length > 1 && (
+        <div className="flex gap-2 overflow-x-auto pb-1">
+          {cities.map(city => (
+            <button
+              key={city}
+              onClick={() => setCityFilter(city)}
+              className={cn(
+                'flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-colors border',
+                cityFilter === city ? 'bg-primary text-white border-primary' : 'bg-white border-border text-muted-foreground'
+              )}
+            >
+              {city}
+            </button>
+          ))}
+        </div>
+      )}
 
       <div className="space-y-2">
         {filtered.length === 0 && (
