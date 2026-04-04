@@ -26,6 +26,7 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [inputQty, setInputQty] = useState('');
   const [cols, setCols] = useState(2);
+  const [zoomedImage, setZoomedImage] = useState(null);
 
   const filtered = useMemo(() => {
     let list = products.filter((p) => {
@@ -131,7 +132,13 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
             <div key={product.id} className={cn("bg-card rounded-xl border overflow-hidden shadow-sm flex flex-col", recentProductIds.includes(product.id) ? 'border-primary/40' : 'border-border')}>
               <div className="w-full aspect-square overflow-hidden">
                 {product.image_url ?
-                <img src={product.image_url} alt={product.name} className="w-full h-full object-cover" style={{ imageRendering: 'crisp-edges' }} /> :
+                <img
+                  src={product.image_url}
+                  alt={product.name}
+                  className="w-full h-full object-cover cursor-zoom-in"
+                  style={{ imageRendering: 'crisp-edges' }}
+                  onClick={(e) => { e.stopPropagation(); setZoomedImage(product.image_url); }}
+                /> :
                 <div className="w-full h-full bg-gradient-to-br from-accent to-primary/10 flex items-center justify-center">
                   <span className={cn('font-bold text-primary/30', placeholderText)}>{product.name[0]}</span>
                 </div>
@@ -203,6 +210,16 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
           </Button>
         </div>
       }
+
+      {/* Zoomed image overlay */}
+      {zoomedImage && (
+        <div
+          className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4"
+          onClick={() => setZoomedImage(null)}
+        >
+          <img src={zoomedImage} alt="" className="max-w-full max-h-full object-contain rounded-lg" style={{ imageRendering: 'crisp-edges' }} />
+        </div>
+      )}
 
       {/* Quantity input dialog */}
       <Dialog open={!!selectedProduct} onOpenChange={(v) => {if (!v) setSelectedProduct(null);}}>
