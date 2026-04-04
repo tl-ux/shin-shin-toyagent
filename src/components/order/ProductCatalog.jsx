@@ -247,8 +247,13 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
            <div className="flex flex-col items-center w-full">
              {/* Product Image */}
              {selectedProduct.image_url ?
-             <img src={selectedProduct.image_url} alt={selectedProduct.name} className="w-full h-48 object-cover" style={{ imageRendering: 'crisp-edges' }} /> :
-
+             <img
+               src={selectedProduct.image_url}
+               alt={selectedProduct.name}
+               className="w-full h-48 object-cover cursor-zoom-in"
+               style={{ imageRendering: 'crisp-edges' }}
+               onClick={() => { setZoomedProduct(selectedProduct); setZoomedIndex(0); }}
+             /> :
              <div className="w-full h-48 bg-gradient-to-br from-accent to-primary/10 flex items-center justify-center">
                  <span className="text-6xl font-bold text-primary/30">{selectedProduct.name[0]}</span>
                </div>
