@@ -11,12 +11,20 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { cn } from '@/lib/utils';
 import ProductCard from '@/components/products/ProductCard';
 
+const PRESET_CATEGORIES = ['MIDEER', 'TIGER TRIBE', 'MUDPUPPY', 'Make Believe Idea', 'SLUBAN', 'Shin Shin', 'BOX CANDIY', 'KAICHI'];
+
 function ProductForm({ product, onSave, onClose, priceGroups }) {
   const [form, setForm] = useState(product || {
     name: '', sku: '', category: '', product_type: 'single', price: '', unit: "יח'", stock: '', description: '', image_url: '', image_urls: [], is_active: true, group_prices: []
   });
   const [saving, setSaving] = useState(false);
   const [uploadingImg, setUploadingImg] = useState(false);
+  const [customCategory, setCustomCategory] = useState(
+    product?.category && !PRESET_CATEGORIES.includes(product.category) ? product.category : ''
+  );
+  const [showCustom, setShowCustom] = useState(
+    product?.category && !PRESET_CATEGORIES.includes(product.category) && product.category !== ''
+  );
   const imgInputRef = useRef();
 
   const setGroupPrice = (groupId, groupName, price) => {
@@ -96,7 +104,41 @@ function ProductForm({ product, onSave, onClose, priceGroups }) {
           </div>
           <div>
             <Label>קטגוריה</Label>
-            <Input value={form.category} onChange={(e) => set('category', e.target.value)} placeholder="קטגוריה" className="mt-1" />
+            <Select
+              value={showCustom ? '__custom__' : (form.category || '__none__')}
+              onValueChange={(v) => {
+                if (v === '__custom__') {
+                  setShowCustom(true);
+                  set('category', customCategory);
+                } else if (v === '__none__') {
+                  setShowCustom(false);
+                  set('category', '');
+                } else {
+                  setShowCustom(false);
+                  set('category', v);
+                }
+              }}
+            >
+              <SelectTrigger className="mt-1" dir="rtl">
+                <SelectValue placeholder="בחר קטגוריה" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="__none__">ללא קטגוריה</SelectItem>
+                {PRESET_CATEGORIES.map(cat => (
+                  <SelectItem key={cat} value={cat}>{cat}</SelectItem>
+                ))}
+                <SelectItem value="__custom__">+ קטגוריה חדשה...</SelectItem>
+              </SelectContent>
+            </Select>
+            {showCustom && (
+              <Input
+                value={customCategory}
+                onChange={(e) => { setCustomCategory(e.target.value); set('category', e.target.value); }}
+                placeholder="הקלד קטגוריה חדשה"
+                className="mt-1"
+                autoFocus
+              />
+            )}
           </div>
         </div>
         <div>
