@@ -97,12 +97,7 @@ function ProductForm({ product, onSave, onClose, priceGroups }) {
           <Label>מחיר *</Label>
           <Input value={form.price} onChange={(e) => set('price', e.target.value)} type="number" placeholder="0.00" className="mt-1" dir="ltr" />
         </div>
-        <div className="grid grid-cols-2 gap-3">
-          <div>
-            <Label>מק"ט</Label>
-            <Input value={form.sku} onChange={(e) => set('sku', e.target.value)} placeholder="SKU-001" className="mt-1" dir="ltr" />
-          </div>
-          <div>
+        <div>
             <Label>קטגוריה</Label>
             <Select
               value={showCustom ? '__custom__' : (form.category || '__none__')}
@@ -139,7 +134,6 @@ function ProductForm({ product, onSave, onClose, priceGroups }) {
                 autoFocus
               />
             )}
-          </div>
         </div>
         <div>
           <Label>סוג פריט</Label>
