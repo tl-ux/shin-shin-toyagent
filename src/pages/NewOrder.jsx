@@ -15,7 +15,6 @@ export default function NewOrder() {
   const [loading, setLoading] = useState(true);
   const [step, setStep] = useState('customer'); // 'customer' | 'catalog' | 'cart'
   const [recentProductIds, setRecentProductIds] = useState([]);
-  const [priceGroups, setPriceGroups] = useState([]);
   const [vatRate, setVatRate] = useState(0.18);
   const navigate = useNavigate();
 
@@ -23,12 +22,10 @@ export default function NewOrder() {
     Promise.all([
       base44.entities.Product.filter({ is_active: true }),
       base44.entities.Customer.filter({ is_active: true }),
-      base44.entities.PriceGroup.list(),
       base44.entities.AppSettings.list(),
-    ]).then(([prods, custs, pgs, settings]) => {
+    ]).then(([prods, custs, settings]) => {
       setProducts(prods);
       setCustomers(custs);
-      setPriceGroups(pgs);
       if (settings.length > 0 && settings[0].vat_rate) {
         setVatRate(settings[0].vat_rate);
       }
@@ -48,21 +45,12 @@ export default function NewOrder() {
   const getProductPrice = (product) => {
     let basePrice = product.price;
 
-    if (selectedCustomer?.price_group_id) {
-      // בדוק אם יש מחיר ספציפי לפריט בקבוצת המחיר
-      const gp = product.group_prices?.find(g => g.price_group_id === selectedCustomer.price_group_id);
-      if (gp) {
-        basePrice = gp.price;
-      } else {
-        // בדוק אם זו קבוצת סיטונאים - חשב 50% ממחיר הצרכן לפני מע"מ
-        const priceGroup = priceGroups.find(pg => pg.id === selectedCustomer.price_group_id);
-        if (priceGroup?.is_wholesale) {
-          basePrice = Math.round((product.price / (1 + vatRate)) * 0.5 * 100) / 100;
-        }
-      }
+    // סיטונאי — 50% ממחיר הצרכן לפני מע"מ
+    if (selectedCustomer?.is_wholesale) {
+      basePrice = Math.round((product.price / (1 + vatRate)) * 0.5 * 100) / 100;
     }
 
-    // הוסף עמלת רשת אם קיימת
+    // עמלת רשת
     if (selectedCustomer?.network_commission_percent) {
       basePrice = Math.round(basePrice * (1 + selectedCustomer.network_commission_percent / 100) * 100) / 100;
     }

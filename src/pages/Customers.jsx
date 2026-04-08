@@ -7,11 +7,10 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { cn } from '@/lib/utils';
 
-function CustomerForm({ customer, onSave, onClose, priceGroups }) {
-  const [form, setForm] = useState(customer || { customer_number: '', name: '', contact_name: '', phone: '', address: '', city: '', notes: '', price_group_id: '', network_commission_percent: '', is_active: true });
+function CustomerForm({ customer, onSave, onClose }) {
+  const [form, setForm] = useState(customer || { customer_number: '', name: '', contact_name: '', phone: '', address: '', city: '', notes: '', is_wholesale: false, network_commission_percent: '', is_active: true });
   const [saving, setSaving] = useState(false);
 
   const set = (k, v) => setForm(prev => ({ ...prev, [k]: v }));
@@ -61,32 +60,36 @@ function CustomerForm({ customer, onSave, onClose, priceGroups }) {
             <Input value={form.address} onChange={e => set('address', e.target.value)} placeholder="רחוב + מספר" className="mt-1" />
           </div>
         </div>
-        <div>
-          <Label>קבוצת מחיר</Label>
-          <Select value={form.price_group_id || ''} onValueChange={v => set('price_group_id', v === 'none' ? '' : v)}>
-            <SelectTrigger className="mt-1 text-right" dir="rtl">
-              <SelectValue placeholder="ללא קבוצה" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="none">ללא קבוצה</SelectItem>
-              {priceGroups.map(g => (
-                <SelectItem key={g.id} value={g.id}>{g.name}</SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+
+        {/* סיטונאי / עמלת רשת */}
+        <div className="border border-border rounded-xl p-3 space-y-3">
+          <div className="flex items-center gap-3">
+            <input
+              type="checkbox"
+              id="is_wholesale"
+              checked={!!form.is_wholesale}
+              onChange={e => set('is_wholesale', e.target.checked)}
+              className="w-4 h-4 accent-primary"
+            />
+            <div>
+              <Label htmlFor="is_wholesale" className="cursor-pointer font-medium">לקוח סיטונאי</Label>
+              <p className="text-xs text-muted-foreground mt-0.5">המחיר יחושב כ-50% ממחיר הצרכן לפני מע"מ</p>
+            </div>
+          </div>
+          <div>
+            <Label>עמלת רשת (%)</Label>
+            <Input
+              value={form.network_commission_percent ?? ''}
+              onChange={e => set('network_commission_percent', e.target.value !== '' ? parseFloat(e.target.value) : '')}
+              type="number"
+              placeholder="למשל: 10 עבור 10%"
+              className="mt-1 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+              dir="ltr"
+            />
+            <p className="text-xs text-muted-foreground mt-1">יתווסף מעל למחיר הבסיס. השאר ריק אם אין עמלת רשת.</p>
+          </div>
         </div>
-        <div>
-          <Label>עמלת רשת (%)</Label>
-          <Input
-            value={form.network_commission_percent ?? ''}
-            onChange={e => set('network_commission_percent', e.target.value !== '' ? parseFloat(e.target.value) : '')}
-            type="number"
-            placeholder="למשל: 10 עבור 10%"
-            className="mt-1 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-            dir="ltr"
-          />
-          <p className="text-xs text-muted-foreground mt-1">יתווסף מעל למחיר הסיטונאי נטו. השאר ריק אם אין עמלת רשת.</p>
-        </div>
+
         <div>
           <Label>הערות</Label>
           <Textarea value={form.notes} onChange={e => set('notes', e.target.value)} rows={2} className="mt-1 resize-none" />
@@ -94,7 +97,7 @@ function CustomerForm({ customer, onSave, onClose, priceGroups }) {
         {customer?.id && (
           <div>
             <div className="font-medium text-sm mb-2 border-t border-border pt-3">סיכום לקוח</div>
-            <CustomerCard customer={customer} priceGroups={priceGroups} />
+            <CustomerCard customer={customer} />
           </div>
         )}
         <div className="flex gap-3 pt-2">
@@ -110,17 +113,13 @@ function CustomerForm({ customer, onSave, onClose, priceGroups }) {
 
 export default function Customers() {
   const [customers, setCustomers] = useState([]);
-  const [priceGroups, setPriceGroups] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [cityFilter, setCityFilter] = useState('הכל');
   const [editing, setEditing] = useState(null);
   const [showForm, setShowForm] = useState(false);
 
-  const load = () => Promise.all([
-    base44.entities.Customer.list('-created_date'),
-    base44.entities.PriceGroup.list(),
-  ]).then(([d, pg]) => { setCustomers(d); setPriceGroups(pg); setLoading(false); });
+  const load = () => base44.entities.Customer.list('-created_date').then(d => { setCustomers(d); setLoading(false); });
   useEffect(() => { load(); }, []);
 
   const cities = ['הכל', ...new Set(customers.map(c => c.city).filter(Boolean))];
@@ -207,10 +206,11 @@ export default function Customers() {
               </div>
               <div className="flex flex-col items-end gap-1">
                 <div className={`w-2 h-2 rounded-full ${c.is_active ? 'bg-success' : 'bg-muted-foreground'}`} />
-                {c.price_group_id && (
-                  <span className="text-xs bg-accent text-accent-foreground px-1.5 py-0.5 rounded font-medium">
-                    {priceGroups.find(g => g.id === c.price_group_id)?.name || ''}
-                  </span>
+                {c.is_wholesale && (
+                  <span className="text-xs bg-accent text-accent-foreground px-1.5 py-0.5 rounded font-medium">סיטונאי</span>
+                )}
+                {c.network_commission_percent > 0 && (
+                  <span className="text-xs bg-primary/10 text-primary px-1.5 py-0.5 rounded font-medium">רשת {c.network_commission_percent}%</span>
                 )}
               </div>
             </div>
@@ -222,7 +222,6 @@ export default function Customers() {
         {showForm && (
           <CustomerForm
             customer={editing}
-            priceGroups={priceGroups}
             onSave={() => { setShowForm(false); load(); }}
             onClose={() => setShowForm(false)}
           />

@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { base44 } from '@/api/base44Client';
-import { Search, Plus, Package, Tag, Upload, X, ImagePlus, Edit2, Trash2 } from 'lucide-react';
+import { Search, Plus, Package, Upload, X, ImagePlus, Edit2, Trash2 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -13,9 +13,9 @@ import ProductCard from '@/components/products/ProductCard';
 
 const PRESET_CATEGORIES = ['MIDEER', 'TIGER TRIBE', 'MUDPUPPY', 'Make Believe Idea', 'SLUBAN', 'Shin Shin', 'BOX CANDIY', 'KAICHI'];
 
-function ProductForm({ product, onSave, onClose, priceGroups }) {
+function ProductForm({ product, onSave, onClose }) {
   const [form, setForm] = useState(product || {
-    name: '', sku: '', category: '', product_type: 'single', price: '', unit: "יח'", stock: '', description: '', image_url: '', is_active: true, group_prices: []
+    name: '', sku: '', category: '', product_type: 'single', price: '', unit: "יח'", stock: '', description: '', image_url: '', is_active: true
   });
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
@@ -28,18 +28,6 @@ function ProductForm({ product, onSave, onClose, priceGroups }) {
     product?.category && !PRESET_CATEGORIES.includes(product.category) && product.category !== ''
   );
   const imgInputRef = useRef();
-
-  const setGroupPrice = (groupId, groupName, price) => {
-    setForm((prev) => {
-      const existing = (prev.group_prices || []).filter((gp) => gp.price_group_id !== groupId);
-      if (price === '') return { ...prev, group_prices: existing };
-      return { ...prev, group_prices: [...existing, { price_group_id: groupId, price_group_name: groupName, price: parseFloat(price) }] };
-    });
-  };
-
-  const getGroupPrice = (groupId) => {
-    return form.group_prices?.find((gp) => gp.price_group_id === groupId)?.price ?? '';
-  };
 
   const set = (k, v) => setForm((prev) => ({ ...prev, [k]: v }));
 
@@ -62,7 +50,7 @@ function ProductForm({ product, onSave, onClose, priceGroups }) {
   const save = async () => {
     if (!form.name || !form.price) return;
     setSaving(true);
-    const data = { ...form, price: parseFloat(form.price), stock: form.stock !== '' ? parseInt(form.stock) : null, group_prices: form.group_prices || [] };
+    const data = { ...form, price: parseFloat(form.price), stock: form.stock !== '' ? parseInt(form.stock) : null };
     if (product?.id) {
       await base44.entities.Product.update(product.id, data);
     } else {
@@ -136,26 +124,7 @@ function ProductForm({ product, onSave, onClose, priceGroups }) {
           </Select>
         </div>
 
-        {priceGroups.length > 0 &&
-        <div>
-            <Label className="flex items-center gap-1"><Tag className="w-3 h-3" /> מחירים לפי קבוצה</Label>
-            <div className="space-y-2 mt-1">
-              {priceGroups.map((g) =>
-            <div key={g.id} className="flex items-center gap-2">
-                  <span className="text-sm text-muted-foreground w-24 flex-shrink-0">{g.name}</span>
-                  <Input
-                type="number"
-                placeholder={`מחיר בסיס: ${form.price || '0'}`}
-                value={getGroupPrice(g.id)}
-                onChange={(e) => setGroupPrice(g.id, g.name, e.target.value)}
-                className="flex-1"
-                dir="ltr" />
-              
-                </div>
-            )}
-            </div>
-          </div>
-        }
+
 
         <div>
           <Label>תמונה</Label>
@@ -229,7 +198,6 @@ function ProductForm({ product, onSave, onClose, priceGroups }) {
 
 export default function Products() {
   const [products, setProducts] = useState([]);
-  const [priceGroups, setPriceGroups] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('הכל');
@@ -281,10 +249,7 @@ export default function Products() {
     load();
   };
 
-  const load = () => Promise.all([
-  base44.entities.Product.list('-created_date'),
-  base44.entities.PriceGroup.list()]
-  ).then(([d, pg]) => {setProducts(d);setPriceGroups(pg);setLoading(false);});
+  const load = () => base44.entities.Product.list('-created_date').then(d => { setProducts(d); setLoading(false); });
   useEffect(() => {load();}, []);
 
   const cats = ['הכל', ...new Set(products.map((p) => p.category).filter(Boolean))];
@@ -363,7 +328,6 @@ export default function Products() {
         {showForm &&
         <ProductForm
           product={editing}
-          priceGroups={priceGroups}
           onSave={() => {setShowForm(false);load();}}
           onClose={() => setShowForm(false)} />
 

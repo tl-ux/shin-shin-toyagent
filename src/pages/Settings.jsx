@@ -1,85 +1,20 @@
 import { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
-import { Plus, Tag, ChevronRight, Mail, Phone, Save } from 'lucide-react';
+import { Mail, Phone, Save } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/components/ui/use-toast';
 
-function PriceGroupForm({ group, onSave, onClose }) {
-  const [form, setForm] = useState(group || { name: '', description: '', discount_percent: '', is_wholesale: false });
-  const [saving, setSaving] = useState(false);
-
-  const set = (k, v) => setForm(prev => ({ ...prev, [k]: v }));
-
-  const save = async () => {
-    if (!form.name) return;
-    setSaving(true);
-    const data = { ...form, discount_percent: form.discount_percent !== '' ? parseFloat(form.discount_percent) : null };
-    if (group?.id) {
-      await base44.entities.PriceGroup.update(group.id, data);
-    } else {
-      await base44.entities.PriceGroup.create(data);
-    }
-    onSave();
-  };
-
-  return (
-    <DialogContent className="max-w-sm">
-      <DialogHeader>
-        <DialogTitle>{group ? 'עריכת קבוצת מחיר' : 'קבוצת מחיר חדשה'}</DialogTitle>
-      </DialogHeader>
-      <div className="space-y-3 pt-2">
-        <div>
-          <Label>שם הקבוצה *</Label>
-          <Input value={form.name} onChange={e => set('name', e.target.value)} placeholder="VIP, סיטונאי, רגיל..." className="mt-1" />
-        </div>
-        <div>
-          <Label>תיאור</Label>
-          <Textarea value={form.description} onChange={e => set('description', e.target.value)} rows={2} className="mt-1 resize-none" />
-        </div>
-        <div className="flex items-center gap-3 bg-muted/50 rounded-lg p-3">
-          <input
-            type="checkbox"
-            id="is_wholesale"
-            checked={!!form.is_wholesale}
-            onChange={e => set('is_wholesale', e.target.checked)}
-            className="w-4 h-4 accent-primary"
-          />
-          <div>
-            <Label htmlFor="is_wholesale" className="cursor-pointer font-medium">קבוצת סיטונאים</Label>
-            <p className="text-xs text-muted-foreground mt-0.5">המחיר יחושב אוטומטית: 50% ממחיר הצרכן לפני מע"מ</p>
-          </div>
-        </div>
-        <div className="flex gap-3 pt-2">
-          <Button variant="outline" onClick={onClose} className="flex-1">ביטול</Button>
-          <Button onClick={save} disabled={saving || !form.name} className="flex-1">
-            {saving ? 'שומר...' : 'שמור'}
-          </Button>
-        </div>
-      </div>
-    </DialogContent>
-  );
-}
-
 export default function Settings() {
-  const [groups, setGroups] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [editing, setEditing] = useState(null);
-  const [showForm, setShowForm] = useState(false);
   const [appSettings, setAppSettings] = useState(null);
   const [settingsForm, setSettingsForm] = useState({ office_email: '', office_whatsapp: '', vat_rate: 0.18 });
   const [savingSettings, setSavingSettings] = useState(false);
   const { toast } = useToast();
 
   const load = async () => {
-    const [grps, settings] = await Promise.all([
-      base44.entities.PriceGroup.list(),
-      base44.entities.AppSettings.list(),
-    ]);
-    setGroups(grps);
+    const settings = await base44.entities.AppSettings.list();
     if (settings.length > 0) {
       setAppSettings(settings[0]);
       setSettingsForm({
@@ -164,57 +99,7 @@ export default function Settings() {
         </Button>
       </div>
 
-      {/* Price Groups Section */}
-      <div className="space-y-3">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Tag className="w-5 h-5 text-primary" />
-            <h2 className="text-lg font-semibold">קבוצות מחיר</h2>
-          </div>
-          <Button onClick={() => { setEditing(null); setShowForm(true); }} className="gap-1">
-            <Plus className="w-4 h-4" />
-            חדש
-          </Button>
-        </div>
 
-        <div className="space-y-2">
-          {groups.length === 0 && (
-            <div className="text-center py-8 text-muted-foreground bg-card rounded-xl border border-border">
-              <p>אין קבוצות מחיר</p>
-            </div>
-          )}
-          {groups.map(g => (
-            <button
-              key={g.id}
-              onClick={() => { setEditing(g); setShowForm(true); }}
-              className="w-full text-right bg-card border border-border rounded-xl p-4 hover:border-primary/40 hover:shadow-sm transition-all flex items-center justify-between"
-            >
-              <div>
-                <div className="font-semibold text-foreground">{g.name}</div>
-                {g.description && <div className="text-sm text-muted-foreground mt-0.5">{g.description}</div>}
-              </div>
-              <div className="flex items-center gap-2">
-                {g.discount_percent > 0 && (
-                  <span className="text-sm font-bold text-primary bg-accent px-2 py-1 rounded-lg">
-                    {g.discount_percent}%
-                  </span>
-                )}
-                <ChevronRight className="w-4 h-4 text-muted-foreground" />
-              </div>
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <Dialog open={showForm} onOpenChange={v => { if (!v) setShowForm(false); }}>
-        {showForm && (
-          <PriceGroupForm
-            group={editing}
-            onSave={() => { setShowForm(false); load(); }}
-            onClose={() => setShowForm(false)}
-          />
-        )}
-      </Dialog>
     </div>
   );
 }
