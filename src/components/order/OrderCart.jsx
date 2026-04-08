@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { Minus, Plus, Trash2, CheckCircle, ArrowRight, BookmarkCheck, BookOpen, MessageCircle } from 'lucide-react';
+import { Minus, Plus, Trash2, CheckCircle, ArrowRight, BookmarkCheck, BookOpen, MessageCircle, FileDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Dialog } from '@/components/ui/dialog';
 import { SaveTemplateDialog, LoadTemplateDialog } from '@/components/order/OrderTemplates';
+import * as XLSX from 'xlsx';
 
 export default function OrderCart({ cart, customer, totalAmount, onUpdateQty, onRemove, onSubmit, onBackToCatalog, onLoadTemplate }) {
   const [notes, setNotes] = useState('');
@@ -33,6 +34,23 @@ export default function OrderCart({ cart, customer, totalAmount, onUpdateQty, on
     const phone = customer.phone.replace(/\D/g, '');
     const fullPhone = phone.startsWith('0') ? `972${phone.slice(1)}` : phone;
     window.open(`https://wa.me/${fullPhone}?text=${encodeURIComponent(lines.join('\n'))}`, '_blank');
+  };
+
+  const downloadExcel = () => {
+    const data = [
+      ['הזמנה', customer?.name || 'ללא לקוח'],
+      ['תאריך', new Date().toLocaleDateString('he-IL')],
+      ['הערות', notes || ''],
+      [],
+      ['שם פריט', 'מק"ט', 'כמות', 'מחיר ליחידה', 'סך הכל'],
+      ...cart.map(i => [i.product_name, i.sku || '', i.quantity, i.unit_price, i.total]),
+      [],
+      ['סה"כ', '', '', '', totalAmount],
+    ];
+    const ws = XLSX.utils.aoa_to_sheet(data);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'הזמנה');
+    XLSX.writeFile(wb, `order-${customer?.name || 'order'}.xlsx`);
   };
 
   if (done) return (
@@ -127,6 +145,10 @@ export default function OrderCart({ cart, customer, totalAmount, onUpdateQty, on
         <Button variant="outline" onClick={onBackToCatalog} className="flex-1 gap-1">
           <ArrowRight className="w-4 h-4" />
           חזרה לקטלוג
+        </Button>
+        <Button variant="outline" onClick={downloadExcel} disabled={cart.length === 0} className="flex-1 gap-1">
+          <FileDown className="w-4 h-4" />
+          Excel
         </Button>
         <Button onClick={handleSubmit} disabled={submitting || cart.length === 0} className="flex-1">
           {submitting ? 'שולח...' : 'אשר הזמנה'}
