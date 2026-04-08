@@ -177,10 +177,7 @@ function ProductForm({ product, onSave, onClose, priceGroups }) {
             </div>
           </div>
         }
-        <div>
-          <Label>תיאור</Label>
-          <Textarea value={form.description} onChange={(e) => set('description', e.target.value)} rows={2} className="mt-1 resize-none" />
-        </div>
+
         <div>
           <Label>תמונות</Label>
           <input ref={imgInputRef} type="file" accept="image/*" multiple className="hidden" onChange={handleImageUpload} />
