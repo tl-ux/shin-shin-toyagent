@@ -147,10 +147,7 @@ function ProductForm({ product, onSave, onClose, priceGroups }) {
             </SelectContent>
           </Select>
         </div>
-        <div>
-          <Label>כמות במלאי</Label>
-          <Input value={form.stock} onChange={(e) => set('stock', e.target.value)} type="number" placeholder="0" className="mt-1" dir="ltr" />
-        </div>
+
         {priceGroups.length > 0 &&
         <div>
             <Label className="flex items-center gap-1"><Tag className="w-3 h-3" /> מחירים לפי קבוצה</Label>
