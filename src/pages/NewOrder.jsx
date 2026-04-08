@@ -50,9 +50,10 @@ export default function NewOrder() {
       basePrice = Math.round(product.price * 0.5 * 100) / 100;
     }
 
-    // עמלת רשת
+    // עמלת רשת — מתווספת על המחיר הסיטונאי (50% ממחיר צרכן כולל מע"מ)
     if (selectedCustomer?.network_commission_percent) {
-      basePrice = Math.round(basePrice * (1 + selectedCustomer.network_commission_percent / 100) * 100) / 100;
+      const wholesaleBase = Math.round(product.price * 0.5 * 100) / 100;
+      basePrice = Math.round(wholesaleBase * (1 + selectedCustomer.network_commission_percent / 100) * 100) / 100;
     }
 
     return basePrice;
