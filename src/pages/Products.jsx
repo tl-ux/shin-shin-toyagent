@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { cn } from '@/lib/utils';
 import ProductCard from '@/components/products/ProductCard';
 
-function ProductForm({ product, categories, onSave, onClose }) {
+function ProductForm({ product, categories, allProducts, onSave, onClose }) {
   const [form, setForm] = useState(product || {
     name: '', sku: '', category: '', product_type: 'single', price: '', unit: "יח'", stock: '', description: '', image_url: '', is_active: true
   });
@@ -18,9 +18,16 @@ function ProductForm({ product, categories, onSave, onClose }) {
   const [deleting, setDeleting] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [uploadingImg, setUploadingImg] = useState(false);
+  const [duplicateWarning, setDuplicateWarning] = useState(false);
   const imgInputRef = useRef();
 
-  const set = (k, v) => setForm((prev) => ({ ...prev, [k]: v }));
+  const set = (k, v) => {
+    setForm((prev) => ({ ...prev, [k]: v }));
+    if (k === 'name') {
+      const exists = allProducts.some(p => p.name.trim().toLowerCase() === v.trim().toLowerCase() && p.id !== product?.id);
+      setDuplicateWarning(exists);
+    }
+  };
 
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
@@ -58,7 +65,8 @@ function ProductForm({ product, categories, onSave, onClose }) {
       <div className="space-y-3 pt-2">
         <div>
           <Label>שם הפריט *</Label>
-          <Input value={form.name} onChange={(e) => set('name', e.target.value)} placeholder="שם הפריט" className="mt-1" />
+          <Input value={form.name} onChange={(e) => set('name', e.target.value)} placeholder="שם הפריט" className={`mt-1 ${duplicateWarning ? 'border-destructive' : ''}`} />
+          {duplicateWarning && <p className="text-destructive text-xs mt-1">פריט עם שם זה כבר קיים בקטלוג</p>}
         </div>
         <div>
           <Label>מחיר *</Label>
@@ -127,7 +135,7 @@ function ProductForm({ product, categories, onSave, onClose }) {
           </div>
         </div>
         <div className="flex gap-3 pt-2">
-          <Button onClick={save} disabled={saving || !form.name || !form.price} className="flex-1">
+          <Button onClick={save} disabled={saving || !form.name || !form.price || duplicateWarning} className="flex-1">
             {saving ? 'שומר...' : 'שמור'}
           </Button>
           <Button variant="outline" onClick={onClose} className="flex-1">ביטול</Button>
@@ -405,6 +413,7 @@ export default function Products() {
           <ProductForm
             product={editing}
             categories={categories}
+            allProducts={products}
             onSave={() => { setShowForm(false); load(); }}
             onClose={() => setShowForm(false)}
           />
