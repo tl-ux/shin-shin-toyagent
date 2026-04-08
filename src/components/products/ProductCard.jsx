@@ -1,37 +1,14 @@
-import { useState } from 'react';
 import { cn } from '@/lib/utils';
 
 export default function ProductCard({ p, onClick }) {
-  const allImages = [p.image_url, ...(p.image_urls || [])].filter(Boolean);
-  const [imgIndex, setImgIndex] = useState(0);
-
-  const handleDotClick = (e, i) => {
-    e.stopPropagation();
-    setImgIndex(i);
-  };
-
   return (
     <div
       onClick={onClick}
       className="bg-card border border-border rounded-xl overflow-hidden hover:border-primary/40 hover:shadow-sm transition-all text-right cursor-pointer"
     >
-      {allImages.length > 0 ? (
+      {p.image_url ? (
         <div className="relative w-full">
-          <img src={allImages[imgIndex]} alt={p.name} className="w-full object-contain h-24" style={{ imageRendering: 'crisp-edges' }} />
-          {allImages.length > 1 && (
-            <div className="absolute bottom-2 left-0 right-0 flex justify-center gap-1.5">
-              {allImages.map((_, i) => (
-                <div
-                  key={i}
-                  onClick={(e) => handleDotClick(e, i)}
-                  className={cn(
-                    'w-2 h-2 rounded-full transition-colors cursor-pointer',
-                    i === imgIndex ? 'bg-white' : 'bg-white/50'
-                  )}
-                />
-              ))}
-            </div>
-          )}
+          <img src={p.image_url} alt={p.name} className="w-full object-contain h-24" style={{ imageRendering: 'crisp-edges' }} />
         </div>
       ) : (
         <div className="w-full h-32 bg-gradient-to-br from-accent to-primary/10 flex items-center justify-center">

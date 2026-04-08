@@ -27,7 +27,6 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
   const [inputQty, setInputQty] = useState('');
   const [cols, setCols] = useState(2);
   const [zoomedProduct, setZoomedProduct] = useState(null);
-  const [zoomedIndex, setZoomedIndex] = useState(0);
 
   const filtered = useMemo(() => {
     let list = products.filter((p) => {
@@ -138,7 +137,7 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
                   alt={product.name}
                   className="w-full h-full object-cover cursor-zoom-in"
                   style={{ imageRendering: 'crisp-edges' }}
-                  onClick={(e) => { e.stopPropagation(); setZoomedProduct(product); setZoomedIndex(0); }}
+                  onClick={(e) => { e.stopPropagation(); setZoomedProduct(product); }}
                 /> :
                 <div className="w-full h-full bg-gradient-to-br from-accent to-primary/10 flex items-center justify-center">
                   <span className={cn('font-bold text-primary/30', placeholderText)}>{product.name[0]}</span>
@@ -209,32 +208,11 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
       }
 
       {/* Zoomed image overlay */}
-      {zoomedProduct && (() => {
-        const allImgs = [zoomedProduct.image_url, ...(zoomedProduct.image_urls || [])].filter(Boolean);
-        return (
-          <div className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4" onClick={() => setZoomedProduct(null)}>
-            <img src={allImgs[zoomedIndex]} alt="" className="max-w-full max-h-[80vh] object-contain rounded-lg" style={{ imageRendering: 'crisp-edges' }} />
-            {allImgs.length > 1 && (
-              <>
-                <button
-                  className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/20 hover:bg-white/40 rounded-full flex items-center justify-center text-white text-xl"
-                  onClick={(e) => { e.stopPropagation(); setZoomedIndex((zoomedIndex - 1 + allImgs.length) % allImgs.length); }}
-                >‹</button>
-                <button
-                  className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/20 hover:bg-white/40 rounded-full flex items-center justify-center text-white text-xl"
-                  onClick={(e) => { e.stopPropagation(); setZoomedIndex((zoomedIndex + 1) % allImgs.length); }}
-                >›</button>
-                <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2">
-                  {allImgs.map((_, i) => (
-                    <button key={i} onClick={(e) => { e.stopPropagation(); setZoomedIndex(i); }}
-                      className={`w-2 h-2 rounded-full transition-colors ${i === zoomedIndex ? 'bg-white' : 'bg-white/40'}`} />
-                  ))}
-                </div>
-              </>
-            )}
-          </div>
-        );
-      })()}
+      {zoomedProduct && (
+        <div className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4" onClick={() => setZoomedProduct(null)}>
+          <img src={zoomedProduct.image_url} alt="" className="max-w-full max-h-[80vh] object-contain rounded-lg" style={{ imageRendering: 'crisp-edges' }} />
+        </div>
+      )}
 
       {/* Quantity input dialog */}
       <Dialog open={!!selectedProduct} onOpenChange={(v) => {if (!v) setSelectedProduct(null);}}>
@@ -248,7 +226,7 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
                alt={selectedProduct.name}
                className="w-full h-80 object-contain cursor-zoom-in"
                style={{ imageRendering: 'crisp-edges' }}
-               onClick={() => { setZoomedProduct(selectedProduct); setZoomedIndex(0); }}
+               onClick={() => { setZoomedProduct(selectedProduct); }}
              /> :
              <div className="w-full h-80 bg-gradient-to-br from-accent to-primary/10 flex items-center justify-center">
                  <span className="text-6xl font-bold text-primary/30">{selectedProduct.name[0]}</span>

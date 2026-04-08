@@ -15,7 +15,7 @@ const PRESET_CATEGORIES = ['MIDEER', 'TIGER TRIBE', 'MUDPUPPY', 'Make Believe Id
 
 function ProductForm({ product, onSave, onClose, priceGroups }) {
   const [form, setForm] = useState(product || {
-    name: '', sku: '', category: '', product_type: 'single', price: '', unit: "יח'", stock: '', description: '', image_url: '', image_urls: [], is_active: true, group_prices: []
+    name: '', sku: '', category: '', product_type: 'single', price: '', unit: "יח'", stock: '', description: '', image_url: '', is_active: true, group_prices: []
   });
   const [saving, setSaving] = useState(false);
   const [uploadingImg, setUploadingImg] = useState(false);
@@ -42,39 +42,19 @@ function ProductForm({ product, onSave, onClose, priceGroups }) {
   const set = (k, v) => setForm((prev) => ({ ...prev, [k]: v }));
 
   const handleImageUpload = async (e) => {
-    const files = Array.from(e.target.files);
-    if (!files.length) return;
+    const file = e.target.files[0];
+    if (!file) return;
     setUploadingImg(true);
-    for (const file of files) {
-      const { file_url } = await base44.integrations.Core.UploadFile({ file });
-      setForm((prev) => {
-        const allUrls = [prev.image_url, ...(prev.image_urls || [])].filter(Boolean);
-        if (allUrls.length === 0) {
-          return { ...prev, image_url: file_url };
-        }
-        return { ...prev, image_urls: [...(prev.image_urls || []), file_url] };
-      });
-    }
+    const { file_url } = await base44.integrations.Core.UploadFile({ file });
+    setForm((prev) => ({ ...prev, image_url: file_url }));
     setUploadingImg(false);
     e.target.value = '';
   };
 
-  const removeImage = (urlToRemove) => {
-    setForm((prev) => {
-      if (prev.image_url === urlToRemove) {
-        const remaining = prev.image_urls || [];
-        return { ...prev, image_url: remaining[0] || '', image_urls: remaining.slice(1) };
-      }
-      return { ...prev, image_urls: (prev.image_urls || []).filter((u) => u !== urlToRemove) };
-    });
-  };
-
-  const allImages = [form.image_url, ...(form.image_urls || [])].filter(Boolean);
-
   const save = async () => {
     if (!form.name || !form.price) return;
     setSaving(true);
-    const data = { ...form, price: parseFloat(form.price), stock: form.stock !== '' ? parseInt(form.stock) : null, group_prices: form.group_prices || [], image_urls: form.image_urls || [] };
+    const data = { ...form, price: parseFloat(form.price), stock: form.stock !== '' ? parseInt(form.stock) : null, group_prices: form.group_prices || [] };
     if (product?.id) {
       await base44.entities.Product.update(product.id, data);
     } else {
@@ -170,70 +150,23 @@ function ProductForm({ product, onSave, onClose, priceGroups }) {
         }
 
         <div>
-          <Label>תמונות</Label>
-          <input ref={imgInputRef} type="file" accept="image/*" multiple className="hidden" onChange={handleImageUpload} />
+          <Label>תמונה</Label>
+          <input ref={imgInputRef} type="file" accept="image/*" className="hidden" onChange={handleImageUpload} />
           <div className="mt-1 space-y-2">
-            <div className="flex gap-2">
-              <Input
-                type="url"
-                placeholder="כתובת תמונה (URL)"
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' && e.target.value.trim()) {
-                    const url = e.target.value.trim();
-                    setForm((prev) => {
-                      const allUrls = [prev.image_url, ...(prev.image_urls || [])].filter(Boolean);
-                      if (allUrls.length === 0) {
-                        return { ...prev, image_url: url };
-                      }
-                      return { ...prev, image_urls: [...(prev.image_urls || []), url] };
-                    });
-                    e.target.value = '';
-                  }
-                }}
-                className="text-sm"
-              />
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={() => {
-                  const input = event.target.previousSibling;
-                  if (input.value.trim()) {
-                    const url = input.value.trim();
-                    setForm((prev) => {
-                      const allUrls = [prev.image_url, ...(prev.image_urls || [])].filter(Boolean);
-                      if (allUrls.length === 0) {
-                        return { ...prev, image_url: url };
-                      }
-                      return { ...prev, image_urls: [...(prev.image_urls || []), url] };
-                    });
-                    input.value = '';
-                  }
-                }}
-              >
-                הוסף
-              </Button>
-            </div>
-            {allImages.length > 0 &&
-            <div className="flex gap-2 flex-wrap">
-                {allImages.map((url, i) =>
-              <div key={i} className="relative group">
-                    <img src={url} alt="" className="w-16 h-16 object-cover rounded-lg border border-border" />
-                    {i === 0 && <span className="absolute bottom-0 right-0 bg-primary text-white text-[9px] px-1 rounded-tr-none rounded-bl-none rounded-br-lg rounded-tl-lg">ראשית</span>}
-                    <button
+            {form.image_url && (
+              <div className="relative group w-fit">
+                <img src={form.image_url} alt="" className="w-24 h-24 object-cover rounded-lg border border-border" />
+                <button
                   type="button"
-                  onClick={() => removeImage(url)}
+                  onClick={() => set('image_url', '')}
                   className="absolute -top-1.5 -left-1.5 w-5 h-5 bg-destructive text-white rounded-full hidden group-hover:flex items-center justify-center">
-                  
-                      <X className="w-3 h-3" />
-                    </button>
-                  </div>
-              )}
+                  <X className="w-3 h-3" />
+                </button>
               </div>
-            }
+            )}
             <Button type="button" variant="outline" size="sm" onClick={() => imgInputRef.current.click()} disabled={uploadingImg} className="gap-1.5 w-full">
               <ImagePlus className="w-4 h-4" />
-              {uploadingImg ? 'מעלה...' : allImages.length > 0 ? 'הוסף תמונה נוספת' : 'העלה תמונה'}
+              {uploadingImg ? 'מעלה...' : form.image_url ? 'החלף תמונה' : 'העלה תמונה'}
             </Button>
           </div>
         </div>
