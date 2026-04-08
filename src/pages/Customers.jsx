@@ -228,15 +228,7 @@ export default function Customers() {
                    )}
                 </div>
               </div>
-              <div className="flex flex-col items-end gap-1">
-                <div className={`w-2 h-2 rounded-full ${c.is_active ? 'bg-success' : 'bg-muted-foreground'}`} />
-                {c.is_wholesale && (
-                  <span className="text-xs bg-accent text-accent-foreground px-1.5 py-0.5 rounded font-medium">סיטונאי</span>
-                )}
-                {c.network_commission_percent > 0 && (
-                  <span className="text-xs bg-primary/10 text-primary px-1.5 py-0.5 rounded font-medium">רשת {c.network_commission_percent}%</span>
-                )}
-              </div>
+
             </div>
           </button>
         ))}
