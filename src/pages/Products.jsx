@@ -350,6 +350,28 @@ export default function Products() {
         <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="חיפוש פריט..." className="pr-9 h-11 text-base" />
       </div>
 
+      {/* סיכום מוצרים לפי קטגוריה */}
+      {categories.length > 0 && (
+        <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
+          {categories.map((cat) => {
+            const count = products.filter(p => p.category === cat.name && p.is_active !== false).length;
+            return (
+              <button
+                key={cat.id}
+                onClick={() => setCategory(cat.name)}
+                className={cn(
+                  'text-right rounded-xl border p-3 transition-all',
+                  category === cat.name ? 'bg-primary text-white border-primary' : 'bg-white border-border hover:border-primary/40'
+                )}
+              >
+                <div className={cn('text-2xl font-bold', category === cat.name ? 'text-white' : 'text-primary')}>{count}</div>
+                <div className={cn('text-sm truncate mt-0.5', category === cat.name ? 'text-white/80' : 'text-muted-foreground')}>{cat.name}</div>
+              </button>
+            );
+          })}
+        </div>
+      )}
+
       {catNames.length > 1 && (
         <div className="flex gap-2 overflow-x-auto pb-1">
           {catNames.map((cat) => (
