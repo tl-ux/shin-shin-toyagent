@@ -6,7 +6,7 @@ export default function ProductCard({ p, onClick }) {
       onClick={onClick}
       className="bg-card border border-border rounded-xl overflow-hidden hover:border-primary/40 hover:shadow-sm transition-all text-right cursor-pointer"
     >
-      <div className="w-full aspect-square overflow-hidden bg-gradient-to-br from-accent to-primary/10 flex items-center justify-center">
+      <div className="w-full aspect-square overflow-hidden bg-white flex items-center justify-center">
         {p.image_url ? (
           <img src={p.image_url} alt={p.name} className="w-full h-full object-contain" style={{ imageRendering: 'crisp-edges' }} />
         ) : (
