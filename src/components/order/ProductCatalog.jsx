@@ -130,18 +130,16 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
           const placeholderText = cols === 1 ? 'text-6xl' : cols === 2 ? 'text-3xl' : 'text-2xl';
           return (
             <div key={product.id} className={cn("bg-card rounded-xl border overflow-hidden shadow-sm flex flex-col", recentProductIds.includes(product.id) ? 'border-primary/40' : 'border-border')}>
-              <div className="w-full aspect-square overflow-hidden">
+              <div className="w-full aspect-square overflow-hidden bg-gradient-to-br from-accent to-primary/10 flex items-center justify-center">
                 {product.image_url ?
                 <img
                   src={product.image_url}
                   alt={product.name}
-                  className="w-full h-full object-cover cursor-zoom-in"
+                  className="w-full h-full object-contain cursor-zoom-in"
                   style={{ imageRendering: 'crisp-edges' }}
                   onClick={(e) => { e.stopPropagation(); setZoomedProduct(product); }}
                 /> :
-                <div className="w-full h-full bg-gradient-to-br from-accent to-primary/10 flex items-center justify-center">
-                  <span className={cn('font-bold text-primary/30', placeholderText)}>{product.name[0]}</span>
-                </div>
+                <span className={cn('font-bold text-primary/30', placeholderText)}>{product.name[0]}</span>
                 }
               </div>
               <div className="p-3 flex flex-col flex-1">
@@ -214,18 +212,18 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
         <DialogContent className="max-w-sm p-0 overflow-hidden max-h-[90vh] overflow-y-auto">
            <div className="flex flex-col items-center w-full">
              {/* Product Image */}
-             {selectedProduct.image_url ?
-             <img
-               src={selectedProduct.image_url}
-               alt={selectedProduct.name}
-               className="w-full h-80 object-contain cursor-zoom-in"
-               style={{ imageRendering: 'crisp-edges' }}
-               onClick={() => { setZoomedProduct(selectedProduct); }}
-             /> :
-             <div className="w-full h-80 bg-gradient-to-br from-accent to-primary/10 flex items-center justify-center">
-                 <span className="text-6xl font-bold text-primary/30">{selectedProduct.name[0]}</span>
-               </div>
-            }
+             <div className="w-full aspect-square bg-gradient-to-br from-accent to-primary/10 flex items-center justify-center overflow-hidden">
+               {selectedProduct.image_url ?
+               <img
+                 src={selectedProduct.image_url}
+                 alt={selectedProduct.name}
+                 className="w-full h-full object-contain cursor-zoom-in"
+                 style={{ imageRendering: 'crisp-edges' }}
+                 onClick={() => { setZoomedProduct(selectedProduct); }}
+               /> :
+               <span className="text-6xl font-bold text-primary/30">{selectedProduct.name[0]}</span>
+               }
+             </div>
 
              {/* Content */}
              <div className="p-4 space-y-3 w-full flex flex-col items-center text-center">
