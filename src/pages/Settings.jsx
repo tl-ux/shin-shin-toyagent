@@ -9,7 +9,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/components/ui/use-toast';
 
 function PriceGroupForm({ group, onSave, onClose }) {
-  const [form, setForm] = useState(group || { name: '', description: '', discount_percent: '' });
+  const [form, setForm] = useState(group || { name: '', description: '', discount_percent: '', is_wholesale: false });
   const [saving, setSaving] = useState(false);
 
   const set = (k, v) => setForm(prev => ({ ...prev, [k]: v }));
@@ -40,9 +40,18 @@ function PriceGroupForm({ group, onSave, onClose }) {
           <Label>תיאור</Label>
           <Textarea value={form.description} onChange={e => set('description', e.target.value)} rows={2} className="mt-1 resize-none" />
         </div>
-        <div>
-          <Label>הנחה ברירת מחדל (%)</Label>
-          <Input value={form.discount_percent} onChange={e => set('discount_percent', e.target.value)} type="number" placeholder="0" className="mt-1" dir="ltr" />
+        <div className="flex items-center gap-3 bg-muted/50 rounded-lg p-3">
+          <input
+            type="checkbox"
+            id="is_wholesale"
+            checked={!!form.is_wholesale}
+            onChange={e => set('is_wholesale', e.target.checked)}
+            className="w-4 h-4 accent-primary"
+          />
+          <div>
+            <Label htmlFor="is_wholesale" className="cursor-pointer font-medium">קבוצת סיטונאים</Label>
+            <p className="text-xs text-muted-foreground mt-0.5">המחיר יחושב אוטומטית: 50% ממחיר הצרכן לפני מע"מ</p>
+          </div>
         </div>
         <div className="flex gap-3 pt-2">
           <Button variant="outline" onClick={onClose} className="flex-1">ביטול</Button>
@@ -61,7 +70,7 @@ export default function Settings() {
   const [editing, setEditing] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [appSettings, setAppSettings] = useState(null);
-  const [settingsForm, setSettingsForm] = useState({ office_email: '', office_whatsapp: '' });
+  const [settingsForm, setSettingsForm] = useState({ office_email: '', office_whatsapp: '', vat_rate: 0.18 });
   const [savingSettings, setSavingSettings] = useState(false);
   const { toast } = useToast();
 
@@ -76,6 +85,7 @@ export default function Settings() {
       setSettingsForm({
         office_email: settings[0].office_email || '',
         office_whatsapp: settings[0].office_whatsapp || '',
+        vat_rate: settings[0].vat_rate ?? 0.18,
       });
     }
     setLoading(false);
@@ -135,6 +145,18 @@ export default function Settings() {
             dir="ltr"
           />
           <p className="text-xs text-muted-foreground mt-1">ללא + ורווחים, לדוגמה: 972501234567</p>
+        </div>
+        <div>
+          <Label>שיעור מע"מ (%)</Label>
+          <Input
+            value={Math.round(settingsForm.vat_rate * 100)}
+            onChange={e => setSettingsForm(p => ({ ...p, vat_rate: parseFloat(e.target.value) / 100 || 0 }))}
+            type="number"
+            placeholder="18"
+            className="mt-1 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+            dir="ltr"
+          />
+          <p className="text-xs text-muted-foreground mt-1">כרגע: {Math.round(settingsForm.vat_rate * 100)}% — ישמש לחישוב מחירי סיטונאים</p>
         </div>
         <Button onClick={saveSettings} disabled={savingSettings} className="gap-2">
           <Save className="w-4 h-4" />

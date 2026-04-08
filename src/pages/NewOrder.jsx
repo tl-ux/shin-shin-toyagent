@@ -15,15 +15,23 @@ export default function NewOrder() {
   const [loading, setLoading] = useState(true);
   const [step, setStep] = useState('customer'); // 'customer' | 'catalog' | 'cart'
   const [recentProductIds, setRecentProductIds] = useState([]);
+  const [priceGroups, setPriceGroups] = useState([]);
+  const [vatRate, setVatRate] = useState(0.18);
   const navigate = useNavigate();
 
   useEffect(() => {
     Promise.all([
       base44.entities.Product.filter({ is_active: true }),
       base44.entities.Customer.filter({ is_active: true }),
-    ]).then(([prods, custs]) => {
+      base44.entities.PriceGroup.list(),
+      base44.entities.AppSettings.list(),
+    ]).then(([prods, custs, pgs, settings]) => {
       setProducts(prods);
       setCustomers(custs);
+      setPriceGroups(pgs);
+      if (settings.length > 0 && settings[0].vat_rate) {
+        setVatRate(settings[0].vat_rate);
+      }
       setLoading(false);
     });
   }, []);
@@ -39,8 +47,19 @@ export default function NewOrder() {
 
   const getProductPrice = (product) => {
     if (!selectedCustomer?.price_group_id) return product.price;
+
+    // בדוק אם יש מחיר ספציפי לפריט בקבוצת המחיר
     const gp = product.group_prices?.find(g => g.price_group_id === selectedCustomer.price_group_id);
-    return gp ? gp.price : product.price;
+    if (gp) return gp.price;
+
+    // בדוק אם זו קבוצת סיטונאים - חשב 50% ממחיר הצרכן לפני מע"מ
+    const priceGroup = priceGroups.find(pg => pg.id === selectedCustomer.price_group_id);
+    if (priceGroup?.is_wholesale) {
+      const priceBeforeVat = product.price / (1 + vatRate);
+      return Math.round(priceBeforeVat * 0.5 * 100) / 100;
+    }
+
+    return product.price;
   };
 
   const addToCart = (product, qty) => {
