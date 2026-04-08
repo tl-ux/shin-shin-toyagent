@@ -18,6 +18,8 @@ function ProductForm({ product, onSave, onClose, priceGroups }) {
     name: '', sku: '', category: '', product_type: 'single', price: '', unit: "יח'", stock: '', description: '', image_url: '', is_active: true, group_prices: []
   });
   const [saving, setSaving] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
   const [uploadingImg, setUploadingImg] = useState(false);
   const [customCategory, setCustomCategory] = useState(
     product?.category && !PRESET_CATEGORIES.includes(product.category) ? product.category : ''
@@ -49,6 +51,12 @@ function ProductForm({ product, onSave, onClose, priceGroups }) {
     setForm((prev) => ({ ...prev, image_url: file_url }));
     setUploadingImg(false);
     e.target.value = '';
+  };
+
+  const handleDelete = async () => {
+    setDeleting(true);
+    await base44.entities.Product.delete(product.id);
+    onSave();
   };
 
   const save = async () => {
@@ -198,6 +206,22 @@ function ProductForm({ product, onSave, onClose, priceGroups }) {
           </Button>
           <Button variant="outline" onClick={onClose} className="flex-1">ביטול</Button>
         </div>
+        {product?.id && (
+          <div className="pt-1 border-t border-border">
+            {!confirmDelete ? (
+              <Button variant="ghost" className="w-full text-destructive hover:text-destructive hover:bg-destructive/10" onClick={() => setConfirmDelete(true)}>
+                <Trash2 className="w-4 h-4 ml-1" /> מחק פריט
+              </Button>
+            ) : (
+              <div className="flex gap-2">
+                <Button variant="destructive" className="flex-1" onClick={handleDelete} disabled={deleting}>
+                  {deleting ? 'מוחק...' : 'אשר מחיקה'}
+                </Button>
+                <Button variant="outline" className="flex-1" onClick={() => setConfirmDelete(false)}>ביטול</Button>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </DialogContent>);
 
