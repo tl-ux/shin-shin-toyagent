@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useAuth } from '@/lib/AuthContext';
 import CustomerSelect from '@/components/order/CustomerSelect';
 import ProductCatalog from '@/components/order/ProductCatalog';
 import OrderCart from '@/components/order/OrderCart';
@@ -16,6 +17,7 @@ export default function NewOrder() {
   const [step, setStep] = useState('customer');
   const [recentProductIds, setRecentProductIds] = useState([]);
   const [vatRate, setVatRate] = useState(0.18);
+  const { user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -34,13 +36,17 @@ export default function NewOrder() {
       base44.entities.AppSettings.list(),
     ]).then(([prods, custs, settings]) => {
       setProducts(prods);
-      setCustomers(custs);
+      // אם המשתמש הוא store_manager, הוא רואה רק את הלקוח שלו
+      const filteredCustomers = user?.role === 'store_manager' && user?.email
+        ? custs.filter(c => c.email === user.email)
+        : custs;
+      setCustomers(filteredCustomers);
       if (settings.length > 0 && settings[0].vat_rate) {
         setVatRate(settings[0].vat_rate);
       }
       setLoading(false);
     });
-  }, []);
+  }, [user]);
 
   const loadRecentProducts = async (customer) => {
     const orders = await base44.entities.Order.filter({ customer_id: customer.id }, '-created_date', 5);

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
 import { Search, Plus, Users, Phone, MapPin } from 'lucide-react';
+import { useAuth } from '@/lib/AuthContext';
 import CustomerCard from '@/components/customer/CustomerCard';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -10,7 +11,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
 
 function CustomerForm({ customer, onSave, onClose }) {
-  const [form, setForm] = useState(customer || { customer_number: '', name: '', contact_name: '', phone: '', address: '', city: '', notes: '', is_wholesale: false, network_commission_percent: '', is_active: true });
+  const [form, setForm] = useState(customer || { customer_number: '', name: '', email: '', contact_name: '', phone: '', address: '', city: '', notes: '', is_wholesale: false, network_commission_percent: '', is_active: true });
   const [saving, setSaving] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [deleting, setDeleting] = useState(false);
@@ -47,6 +48,10 @@ function CustomerForm({ customer, onSave, onClose }) {
         <div>
           <Label>שם עסק / לקוח *</Label>
           <Input value={form.name} onChange={e => set('name', e.target.value)} placeholder="שם הלקוח" className="mt-1" />
+        </div>
+        <div>
+          <Label>דוא"ל</Label>
+          <Input value={form.email} onChange={e => set('email', e.target.value)} placeholder="customer@example.com" className="mt-1" dir="ltr" type="email" />
         </div>
         <div className="grid grid-cols-2 gap-3">
           <div>
@@ -136,6 +141,7 @@ function CustomerForm({ customer, onSave, onClose }) {
 }
 
 export default function Customers() {
+  const { user } = useAuth();
   const [customers, setCustomers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
@@ -143,8 +149,17 @@ export default function Customers() {
   const [editing, setEditing] = useState(null);
   const [showForm, setShowForm] = useState(false);
 
-  const load = () => base44.entities.Customer.list('-created_date').then(d => { setCustomers(d); setLoading(false); });
-  useEffect(() => { load(); }, []);
+  const load = () => {
+    base44.entities.Customer.list('-created_date').then(d => {
+      // אם המשתמש הוא store_manager, הוא רואה רק את הלקוח שלו
+      const filteredCustomers = user?.role === 'store_manager' && user?.email
+        ? d.filter(c => c.email === user.email)
+        : d;
+      setCustomers(filteredCustomers);
+      setLoading(false);
+    });
+  };
+  useEffect(() => { load(); }, [user]);
 
   const cities = ['הכל', ...new Set(customers.map(c => c.city).filter(Boolean))];
 
