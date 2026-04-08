@@ -35,19 +35,7 @@ export default function Homepage() {
           ))}
         </div>
 
-        {/* Quick Start Section */}
-        <div className="mt-12 max-w-2xl mx-auto">
-          <div className="bg-primary/5 border border-primary/20 rounded-2xl p-8 text-center">
-            <h2 className="text-2xl font-bold text-foreground mb-3">התחל עכשיו</h2>
-            <p className="text-muted-foreground mb-6">בחר פעולה מעל כדי להתחיל לעבוד</p>
-            <Link to="/new-order">
-              <Button size="lg" className="gap-2">
-                <PenLine className="w-5 h-5" />
-                התחל הזמנה חדשה
-              </Button>
-            </Link>
-          </div>
-        </div>
+
       </div>
     </div>
   );
