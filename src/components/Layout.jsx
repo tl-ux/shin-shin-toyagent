@@ -24,8 +24,8 @@ export default function Layout() {
   const location = useLocation();
   const { user } = useAuth();
   
-  const navItems = allNavItems.filter(item => user && item.roles.includes(user.role));
-  const bottomNavItems = allBottomNavItems.filter(item => user && item.roles.includes(user.role));
+  const navItems = allNavItems.filter(item => !user || (user && item.roles.includes(user.role)));
+  const bottomNavItems = allBottomNavItems.filter(item => !user || (user && item.roles.includes(user.role)));
 
   return (
     <div className="min-h-screen bg-background flex flex-col" dir="rtl">

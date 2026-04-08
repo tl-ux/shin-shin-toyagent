@@ -16,7 +16,7 @@ export default function Homepage() {
     { to: '/help', label: 'עזרה', icon: HelpCircle, color: 'bg-gray-500', roles: ['admin', 'user', 'store_manager'] },
   ];
 
-  const actions = allActions.filter(action => user && action.roles.includes(user.role));
+  const actions = allActions.filter(action => !user || (user && action.roles.includes(user.role)));
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-primary/10 to-background p-4">
