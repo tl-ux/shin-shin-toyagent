@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { Search, ShoppingCart, Plus, Minus, ArrowUpDown, LayoutList, LayoutGrid, Grid3X3 } from 'lucide-react';
+import { Search, ShoppingCart, Plus, Minus, ArrowUpDown, LayoutList, LayoutGrid, Grid3X3, Edit2 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -168,26 +168,20 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
                       setSelectedProduct(product);
                       setInputQty('');
                     }}>
-                    
                       <Plus className="w-3 h-3 ml-1" />
                       הוסף
                     </Button> :
 
-                  <div className="flex items-center justify-between bg-accent rounded-lg p-1">
-                      <button
-                      onClick={() => onAdd(product, qty - 1)}
-                      className="w-7 h-7 rounded-md bg-primary text-primary-foreground flex items-center justify-center hover:bg-primary/90">
-                      
-                        <Minus className="w-3 h-3" />
-                      </button>
+                  <button
+                    onClick={() => { setSelectedProduct(product); setInputQty(String(qty)); }}
+                    className="w-full flex items-center justify-between bg-accent rounded-lg p-1 hover:bg-accent/80 transition-colors"
+                  >
+                      <span className="w-7 h-7 rounded-md bg-primary text-primary-foreground flex items-center justify-center text-xs font-bold">✓</span>
                       <span className="font-bold text-primary text-sm">{qty}</span>
-                      <button
-                      onClick={() => onAdd(product, qty + 1)}
-                      className="w-7 h-7 rounded-md bg-primary text-primary-foreground flex items-center justify-center hover:bg-primary/90">
-                      
-                        <Plus className="w-3 h-3" />
-                      </button>
-                    </div>
+                      <span className="w-7 h-7 rounded-md bg-primary/20 text-primary flex items-center justify-center">
+                        <Edit2 className="w-3 h-3" />
+                      </span>
+                    </button>
                   }
                 </div>
               </div>
