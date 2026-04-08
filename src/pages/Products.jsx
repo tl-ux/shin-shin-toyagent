@@ -83,7 +83,7 @@ function ProductForm({ product, onSave, onClose, priceGroups }) {
         </div>
         <div>
           <Label>מחיר *</Label>
-          <Input value={form.price} onChange={(e) => set('price', e.target.value)} type="number" placeholder="0.00" className="mt-1" dir="ltr" />
+          <Input value={form.price} onChange={(e) => set('price', e.target.value)} type="number" placeholder="0.00" className="mt-1 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" dir="ltr" />
         </div>
         <div>
             <Label>קטגוריה</Label>
