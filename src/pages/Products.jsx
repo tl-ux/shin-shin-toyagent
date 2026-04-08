@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { base44 } from '@/api/base44Client';
-import { Search, Plus, Package, AlertTriangle, Tag, Upload, X, ImagePlus, Edit2, Trash2 } from 'lucide-react';
+import { Search, Plus, Package, Tag, Upload, X, ImagePlus, Edit2, Trash2 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -317,8 +317,6 @@ export default function Products() {
     return matchSearch && matchCat;
   });
 
-  const lowStock = products.filter((p) => p.stock !== null && p.stock !== undefined && p.stock <= 5).length;
-
   if (loading) return (
     <div className="flex items-center justify-center min-h-[60vh]">
       <div className="w-8 h-8 border-4 border-primary/30 border-t-primary rounded-full animate-spin" />
@@ -342,12 +340,7 @@ export default function Products() {
         </div>
       </div>
 
-      {lowStock > 0 &&
-      <div className="bg-warning/10 border border-warning/30 rounded-xl p-3 flex items-center gap-2 text-sm">
-          <AlertTriangle className="w-4 h-4 text-warning flex-shrink-0" />
-          <span><strong>{lowStock}</strong> פריטים במלאי נמוך (5 ומטה)</span>
-        </div>
-      }
+
 
       <div className="relative">
         <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
-import { TrendingUp, Users, ShoppingCart, CreditCard, Package, AlertTriangle, ClipboardList, BookOpen, Settings } from 'lucide-react';
+import { TrendingUp, Users, ShoppingCart, CreditCard, Package, ClipboardList, BookOpen, Settings } from 'lucide-react';
 import { format, subMonths, subYears, startOfMonth, endOfMonth } from 'date-fns';
 import { he } from 'date-fns/locale';
 import { Link } from 'react-router-dom';
@@ -230,29 +230,7 @@ export default function Dashboard() {
           null;
         })()}
 
-        {/* Low stock alert */}
-        {(() => {
-          const low = products.filter((p) => p.stock !== null && p.stock !== undefined && p.stock <= 5 && p.is_active);
-          return low.length > 0 ?
-          <div className="bg-warning/5 border border-warning/30 rounded-xl p-4">
-              <h2 className="font-semibold text-sm mb-3 flex items-center gap-2 text-warning">
-                <AlertTriangle className="w-4 h-4" />
-                מלאי נמוך ({low.length} פריטים)
-              </h2>
-              <div className="space-y-2">
-                {low.slice(0, 5).map((p) =>
-              <div key={p.id} className="flex items-center justify-between text-sm">
-                    <span className="font-medium truncate max-w-[160px]">{p.name}</span>
-                    <span className={`font-bold px-2 py-0.5 rounded text-xs ${p.stock === 0 ? 'bg-destructive/10 text-destructive' : 'bg-warning/10 text-warning'}`}>
-                      {p.stock} יח'
-                    </span>
-                  </div>
-              )}
-              </div>
-              <Link to="/products" className="text-xs text-warning mt-3 block hover:underline">לניהול מלאי ←</Link>
-            </div> :
-          null;
-        })()}
+
       </div>
     </div>);
 

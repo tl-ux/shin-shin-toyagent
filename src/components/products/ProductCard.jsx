@@ -43,16 +43,7 @@ export default function ProductCard({ p, onClick }) {
         {p.sku && <div className="text-xs text-muted-foreground mt-0.5 text-center">מק"ט: {p.sku}</div>}
         <div className="flex items-center justify-between mt-2">
           <span className="font-bold text-primary text-base">₪{(p.price || 0).toLocaleString()}</span>
-          {p.stock !== null && p.stock !== undefined && (
-            <span className={cn(
-              'text-xs font-medium px-1.5 py-0.5 rounded',
-              p.stock === 0 ? 'bg-destructive/10 text-destructive' :
-              p.stock <= 5 ? 'bg-warning/10 text-warning' :
-              'bg-success/10 text-success'
-            )}>
-              {p.stock}
-            </span>
-          )}
+
         </div>
       </div>
     </div>

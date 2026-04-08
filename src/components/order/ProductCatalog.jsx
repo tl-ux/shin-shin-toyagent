@@ -156,11 +156,7 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
                         return <>₪{price.toLocaleString()}{product.unit && <span className="text-muted-foreground mr-1 ml-3 text-sm font-normal">{product.unit}</span>}</>;
                       })()}
                     </span>
-                    {product.stock !== undefined && product.stock !== null &&
-                    <span className={cn('text-xs font-medium', product.stock > 0 ? 'text-success' : 'text-destructive')}>
-                        {product.stock > 0 ? `${product.stock} במלאי` : 'אזל'}
-                      </span>
-                    }
+
                   </div>
                 </div>
 
@@ -271,11 +267,7 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
                <span className="font-bold text-primary">
                  ₪{getProductPrice ? getProductPrice(selectedProduct) : selectedProduct.price}
                </span>
-               {selectedProduct.stock !== undefined && selectedProduct.stock !== null &&
-                <span className="text-muted-foreground text-xs">
-                   {selectedProduct.stock > 0 ? `${selectedProduct.stock} במלאי` : 'אזל'}
-                 </span>
-                }
+
                </div>
 
                {/* Quantity Input */}
