@@ -17,8 +17,16 @@ import Dashboard from '@/pages/Dashboard';
 import AgentSummary from '@/pages/AgentSummary';
 import Help from '@/pages/Help';
 
+const ProtectedRoute = ({ element, allowedRoles }) => {
+  const { user } = useAuth();
+  if (!user || !allowedRoles.includes(user.role)) {
+    return <PageNotFound />;
+  }
+  return element;
+};
+
 const AuthenticatedApp = () => {
-  const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
+  const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin, user } = useAuth();
 
   if (isLoadingPublicSettings || isLoadingAuth) {
     return (
@@ -41,14 +49,14 @@ const AuthenticatedApp = () => {
     <Routes>
       <Route element={<Layout />}>
         <Route path="/" element={<Homepage />} />
-        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/new-order" element={<NewOrder />} />
-        <Route path="/orders" element={<Orders />} />
-        <Route path="/customers" element={<Customers />} />
-        <Route path="/products" element={<Products />} />
-        <Route path="/settings" element={<Settings />} />
-        <Route path="/debts" element={<Debts />} />
-        <Route path="/agent-summary" element={<AgentSummary />} />
+        <Route path="/dashboard" element={<ProtectedRoute element={<Dashboard />} allowedRoles={['admin', 'user']} />} />
+        <Route path="/orders" element={<ProtectedRoute element={<Orders />} allowedRoles={['admin', 'user']} />} />
+        <Route path="/customers" element={<ProtectedRoute element={<Customers />} allowedRoles={['admin', 'user']} />} />
+        <Route path="/products" element={<ProtectedRoute element={<Products />} allowedRoles={['admin', 'user']} />} />
+        <Route path="/settings" element={<ProtectedRoute element={<Settings />} allowedRoles={['admin']} />} />
+        <Route path="/debts" element={<ProtectedRoute element={<Debts />} allowedRoles={['admin', 'user']} />} />
+        <Route path="/agent-summary" element={<ProtectedRoute element={<AgentSummary />} allowedRoles={['admin', 'user']} />} />
         <Route path="/help" element={<Help />} />
       </Route>
       <Route path="*" element={<PageNotFound />} />
