@@ -21,10 +21,14 @@ function CustomerForm({ customer, onSave, onClose }) {
   const save = async () => {
     if (!form.name) return;
     setSaving(true);
+    const data = {
+      ...form,
+      network_commission_percent: form.network_commission_percent !== '' ? parseFloat(form.network_commission_percent) : null
+    };
     if (customer?.id) {
-      await base44.entities.Customer.update(customer.id, form);
+      await base44.entities.Customer.update(customer.id, data);
     } else {
-      await base44.entities.Customer.create(form);
+      await base44.entities.Customer.create(data);
     }
     onSave();
   };
