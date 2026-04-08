@@ -18,7 +18,7 @@ export default function Homepage() {
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center py-12">
-          <h1 className="text-5xl font-bold text-primary mb-2">שין שין</h1>
+          <img src="https://media.base44.com/images/public/69cbdbfb3ccb589826de82bf/ee9f76076_SHIN_SHIN.png" alt="שין שין לוגו" className="h-24 mb-8" />
         </div>
 
         {/* Action Grid */}
