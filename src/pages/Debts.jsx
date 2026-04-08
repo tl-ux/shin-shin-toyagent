@@ -207,7 +207,7 @@ function DebtCard({ debt, onPayment }) {
           </div>
         </div>
         <div className="text-left flex flex-col items-end gap-1">
-          <span className="font-bold text-accent text-lg">₪{(debt.balance_due || 0).toLocaleString()}</span>
+          <span className="font-bold text-destructive text-lg">₪{(debt.balance_due || 0).toLocaleString()}</span>
           <span className="text-xs text-muted-foreground">מתוך ₪{(debt.amount || 0).toLocaleString()}</span>
           {open ? <ChevronUp className="w-4 h-4 text-muted-foreground" /> : <ChevronDown className="w-4 h-4 text-muted-foreground" />}
         </div>
@@ -297,9 +297,9 @@ export default function Debts() {
 
       {/* Summary cards */}
       <div className="grid grid-cols-2 gap-3">
-        <div className="bg-accent/5 border border-accent/20 rounded-xl p-4">
+        <div className="bg-destructive/5 border border-destructive/20 rounded-xl p-4">
           <div className="text-sm text-muted-foreground">סה"כ חובות פתוחים</div>
-          <div className="text-3xl font-bold text-accent mt-2">₪{totalOpen.toLocaleString()}</div>
+          <div className="text-3xl font-bold text-destructive mt-2">₪{totalOpen.toLocaleString()}</div>
           <div className="text-sm text-muted-foreground mt-2">{debts.filter(d => d.status !== 'paid').length} לקוחות</div>
         </div>
         <div className="bg-warning/5 border border-warning/20 rounded-xl p-4">

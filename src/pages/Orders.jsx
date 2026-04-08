@@ -82,7 +82,7 @@ function OrderCard({ order, officeEmail, officeWhatsapp, onEdit, onCopy, onDelet
           )}
         </div>
         <div className="text-left flex flex-col items-end gap-1">
-          <span className="font-bold text-accent text-lg">₪{(order.total_amount || 0).toLocaleString()}</span>
+          <span className="font-bold text-primary text-lg">₪{(order.total_amount || 0).toLocaleString()}</span>
           <div className="flex items-center gap-1">
             <button onClick={e => { e.stopPropagation(); onEdit(order); }} className="p-1 rounded hover:bg-muted transition-colors" title="עריכה">
               <Pencil className="w-4 h-4 text-muted-foreground" />

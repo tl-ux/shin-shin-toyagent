@@ -149,7 +149,7 @@ export default function Dashboard() {
               return (
                 <tr key={row.month} className={`border-b border-border/50 last:border-0 ${isCurrentMonth ? 'bg-accent/30' : ''}`}>
                   <td className="py-2 text-right font-medium">{row.month}</td>
-                  <td className="py-2 text-center font-bold text-accent">₪{row.total.toLocaleString()}</td>
+                  <td className="py-2 text-center font-bold text-primary">₪{row.total.toLocaleString()}</td>
                   <td className="py-2 text-center text-muted-foreground">₪{row.totalLastYear.toLocaleString()}</td>
                   <td className="py-2 text-center">
                     {diff === null ?
@@ -178,7 +178,7 @@ export default function Dashboard() {
                   <span className="w-5 h-5 rounded-full bg-primary/10 text-primary text-xs flex items-center justify-center font-bold">{i + 1}</span>
                   <span className="text-sm font-medium truncate max-w-[140px]">{name}</span>
                 </div>
-                <span className="text-sm font-bold text-accent">₪{total.toLocaleString()}</span>
+                <span className="text-sm font-bold text-primary">₪{total.toLocaleString()}</span>
               </div>
             )}
             {topCustomers.length === 0 && <p className="text-sm text-muted-foreground text-center py-4">אין נתונים</p>}
@@ -221,7 +221,7 @@ export default function Dashboard() {
                       <span className="font-medium">{o.customer_name}</span>
                       <span className="text-xs text-muted-foreground mr-2">{o.order_number}</span>
                     </div>
-                    <span className="font-bold text-accent">₪{(o.total_amount || 0).toLocaleString()}</span>
+                    <span className="font-bold text-primary">₪{(o.total_amount || 0).toLocaleString()}</span>
                   </div>
               )}
               </div>

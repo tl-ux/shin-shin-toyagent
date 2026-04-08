@@ -111,7 +111,7 @@ export default function AgentSummary() {
       <div className="grid grid-cols-2 gap-3">
         <div className="bg-card border border-border rounded-xl p-4">
           <div className="text-xs text-muted-foreground">סה"כ מכירות</div>
-          <div className="text-2xl font-bold text-accent mt-1">₪{myTotal.toLocaleString()}</div>
+          <div className="text-2xl font-bold text-primary mt-1">₪{myTotal.toLocaleString()}</div>
         </div>
         <div className="bg-card border border-border rounded-xl p-4">
           <div className="text-xs text-muted-foreground">הזמנות</div>
@@ -147,7 +147,7 @@ export default function AgentSummary() {
         </div>
         <div className="grid grid-cols-6 gap-2 text-xs">
           {monthlyData.map(d => (
-            <div key={d.month} className="text-center font-bold text-accent">₪{(d.total / 1000).toFixed(0)}K</div>
+            <div key={d.month} className="text-center font-bold text-primary">₪{(d.total / 1000).toFixed(0)}K</div>
           ))}
         </div>
       </div>
@@ -180,7 +180,7 @@ export default function AgentSummary() {
                   {name === user?.full_name && <span className="text-xs bg-primary/20 text-primary px-1.5 rounded">אתה</span>}
                 </div>
                 <div className="text-left text-sm">
-                  <span className="font-bold text-accent">₪{data.total.toLocaleString()}</span>
+                  <span className="font-bold text-primary">₪{data.total.toLocaleString()}</span>
                   <span className="text-xs text-muted-foreground mr-1">({data.count} הזמנות)</span>
                 </div>
               </div>
