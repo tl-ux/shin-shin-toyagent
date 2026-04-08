@@ -158,9 +158,9 @@ export default function NewOrder() {
       <div className="bg-white border-b border-border sticky top-0 z-30">
         <div className="flex">
           {[
-            { key: 'customer', label: 'לקוח' },
-            { key: 'catalog', label: 'קטלוג' },
-            { key: 'cart', label: 'הזמנה' },
+            { key: 'customer', label: 'לקוח', icon: null },
+            { key: 'catalog', label: 'קטלוג', icon: null },
+            { key: 'cart', label: 'הזמנה', icon: ShoppingCart },
           ].map((s, idx) => (
             <button
               key={s.key}
@@ -178,7 +178,7 @@ export default function NewOrder() {
               <span className="flex items-center justify-center gap-1.5">
                 <span className={`w-6 h-6 rounded-full text-sm flex items-center justify-center font-bold ${
                   step === s.key ? 'bg-primary text-white' : 'bg-muted text-muted-foreground'
-                }`}>{idx + 1}</span>
+                }`}>{s.icon ? <s.icon className="w-3.5 h-3.5" /> : idx + 1}</span>
                 <span className="text-base">{s.label}</span>
                 {s.key === 'cart' && cartCount > 0 && (
                   <Badge className="h-4 px-1 text-xs bg-primary">{cartCount}</Badge>
