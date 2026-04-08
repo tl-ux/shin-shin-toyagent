@@ -168,6 +168,28 @@ function ProductForm({ product, onSave, onClose, priceGroups }) {
               <ImagePlus className="w-4 h-4" />
               {uploadingImg ? 'מעלה...' : form.image_url ? 'החלף תמונה' : 'העלה תמונה'}
             </Button>
+            <div className="flex gap-2">
+              <Input
+                type="url"
+                placeholder="או הדבק כתובת תמונה (URL)..."
+                dir="ltr"
+                className="text-sm flex-1"
+                onPaste={(e) => {
+                  const url = e.clipboardData.getData('text').trim();
+                  if (url.startsWith('http')) {
+                    e.preventDefault();
+                    set('image_url', url);
+                  }
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && e.target.value.trim().startsWith('http')) {
+                    e.preventDefault();
+                    set('image_url', e.target.value.trim());
+                    e.target.value = '';
+                  }
+                }}
+              />
+            </div>
           </div>
         </div>
         <div className="flex gap-3 pt-2">
