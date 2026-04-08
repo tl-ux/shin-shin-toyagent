@@ -27,10 +27,10 @@ export default function Layout() {
 
       {/* Top bar */}
       <header className="bg-white border-b border-border px-4 py-3 flex items-center justify-between sticky top-0 z-30 shadow-sm">
-        <div className="flex items-center gap-2">
+        <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
           <Baby className="w-5 h-5" />
           <span className="font-bold text-lg">ToyAgent 🧸</span>
-        </div>
+        </Link>
 
         <div className="flex items-center gap-2">
           <GlobalSearch />
