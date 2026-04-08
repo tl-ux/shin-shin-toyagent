@@ -46,20 +46,28 @@ export default function NewOrder() {
   };
 
   const getProductPrice = (product) => {
-    if (!selectedCustomer?.price_group_id) return product.price;
+    let basePrice = product.price;
 
-    // בדוק אם יש מחיר ספציפי לפריט בקבוצת המחיר
-    const gp = product.group_prices?.find(g => g.price_group_id === selectedCustomer.price_group_id);
-    if (gp) return gp.price;
-
-    // בדוק אם זו קבוצת סיטונאים - חשב 50% ממחיר הצרכן לפני מע"מ
-    const priceGroup = priceGroups.find(pg => pg.id === selectedCustomer.price_group_id);
-    if (priceGroup?.is_wholesale) {
-      const priceBeforeVat = product.price / (1 + vatRate);
-      return Math.round(priceBeforeVat * 0.5 * 100) / 100;
+    if (selectedCustomer?.price_group_id) {
+      // בדוק אם יש מחיר ספציפי לפריט בקבוצת המחיר
+      const gp = product.group_prices?.find(g => g.price_group_id === selectedCustomer.price_group_id);
+      if (gp) {
+        basePrice = gp.price;
+      } else {
+        // בדוק אם זו קבוצת סיטונאים - חשב 50% ממחיר הצרכן לפני מע"מ
+        const priceGroup = priceGroups.find(pg => pg.id === selectedCustomer.price_group_id);
+        if (priceGroup?.is_wholesale) {
+          basePrice = Math.round((product.price / (1 + vatRate)) * 0.5 * 100) / 100;
+        }
+      }
     }
 
-    return product.price;
+    // הוסף עמלת רשת אם קיימת
+    if (selectedCustomer?.network_commission_percent) {
+      basePrice = Math.round(basePrice * (1 + selectedCustomer.network_commission_percent / 100) * 100) / 100;
+    }
+
+    return basePrice;
   };
 
   const addToCart = (product, qty) => {

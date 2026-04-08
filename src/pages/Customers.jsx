@@ -11,7 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { cn } from '@/lib/utils';
 
 function CustomerForm({ customer, onSave, onClose, priceGroups }) {
-  const [form, setForm] = useState(customer || { customer_number: '', name: '', contact_name: '', phone: '', address: '', city: '', notes: '', price_group_id: '', is_active: true });
+  const [form, setForm] = useState(customer || { customer_number: '', name: '', contact_name: '', phone: '', address: '', city: '', notes: '', price_group_id: '', network_commission_percent: '', is_active: true });
   const [saving, setSaving] = useState(false);
 
   const set = (k, v) => setForm(prev => ({ ...prev, [k]: v }));
@@ -74,6 +74,18 @@ function CustomerForm({ customer, onSave, onClose, priceGroups }) {
               ))}
             </SelectContent>
           </Select>
+        </div>
+        <div>
+          <Label>עמלת רשת (%)</Label>
+          <Input
+            value={form.network_commission_percent ?? ''}
+            onChange={e => set('network_commission_percent', e.target.value !== '' ? parseFloat(e.target.value) : '')}
+            type="number"
+            placeholder="למשל: 10 עבור 10%"
+            className="mt-1 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+            dir="ltr"
+          />
+          <p className="text-xs text-muted-foreground mt-1">יתווסף מעל למחיר הסיטונאי נטו. השאר ריק אם אין עמלת רשת.</p>
         </div>
         <div>
           <Label>הערות</Label>
