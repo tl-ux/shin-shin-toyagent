@@ -45,9 +45,9 @@ export default function NewOrder() {
   const getProductPrice = (product) => {
     let basePrice = product.price;
 
-    // סיטונאי — 50% ממחיר הצרכן לפני מע"מ
+    // סיטונאי — 50% ממחיר הצרכן כולל מע"מ
     if (selectedCustomer?.is_wholesale) {
-      basePrice = Math.round((product.price / (1 + vatRate)) * 0.5 * 100) / 100;
+      basePrice = Math.round(product.price * 0.5 * 100) / 100;
     }
 
     // עמלת רשת
