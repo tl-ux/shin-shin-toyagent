@@ -31,9 +31,7 @@ export default function Layout() {
           <Baby className="w-5 h-5" />
           <span className="font-bold text-lg">ToyAgent 🧸</span>
         </div>
-        <span className="text-sm text-muted-foreground font-medium">
-          {navItems.find(n => n.path === location.pathname)?.label || ''}
-        </span>
+
         <div className="flex items-center gap-2">
           <GlobalSearch />
           <button
