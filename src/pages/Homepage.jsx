@@ -24,6 +24,7 @@ export default function Homepage() {
         {/* Header */}
         <div className="text-center py-12">
           <img src="https://media.base44.com/images/public/69cbdbfb3ccb589826de82bf/d6c37f31b_SHIN_SHIN_transparent.png" alt="שין שין לוגו" className="h-24 mb-8 mx-auto" />
+          {user && <p className="text-lg text-muted-foreground mt-4">שלום, {user.full_name}</p>}
         </div>
 
         {/* Action Grid */}
