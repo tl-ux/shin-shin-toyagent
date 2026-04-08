@@ -68,12 +68,6 @@ export default function OrderCart({ cart, customer, totalAmount, onUpdateQty, on
           <BookOpen className="w-3.5 h-3.5" />
           טען תבנית
         </Button>
-        {cart.length > 0 && (
-          <Button variant="outline" size="sm" onClick={() => setSaveTemplateOpen(true)} className="gap-1.5 flex-1">
-            <BookmarkCheck className="w-3.5 h-3.5" />
-            שמור כתבנית
-          </Button>
-        )}
       </div>
 
       {/* Items */}
