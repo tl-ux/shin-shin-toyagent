@@ -12,6 +12,8 @@ import { cn } from '@/lib/utils';
 function CustomerForm({ customer, onSave, onClose }) {
   const [form, setForm] = useState(customer || { customer_number: '', name: '', contact_name: '', phone: '', address: '', city: '', notes: '', is_wholesale: false, network_commission_percent: '', is_active: true });
   const [saving, setSaving] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   const set = (k, v) => setForm(prev => ({ ...prev, [k]: v }));
 
@@ -23,6 +25,12 @@ function CustomerForm({ customer, onSave, onClose }) {
     } else {
       await base44.entities.Customer.create(form);
     }
+    onSave();
+  };
+
+  const handleDelete = async () => {
+    setDeleting(true);
+    await base44.entities.Customer.delete(customer.id);
     onSave();
   };
 
@@ -106,6 +114,22 @@ function CustomerForm({ customer, onSave, onClose }) {
             {saving ? 'שומר...' : 'שמור'}
           </Button>
         </div>
+        {customer?.id && (
+          <div className="pt-1 border-t border-border">
+            {!confirmDelete ? (
+              <Button variant="ghost" className="w-full text-destructive hover:text-destructive hover:bg-destructive/10" onClick={() => setConfirmDelete(true)}>
+                מחק לקוח
+              </Button>
+            ) : (
+              <div className="flex gap-2">
+                <Button variant="destructive" className="flex-1" onClick={handleDelete} disabled={deleting}>
+                  {deleting ? 'מוחק...' : 'אשר מחיקה'}
+                </Button>
+                <Button variant="outline" className="flex-1" onClick={() => setConfirmDelete(false)}>ביטול</Button>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </DialogContent>
   );
