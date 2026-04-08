@@ -340,24 +340,39 @@ export default function Products() {
             <DialogTitle>ערוך קטגוריות</DialogTitle>
           </DialogHeader>
           <div className="space-y-3 pt-2">
+            {/* הוספת קטגוריה חדשה — על ידי שינוי שם מוצר קיים ללא קטגוריה, או ע"י הוספת placeholder */}
             <div className="flex gap-2">
               <Input
                 value={categoryInput}
                 onChange={(e) => setCategoryInput(e.target.value)}
-                placeholder="קטגוריה חדשה"
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' && categoryInput.trim()) {
-                    // עדכן את כל המוצרים עם הקטגוריה החדשה
-                    setEditingCat(null);
+                placeholder="שם קטגוריה חדשה"
+                onKeyDown={async (e) => {
+                  if (e.key === 'Enter') {
+                    const name = categoryInput.trim();
+                    if (!name || cats.includes(name)) return;
+                    // מצא מוצר ראשון ללא קטגוריה ועדכן אותו, אחרת צור מוצר placeholder
+                    const nocat = products.find(p => !p.category);
+                    if (nocat) {
+                      await base44.entities.Product.update(nocat.id, { category: name });
+                    } else {
+                      await base44.entities.Product.create({ name: `קטגוריה: ${name}`, price: 0, category: name, is_active: false });
+                    }
                     setCategoryInput('');
+                    load();
                   }
                 }}
               />
-              <Button onClick={() => {
-                if (categoryInput.trim()) {
-                  setEditingCat(null);
-                  setCategoryInput('');
+              <Button onClick={async () => {
+                const name = categoryInput.trim();
+                if (!name || cats.includes(name)) return;
+                const nocat = products.find(p => !p.category);
+                if (nocat) {
+                  await base44.entities.Product.update(nocat.id, { category: name });
+                } else {
+                  await base44.entities.Product.create({ name: `קטגוריה: ${name}`, price: 0, category: name, is_active: false });
                 }
+                setCategoryInput('');
+                load();
               }}>הוסף</Button>
             </div>
             <div className="space-y-2 max-h-60 overflow-y-auto">
@@ -367,11 +382,12 @@ export default function Products() {
                     <Input
                       value={categoryInput}
                       onChange={(e) => setCategoryInput(e.target.value)}
-                      onKeyDown={(e) => {
+                      onKeyDown={async (e) => {
                         if (e.key === 'Enter' && categoryInput.trim()) {
-                          // עדכן את הקטגוריה הקיימת
+                          await Promise.all(products.filter(p => p.category === cat).map(p => base44.entities.Product.update(p.id, { category: categoryInput.trim() })));
                           setEditingCat(null);
                           setCategoryInput('');
+                          load();
                         }
                       }}
                       autoFocus
@@ -382,45 +398,25 @@ export default function Products() {
                   )}
                   <div className="flex gap-1">
                     {editingCat === cat ? (
-                      <Button
-                        size="icon"
-                        variant="ghost"
-                        className="h-6 w-6"
-                        onClick={() => {
-                          // שמור עריכה
-                          setEditingCat(null);
-                          setCategoryInput('');
-                        }}
-                      >
-                        ✓
-                      </Button>
+                      <Button size="icon" variant="ghost" className="h-6 w-6" onClick={async () => {
+                        if (categoryInput.trim()) {
+                          await Promise.all(products.filter(p => p.category === cat).map(p => base44.entities.Product.update(p.id, { category: categoryInput.trim() })));
+                          load();
+                        }
+                        setEditingCat(null);
+                        setCategoryInput('');
+                      }}>✓</Button>
                     ) : (
-                      <Button
-                        size="icon"
-                        variant="ghost"
-                        className="h-6 w-6"
-                        onClick={() => {
-                          setEditingCat(cat);
-                          setCategoryInput(cat);
-                        }}
-                      >
+                      <Button size="icon" variant="ghost" className="h-6 w-6" onClick={() => { setEditingCat(cat); setCategoryInput(cat); }}>
                         <Edit2 className="w-3 h-3" />
                       </Button>
                     )}
-                    <Button
-                      size="icon"
-                      variant="ghost"
-                      className="h-6 w-6 text-destructive hover:text-destructive"
+                    <Button size="icon" variant="ghost" className="h-6 w-6 text-destructive hover:text-destructive"
                       onClick={async () => {
-                        // מחק קטגוריה - עדכן את כל המוצרים עם הקטגוריה הזו
-                        const productsToUpdate = products.filter(p => p.category === cat);
-                        for (const p of productsToUpdate) {
-                          await base44.entities.Product.update(p.id, { ...p, category: '' });
-                        }
+                        await Promise.all(products.filter(p => p.category === cat).map(p => base44.entities.Product.update(p.id, { category: '' })));
                         setEditingCat(null);
                         load();
-                      }}
-                    >
+                      }}>
                       <Trash2 className="w-3 h-3" />
                     </Button>
                   </div>
