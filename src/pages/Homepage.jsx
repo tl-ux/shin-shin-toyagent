@@ -29,7 +29,7 @@ export default function Homepage() {
                 <div className={`${color} p-5 rounded-full text-white mb-5 group-hover:scale-110 transition-transform`}>
                   <Icon className="w-8 h-8" />
                 </div>
-                <span className="font-semibold text-center text-base text-foreground">{label}</span>
+                <span className="font-semibold text-center text-lg text-foreground">{label}</span>
               </div>
             </Link>
           ))}
