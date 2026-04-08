@@ -18,7 +18,7 @@ export default function ProductCard({ p, onClick }) {
       <div className="p-3">
         <div className="font-semibold text-base leading-tight truncate text-center">{p.name}</div>
         {p.sku && <div className="text-xs text-muted-foreground mt-0.5 text-center">מק"ט: {p.sku}</div>}
-        <div className="flex items-center justify-between mt-2">
+        <div className="flex items-center justify-center mt-2">
           <span className="font-bold text-primary text-base">₪{(p.price || 0).toLocaleString()}</span>
 
         </div>
