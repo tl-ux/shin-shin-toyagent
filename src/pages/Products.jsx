@@ -181,10 +181,9 @@ function CategoryManager({ categories, onClose, onRefresh }) {
   };
 
   const deleteCategory = async (cat) => {
-    await base44.entities.Category.delete(cat.id);
-    // נקה קטגוריה מכל המוצרים
-    const products = await base44.entities.Product.filter({ category: cat.name });
-    await Promise.all(products.map(p => base44.entities.Product.update(p.id, { category: '' })));
+    try { await base44.entities.Category.delete(cat.id); } catch (_) {}
+    const prods = await base44.entities.Product.filter({ category: cat.name });
+    await Promise.all(prods.map(p => base44.entities.Product.update(p.id, { category: '' })));
     onRefresh();
   };
 
