@@ -62,13 +62,7 @@ export default function OrderCart({ cart, customer, totalAmount, onUpdateQty, on
         </div>
       </div>
 
-      {/* Template actions */}
-      <div className="flex gap-2">
-        <Button variant="outline" size="sm" onClick={() => setLoadTemplateOpen(true)} className="gap-1.5 flex-1">
-          <BookOpen className="w-3.5 h-3.5" />
-          טען תבנית
-        </Button>
-      </div>
+
 
       {/* Items */}
       <div className="space-y-2">
