@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import CustomerSelect from '@/components/order/CustomerSelect';
 import ProductCatalog from '@/components/order/ProductCatalog';
 import OrderCart from '@/components/order/OrderCart';
@@ -13,10 +13,19 @@ export default function NewOrder() {
   const [products, setProducts] = useState([]);
   const [customers, setCustomers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [step, setStep] = useState('customer'); // 'customer' | 'catalog' | 'cart'
+  const [step, setStep] = useState('customer');
   const [recentProductIds, setRecentProductIds] = useState([]);
   const [vatRate, setVatRate] = useState(0.18);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // איפוס הזמנה בכל כניסה חדשה לדף
+  useEffect(() => {
+    setSelectedCustomer(null);
+    setCart([]);
+    setStep('customer');
+    setRecentProductIds([]);
+  }, [location.key]);
 
   useEffect(() => {
     Promise.all([
