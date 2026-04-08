@@ -58,12 +58,18 @@ export default function OrderCart({ cart, customer, totalAmount, onUpdateQty, on
       <CheckCircle className="w-20 h-20 text-success mb-4" />
       <h2 className="text-2xl font-bold mb-2">ההזמנה נשלחה!</h2>
       <p className="text-muted-foreground mb-6">ההזמנה עבור {customer?.name} נרשמה בהצלחה</p>
-      {customer?.phone && (
-        <Button variant="outline" onClick={sendWhatsApp} className="gap-2 text-green-600 border-green-200 hover:bg-green-50">
-          <MessageCircle className="w-4 h-4" />
-          שלח אישור ב-WhatsApp ללקוח
+      <div className="flex gap-3 flex-wrap justify-center">
+        {customer?.phone && (
+          <Button variant="outline" onClick={sendWhatsApp} className="gap-2 text-green-600 border-green-200 hover:bg-green-50">
+            <MessageCircle className="w-4 h-4" />
+            שלח ב-WhatsApp
+          </Button>
+        )}
+        <Button variant="outline" onClick={downloadExcel} className="gap-2">
+          <FileDown className="w-4 h-4" />
+          הורדה כ-Excel
         </Button>
-      )}
+      </div>
     </div>
   );
 
