@@ -11,6 +11,14 @@ const navItems = [
   { path: '/help', label: 'עזרה', icon: HelpCircle },
 ];
 
+const bottomNavItems = [
+  { path: '/', label: 'הזמנה', icon: PenLine },
+  { path: '/orders', label: 'הזמנות', icon: ClipboardList },
+  { path: '/customers', label: 'לקוחות', icon: Users },
+  { path: '/debts', label: 'חובות', icon: CreditCard },
+  { path: '/products', label: 'קטלוג', icon: BookOpen },
+];
+
 export default function Layout() {
   const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -107,10 +115,27 @@ export default function Layout() {
           </div>
         </header>
 
-        <main className="flex-1 overflow-auto">
+        <main className="flex-1 overflow-auto pb-16 lg:pb-0">
           <Outlet />
         </main>
       </div>
+
+      {/* Bottom Navigation — mobile only */}
+      <nav className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white border-t border-border flex">
+        {bottomNavItems.map(({ path, label, icon: Icon }) => (
+          <Link
+            key={path}
+            to={path}
+            className={cn(
+              'flex-1 flex flex-col items-center justify-center py-2 gap-0.5 transition-colors',
+              location.pathname === path ? 'text-primary' : 'text-muted-foreground'
+            )}
+          >
+            <Icon className="w-5 h-5" />
+            <span className="text-xs font-medium">{label}</span>
+          </Link>
+        ))}
+      </nav>
     </div>
   );
 }

@@ -129,9 +129,9 @@ export default function Dashboard() {
       </div>
 
       {/* Monthly Table YoY */}
-      <div className="bg-card border border-border rounded-xl p-4">
+      <div className="bg-card border border-border rounded-xl p-4 overflow-x-auto">
          <h2 className="font-semibold text-base mb-3">מכירות לפי חודש - שנה מול שנה</h2>
-         <table className="w-full text-base">
+         <table className="w-full text-sm min-w-[300px]">
           <thead>
             <tr className="border-b border-border text-muted-foreground text-xs">
               <th className="text-right pb-2 font-medium">חודש</th>

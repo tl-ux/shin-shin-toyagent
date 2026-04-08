@@ -259,7 +259,7 @@ export default function Orders() {
       </div>
 
       {/* Status stats */}
-      <div className="grid grid-cols-4 gap-2">
+      <div className="grid grid-cols-4 gap-1.5">
         {Object.entries(STATUS_MAP).map(([key, val]) => {
           const count = orders.filter(o => o.status === key).length;
           return (
@@ -267,12 +267,12 @@ export default function Orders() {
               key={key}
               onClick={() => setStatusFilter(statusFilter === key ? 'all' : key)}
               className={cn(
-                'rounded-xl p-2.5 text-center border transition-all',
+                'rounded-xl p-2 text-center border transition-all',
                 statusFilter === key ? 'border-primary bg-accent' : 'border-border bg-card'
               )}
             >
-              <div className="text-xl font-bold text-foreground">{count}</div>
-              <div className="text-base text-muted-foreground mt-0.5">{val.label}</div>
+              <div className="text-lg font-bold text-foreground">{count}</div>
+              <div className="text-xs text-muted-foreground mt-0.5 leading-tight">{val.label}</div>
             </button>
           );
         })}
