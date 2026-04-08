@@ -1,17 +1,22 @@
 import { Link } from 'react-router-dom';
 import { PenLine, BarChart3, Users, CreditCard, BookOpen, HelpCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useAuth } from '@/lib/AuthContext';
 
 export default function Homepage() {
-  const actions = [
-    { to: '/new-order', label: 'הזמנה חדשה', icon: PenLine, color: 'bg-primary' },
-    { to: '/dashboard', label: 'פאנל ניהול', icon: BarChart3, color: 'bg-blue-500' },
-    { to: '/orders', label: 'הזמנות', icon: PenLine, color: 'bg-purple-500' },
-    { to: '/customers', label: 'לקוחות', icon: Users, color: 'bg-green-500' },
-    { to: '/debts', label: 'חובות', icon: CreditCard, color: 'bg-orange-500' },
-    { to: '/products', label: 'קטלוג', icon: BookOpen, color: 'bg-indigo-500' },
-    { to: '/help', label: 'עזרה', icon: HelpCircle, color: 'bg-gray-500' },
+  const { user } = useAuth();
+  
+  const allActions = [
+    { to: '/new-order', label: 'הזמנה חדשה', icon: PenLine, color: 'bg-primary', roles: ['admin', 'user', 'store_manager'] },
+    { to: '/dashboard', label: 'פאנל ניהול', icon: BarChart3, color: 'bg-blue-500', roles: ['admin', 'user'] },
+    { to: '/orders', label: 'הזמנות', icon: PenLine, color: 'bg-purple-500', roles: ['admin', 'user'] },
+    { to: '/customers', label: 'לקוחות', icon: Users, color: 'bg-green-500', roles: ['admin', 'user'] },
+    { to: '/debts', label: 'חובות', icon: CreditCard, color: 'bg-orange-500', roles: ['admin', 'user'] },
+    { to: '/products', label: 'קטלוג', icon: BookOpen, color: 'bg-indigo-500', roles: ['admin', 'user'] },
+    { to: '/help', label: 'עזרה', icon: HelpCircle, color: 'bg-gray-500', roles: ['admin', 'user', 'store_manager'] },
   ];
+
+  const actions = allActions.filter(action => user && action.roles.includes(user.role));
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-primary/10 to-background p-4">

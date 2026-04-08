@@ -4,23 +4,28 @@ import { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
 import { cn } from '@/lib/utils';
 import GlobalSearch from '@/components/GlobalSearch';
+import { useAuth } from '@/lib/AuthContext';
 
-const navItems = [
-  { path: '/', label: 'הזמנה חדשה', icon: PenLine },
-  { path: '/dashboard', label: 'פאנל ניהול', icon: LayoutDashboard },
-  { path: '/help', label: 'עזרה', icon: HelpCircle },
+const allNavItems = [
+  { path: '/', label: 'הזמנה חדשה', icon: PenLine, roles: ['admin', 'user', 'store_manager'] },
+  { path: '/dashboard', label: 'פאנל ניהול', icon: LayoutDashboard, roles: ['admin', 'user'] },
+  { path: '/help', label: 'עזרה', icon: HelpCircle, roles: ['admin', 'user', 'store_manager'] },
 ];
 
-const bottomNavItems = [
-  { path: '/', label: 'הזמנה', icon: PenLine },
-  { path: '/orders', label: 'הזמנות', icon: ClipboardList },
-  { path: '/customers', label: 'לקוחות', icon: Users },
-  { path: '/debts', label: 'חובות', icon: CreditCard },
-  { path: '/products', label: 'קטלוג', icon: BookOpen },
+const allBottomNavItems = [
+  { path: '/', label: 'הזמנה', icon: PenLine, roles: ['admin', 'user', 'store_manager'] },
+  { path: '/orders', label: 'הזמנות', icon: ClipboardList, roles: ['admin', 'user'] },
+  { path: '/customers', label: 'לקוחות', icon: Users, roles: ['admin', 'user'] },
+  { path: '/debts', label: 'חובות', icon: CreditCard, roles: ['admin', 'user'] },
+  { path: '/products', label: 'קטלוג', icon: BookOpen, roles: ['admin', 'user'] },
 ];
 
 export default function Layout() {
   const location = useLocation();
+  const { user } = useAuth();
+  
+  const navItems = allNavItems.filter(item => user && item.roles.includes(user.role));
+  const bottomNavItems = allBottomNavItems.filter(item => user && item.roles.includes(user.role));
 
   return (
     <div className="min-h-screen bg-background flex flex-col" dir="rtl">
