@@ -25,11 +25,11 @@ export default function Homepage() {
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {actions.map(({ to, label, icon: Icon, color }) => (
             <Link key={to} to={to}>
-              <div className="h-full flex flex-col items-center justify-center p-6 rounded-2xl bg-card border border-border hover:border-primary/40 hover:shadow-lg transition-all cursor-pointer group">
-                <div className={`${color} p-4 rounded-full text-white mb-4 group-hover:scale-110 transition-transform`}>
-                  <Icon className="w-6 h-6" />
+              <div className="h-full flex flex-col items-center justify-center p-8 rounded-2xl bg-card border border-border hover:border-primary/40 hover:shadow-lg transition-all cursor-pointer group">
+                <div className={`${color} p-5 rounded-full text-white mb-5 group-hover:scale-110 transition-transform`}>
+                  <Icon className="w-8 h-8" />
                 </div>
-                <span className="font-semibold text-center text-sm text-foreground">{label}</span>
+                <span className="font-semibold text-center text-base text-foreground">{label}</span>
               </div>
             </Link>
           ))}
