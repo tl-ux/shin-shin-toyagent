@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { PenLine, BarChart3, Users, CreditCard, BookOpen, HelpCircle } from 'lucide-react';
+import { PenLine, BarChart3, Users, CreditCard, BookOpen, HelpCircle, Settings } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/lib/AuthContext';
 
@@ -14,6 +14,7 @@ export default function Homepage() {
     { to: '/debts', label: 'חובות', icon: CreditCard, color: 'bg-orange-500', roles: ['admin', 'user'] },
     { to: '/products', label: 'קטלוג', icon: BookOpen, color: 'bg-indigo-500', roles: ['admin', 'user'] },
     { to: '/help', label: 'עזרה', icon: HelpCircle, color: 'bg-gray-500', roles: ['admin', 'user', 'store_manager'] },
+    { to: '/settings', label: 'הגדרות', icon: Settings, color: 'bg-slate-600', roles: ['admin'] },
   ];
 
   const actions = allActions.filter(action => user && action.roles.includes(user.role));
