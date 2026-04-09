@@ -47,7 +47,9 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
     if (sortKey === 'default') list = [...list].sort((a, b) => {
       const orderDiff = categoryOrder(a.category) - categoryOrder(b.category);
       if (orderDiff !== 0) return orderDiff;
-      return (a.category || '').localeCompare(b.category || '', 'he');
+      const catDiff = (a.category || '').localeCompare(b.category || '', 'he');
+      if (catDiff !== 0) return catDiff;
+      return (a.name || '').localeCompare(b.name || '', 'he');
     });
     else if (sortKey === 'price_asc') list = [...list].sort((a, b) => (getProductPrice ? getProductPrice(a) : a.price) - (getProductPrice ? getProductPrice(b) : b.price));
     else if (sortKey === 'price_desc') list = [...list].sort((a, b) => (getProductPrice ? getProductPrice(b) : b.price) - (getProductPrice ? getProductPrice(a) : a.price));
