@@ -38,9 +38,9 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
 
     const categoryOrder = (cat) => {
       if (!cat) return 3;
-      const lower = cat.toLowerCase();
-      if (lower.includes('tiger tribe')) return 0;
-      if (lower.includes('שין שין עץ')) return 1;
+      const trimmed = cat.trim().toLowerCase();
+      if (trimmed.includes('tiger') || trimmed.includes('טייגר')) return 0;
+      if (trimmed.includes('עץ')) return 1;
       return 2;
     };
 
