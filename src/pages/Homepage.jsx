@@ -13,7 +13,7 @@ export default function Homepage() {
     { to: '/customers', label: 'לקוחות', icon: Users, color: 'bg-green-500', roles: ['admin', 'user'] },
     { to: '/debts', label: 'חובות', icon: CreditCard, color: 'bg-orange-500', roles: ['admin', 'user'] },
     { to: '/products', label: 'קטלוג', icon: BookOpen, color: 'bg-indigo-500', roles: ['admin', 'user'] },
-    { to: '/settings', label: 'הגדרות', icon: Settings, color: 'bg-slate-600', roles: ['admin'] },
+    { to: '/settings', label: 'הגדרות', icon: Settings, color: 'bg-blue-800', roles: ['admin'] },
     { to: '/help', label: 'עזרה', icon: HelpCircle, color: 'bg-gray-500', roles: ['admin', 'user', 'store_manager'] },
   ];
 
