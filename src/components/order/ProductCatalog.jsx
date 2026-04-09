@@ -137,6 +137,7 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
                   alt={product.name}
                   className="w-full h-full object-contain cursor-zoom-in"
                   style={{ imageRendering: 'crisp-edges' }}
+                  loading="lazy"
                   onClick={(e) => { e.stopPropagation(); setZoomedProduct(product); }}
                 /> :
                 <span className={cn('font-bold text-primary/30', placeholderText)}>{product.name[0]}</span>
@@ -219,6 +220,7 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
                  alt={selectedProduct.name}
                  className="w-full h-full object-contain cursor-zoom-in"
                  style={{ imageRendering: 'crisp-edges' }}
+                 loading="lazy"
                  onClick={() => { setZoomedProduct(selectedProduct); }}
                /> :
                <span className="text-6xl font-bold text-primary/30">{selectedProduct.name[0]}</span>

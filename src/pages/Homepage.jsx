@@ -23,7 +23,7 @@ export default function Homepage() {
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center py-12">
-          <img src="https://media.base44.com/images/public/69cbdbfb3ccb589826de82bf/d6c37f31b_SHIN_SHIN_transparent.png" alt="שין שין לוגו" className="h-24 mb-8 mx-auto" />
+          <img src="https://media.base44.com/images/public/69cbdbfb3ccb589826de82bf/d6c37f31b_SHIN_SHIN_transparent.png" alt="שין שין לוגו" className="h-24 mb-8 mx-auto" loading="lazy" />
           {user && <p className="text-3xl text-muted-foreground mt-4">שלום, {user.full_name}</p>}
         </div>
 

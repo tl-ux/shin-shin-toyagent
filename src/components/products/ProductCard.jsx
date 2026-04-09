@@ -8,7 +8,7 @@ export default function ProductCard({ p, onClick }) {
     >
       <div className="w-full aspect-square overflow-hidden bg-white flex items-center justify-center">
         {p.image_url ? (
-          <img src={p.image_url} alt={p.name} className="w-full h-full object-contain" style={{ imageRendering: 'crisp-edges' }} />
+          <img src={p.image_url} alt={p.name} className="w-full h-full object-contain" style={{ imageRendering: 'crisp-edges' }} loading="lazy" />
         ) : (
           <span className="text-3xl font-bold text-primary/30">{p.name[0]}</span>
         )}
