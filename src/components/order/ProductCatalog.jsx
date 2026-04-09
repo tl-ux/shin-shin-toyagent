@@ -44,7 +44,8 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
       if (trimmed === 'שין שין - יצירה' || trimmed.includes('שין שין - יצירה')) return 2;
       if (trimmed.includes('box candiy') || trimmed.includes('box candy')) return 3;
       if (trimmed.includes('sluban')) return 4;
-      return 5;
+      if (trimmed.includes('mideer')) return 5;
+      return 6;
     };
 
     if (sortKey === 'default') list = [...list].sort((a, b) => {
