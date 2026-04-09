@@ -46,7 +46,8 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
       if (trimmed.includes('sluban')) return 4;
       if (trimmed.includes('mideer')) return 5;
       if (trimmed.includes('mudpuppy')) return 6;
-      return 7;
+      if (trimmed.includes('mbi')) return 7;
+      return 8;
     };
 
     if (sortKey === 'default') list = [...list].sort((a, b) => {
