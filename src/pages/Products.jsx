@@ -396,17 +396,34 @@ export default function Products() {
         </div>
       )}
 
-      <div className="grid grid-cols-2 gap-3 lg:grid-cols-3 xl:grid-cols-4">
-        {filtered.length === 0 && (
-          <div className="col-span-2 text-center py-16 text-muted-foreground">
-            <Package className="w-12 h-12 mx-auto mb-3 opacity-30" />
-            <p>אין פריטים</p>
+      {filtered.length === 0 && (
+        <div className="text-center py-16 text-muted-foreground">
+          <Package className="w-12 h-12 mx-auto mb-3 opacity-30" />
+          <p>אין פריטים</p>
+        </div>
+      )}
+
+      {(() => {
+        if (filtered.length === 0) return null;
+        // Group by category in order
+        const groups = [];
+        const seen = new Set();
+        filtered.forEach((p) => {
+          const cat = p.category || 'ללא קטגוריה';
+          if (!seen.has(cat)) { seen.add(cat); groups.push({ cat, items: [] }); }
+          groups.find(g => g.cat === cat).items.push(p);
+        });
+        return groups.map(({ cat, items }) => (
+          <div key={cat} className="space-y-2">
+            <h2 className="text-lg font-bold text-foreground border-b border-border pb-1">{cat}</h2>
+            <div className="grid grid-cols-2 gap-3 lg:grid-cols-3 xl:grid-cols-4">
+              {items.map((p) => (
+                <ProductCard key={p.id} p={p} onClick={() => { setEditing(p); setShowForm(true); }} />
+              ))}
+            </div>
           </div>
-        )}
-        {filtered.map((p) => (
-          <ProductCard key={p.id} p={p} onClick={() => { setEditing(p); setShowForm(true); }} />
-        ))}
-      </div>
+        ));
+      })()}
 
       <Dialog open={showForm} onOpenChange={(v) => { if (!v) setShowForm(false); }}>
         {showForm && (
