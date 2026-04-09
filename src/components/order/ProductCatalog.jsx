@@ -41,7 +41,8 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
       const trimmed = cat.trim().toLowerCase();
       if (trimmed.includes('tiger tribe') || trimmed === 'tiger tribe') return 0;
       if (trimmed === 'שין שין - עץ' || trimmed.includes('שין שין - עץ')) return 1;
-      return 2;
+      if (trimmed === 'שין שין - יצירה' || trimmed.includes('שין שין - יצירה')) return 2;
+      return 3;
     };
 
     if (sortKey === 'default') list = [...list].sort((a, b) => {
