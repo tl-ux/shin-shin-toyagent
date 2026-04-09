@@ -146,8 +146,29 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
       </div>
 
       {/* Products Grid */}
-      <div className={cn('p-4 gap-3', cols === 1 ? 'flex flex-col' : cols === 2 ? 'grid grid-cols-2' : 'grid grid-cols-3')}>
-        {filtered.map((product) => {
+      <div className="p-4 space-y-6">
+        {(() => {
+          // Group products by category
+          const groups = [];
+          let currentCat = null;
+          let currentItems = [];
+          filtered.forEach((product) => {
+            const cat = product.category || 'ללא קטגוריה';
+            if (cat !== currentCat) {
+              if (currentItems.length > 0) groups.push({ category: currentCat, items: currentItems });
+              currentCat = cat;
+              currentItems = [product];
+            } else {
+              currentItems.push(product);
+            }
+          });
+          if (currentItems.length > 0) groups.push({ category: currentCat, items: currentItems });
+
+          return groups.map(({ category: cat, items }) => (
+            <div key={cat}>
+              <h2 className="text-lg font-bold text-foreground mb-3 border-b border-border pb-1">{cat}</h2>
+              <div className={cn('gap-3', cols === 1 ? 'flex flex-col' : cols === 2 ? 'grid grid-cols-2' : 'grid grid-cols-3')}>
+                {items.map((product) => {
           const qty = getCartQty(product.id);
           const placeholderText = cols === 1 ? 'text-6xl' : cols === 2 ? 'text-3xl' : 'text-2xl';
           return (
@@ -208,7 +229,11 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
               </div>
             </div>);
 
-        })}
+                })}
+              </div>
+            </div>
+          ));
+        })()}
       </div>
 
       {/* Floating cart button */}
