@@ -40,7 +40,7 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
       if (!cat) return 3;
       const trimmed = cat.trim().toLowerCase();
       if (trimmed.includes('tiger tribe') || trimmed === 'tiger tribe') return 0;
-      if (trimmed.includes('עץ')) return 1;
+      if (trimmed === 'שין שין - עץ' || trimmed.includes('שין שין - עץ')) return 1;
       return 2;
     };
 
