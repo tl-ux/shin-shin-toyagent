@@ -36,7 +36,16 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
       return matchSearch && matchCat;
     });
 
-    if (sortKey === 'price_asc') list = [...list].sort((a, b) => (getProductPrice ? getProductPrice(a) : a.price) - (getProductPrice ? getProductPrice(b) : b.price));
+    const categoryOrder = (cat) => {
+      if (!cat) return 3;
+      const lower = cat.toLowerCase();
+      if (lower.includes('tiger tribe')) return 0;
+      if (lower.includes('שין שין עץ')) return 1;
+      return 2;
+    };
+
+    if (sortKey === 'default') list = [...list].sort((a, b) => categoryOrder(a.category) - categoryOrder(b.category));
+    else if (sortKey === 'price_asc') list = [...list].sort((a, b) => (getProductPrice ? getProductPrice(a) : a.price) - (getProductPrice ? getProductPrice(b) : b.price));
     else if (sortKey === 'price_desc') list = [...list].sort((a, b) => (getProductPrice ? getProductPrice(b) : b.price) - (getProductPrice ? getProductPrice(a) : a.price));
     else if (sortKey === 'popular') list = [...list].sort((a, b) => (recentProductIds.indexOf(a.id) === -1 ? 999 : recentProductIds.indexOf(a.id)) - (recentProductIds.indexOf(b.id) === -1 ? 999 : recentProductIds.indexOf(b.id)));
 
