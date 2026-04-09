@@ -39,7 +39,7 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
     const categoryOrder = (cat) => {
       if (!cat) return 3;
       const trimmed = cat.trim().toLowerCase();
-      if (trimmed.includes('tiger tribe') || trimmed === 'tiger tribe') return 0;
+      if (trimmed.includes('tiger')) return 0;
       if (trimmed === 'שין שין - עץ' || trimmed.includes('שין שין - עץ')) return 1;
       if (trimmed === 'שין שין - יצירה' || trimmed.includes('שין שין - יצירה')) return 2;
       if (trimmed.includes('box candiy') || trimmed.includes('box candy')) return 3;
