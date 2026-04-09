@@ -31,7 +31,7 @@ const AuthenticatedApp = () => {
   if (isLoadingPublicSettings || isLoadingAuth) {
     return (
       <div className="fixed inset-0 flex items-center justify-center">
-        <img src="https://media.base44.com/images/public/69cbdbfb3ccb589826de82bf/b2960febd_SHIN_SHIN.png" alt="טוען..." className="h-24 animate-pulse" />
+        <img src="https://media.base44.com/images/public/69cbdbfb3ccb589826de82bf/2c09fa58d_SHIN_SHIN_transparent.png" alt="טוען..." className="h-24 animate-pulse" />
       </div>
     );
   }
