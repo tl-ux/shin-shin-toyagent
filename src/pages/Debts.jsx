@@ -35,7 +35,6 @@ function PaymentDialog({ debt, onClose, onSave }) {
       balance_due: Math.max(0, newBalance),
       status: newStatus,
     });
-    // Save payment history
     await base44.entities.PaymentHistory.create({
       debt_id: debt.id,
       customer_id: debt.customer_id,
@@ -198,7 +197,6 @@ function DebtCard({ debt, onPayment }) {
             {debt.order_number && <span>הזמנה: {debt.order_number}</span>}
             {debt.due_date && <span>יעד: {format(new Date(debt.due_date), 'dd/MM/yyyy')}</span>}
           </div>
-          {/* Progress bar */}
           <div className="mt-2 bg-muted rounded-full h-1.5 w-full">
             <div
               className="bg-success h-1.5 rounded-full transition-all"
@@ -295,7 +293,6 @@ export default function Debts() {
         </div>
       </div>
 
-      {/* Summary cards */}
       <div className="grid grid-cols-2 gap-3">
         <div className="bg-destructive/5 border border-destructive/20 rounded-xl p-4">
           <div className="text-sm text-muted-foreground">סה"כ חובות פתוחים</div>
@@ -309,7 +306,6 @@ export default function Debts() {
         </div>
       </div>
 
-      {/* Status filters */}
       <div className="grid grid-cols-4 gap-2">
         {[
           { key: 'all', label: 'הכל' },
