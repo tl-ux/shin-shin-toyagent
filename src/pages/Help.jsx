@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
   ShoppingCart, Users, Package, CreditCard, BarChart3,
   LayoutDashboard, UserCircle, Settings, ChevronDown, ChevronUp,
@@ -198,6 +199,10 @@ export default function Help() {
         {sections.map((s, i) => (
           <SectionCard key={i} section={s} />
         ))}
+      </div>
+
+      <div className="text-center text-xs text-muted-foreground pt-2">
+        <Link to="/privacy" className="underline hover:text-foreground transition-colors">מדיניות פרטיות</Link>
       </div>
     </div>
   );
