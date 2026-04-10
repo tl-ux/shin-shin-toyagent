@@ -203,6 +203,8 @@ export default function Help() {
 
       <div className="text-center text-xs text-muted-foreground pt-2">
         <Link to="/privacy" className="underline hover:text-foreground transition-colors">מדיניות פרטיות</Link>
+        <span className="mx-2">·</span>
+        <Link to="/terms" className="underline hover:text-foreground transition-colors">תנאי שימוש</Link>
       </div>
     </div>
   );

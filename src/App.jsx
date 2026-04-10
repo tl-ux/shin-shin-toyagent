@@ -17,6 +17,7 @@ import Dashboard from '@/pages/Dashboard';
 import AgentSummary from '@/pages/AgentSummary';
 import Help from '@/pages/Help';
 import PrivacyPolicy from '@/pages/PrivacyPolicy';
+import TermsOfService from '@/pages/TermsOfService';
 
 const ProtectedRoute = ({ element, allowedRoles }) => {
   const { user } = useAuth();
@@ -60,6 +61,7 @@ const AuthenticatedApp = () => {
         <Route path="/agent-summary" element={<ProtectedRoute element={<AgentSummary />} allowedRoles={['admin', 'user']} />} />
         <Route path="/help" element={<Help />} />
         <Route path="/privacy" element={<PrivacyPolicy />} />
+        <Route path="/terms" element={<TermsOfService />} />
       </Route>
       <Route path="*" element={<PageNotFound />} />
     </Routes>
