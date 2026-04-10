@@ -16,6 +16,7 @@ import Debts from '@/pages/Debts';
 import Dashboard from '@/pages/Dashboard';
 import AgentSummary from '@/pages/AgentSummary';
 import Help from '@/pages/Help';
+import PrivacyPolicy from '@/pages/PrivacyPolicy';
 
 const ProtectedRoute = ({ element, allowedRoles }) => {
   const { user } = useAuth();
@@ -58,6 +59,7 @@ const AuthenticatedApp = () => {
         <Route path="/debts" element={<ProtectedRoute element={<Debts />} allowedRoles={['admin', 'user']} />} />
         <Route path="/agent-summary" element={<ProtectedRoute element={<AgentSummary />} allowedRoles={['admin', 'user']} />} />
         <Route path="/help" element={<Help />} />
+        <Route path="/privacy" element={<PrivacyPolicy />} />
       </Route>
       <Route path="*" element={<PageNotFound />} />
     </Routes>
