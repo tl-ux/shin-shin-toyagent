@@ -125,8 +125,8 @@ export default function NewOrder() {
       total_amount: totalAmount,
       notes,
       visit_date: new Date().toISOString().split('T')[0],
+      rivhit_status: 'pending',
     });
-    // יצירה אוטומטית של חוב
     if (totalAmount > 0) {
       await base44.entities.Debt.create({
         customer_id: selectedCustomer?.id || '',
@@ -139,6 +139,14 @@ export default function NewOrder() {
         status: 'open',
       });
     }
+    try {
+      const settings = await base44.entities.AppSettings.list();
+      const appSettings = settings[0] || {};
+      if (appSettings.rivhit_enabled && appSettings.rivhit_api_token) {
+        base44.functions.invoke('sendToRivhit', { order_id: order.id })
+          .catch(() => {});
+      }
+    } catch (_) {}
     navigate(`/orders`);
   };
 

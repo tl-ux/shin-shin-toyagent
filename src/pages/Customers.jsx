@@ -11,7 +11,11 @@ import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
 
 function CustomerForm({ customer, onSave, onClose }) {
-  const [form, setForm] = useState(customer || { customer_number: '', name: '', email: '', contact_name: '', phone: '', address: '', city: '', notes: '', is_wholesale: false, network_commission_percent: '', is_active: true });
+  const [form, setForm] = useState(customer || {
+    customer_number: '', name: '', email: '', contact_name: '', phone: '',
+    address: '', city: '', notes: '', is_wholesale: false, network_commission_percent: '',
+    is_active: true, business_id: '', rivhit_document_type: 10, rivhit_customer_id: null
+  });
   const [saving, setSaving] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [deleting, setDeleting] = useState(false);
@@ -107,10 +111,37 @@ function CustomerForm({ customer, onSave, onClose }) {
           </div>
         </div>
 
+        {/* ריווחית */}
+        <div className="border border-border rounded-xl p-3 space-y-3">
+          <div className="font-medium text-sm">ריווחית</div>
+          <div>
+            <Label>ח.פ / ע.מ.</Label>
+            <Input value={form.business_id || ''} onChange={e => set('business_id', e.target.value)} placeholder="123456789" className="mt-1" dir="ltr" />
+          </div>
+          <div>
+            <Label>סוג מסמך בריווחית</Label>
+            <Input
+              value={form.rivhit_document_type ?? 10}
+              onChange={e => set('rivhit_document_type', e.target.value !== '' ? parseInt(e.target.value) : 10)}
+              type="number"
+              className="mt-1 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+              dir="ltr"
+            />
+            <p className="text-xs text-muted-foreground mt-1">10 = הצעת מחיר (ברירת מחדל)</p>
+          </div>
+          {form.rivhit_customer_id > 0 && (
+            <div>
+              <Label>מזהה ריווחית</Label>
+              <div className="mt-1 px-3 py-2 bg-muted rounded-md text-sm text-muted-foreground" dir="ltr">{form.rivhit_customer_id}</div>
+            </div>
+          )}
+        </div>
+
         <div>
           <Label>הערות</Label>
           <Textarea value={form.notes} onChange={e => set('notes', e.target.value)} rows={2} className="mt-1 resize-none" />
         </div>
+
         {customer?.id && (
           <div>
             <div className="font-medium text-sm mb-2 border-t border-border pt-3">סיכום לקוח</div>
@@ -155,7 +186,6 @@ export default function Customers() {
 
   const load = () => {
     base44.entities.Customer.list('-created_date').then(d => {
-      // אם המשתמש הוא store_manager, הוא רואה רק את הלקוח שלו
       const filteredCustomers = user?.role === 'store_manager' && user?.email
         ? d.filter(c => c.email?.toLowerCase() === user.email?.toLowerCase())
         : d;
@@ -247,7 +277,6 @@ export default function Customers() {
                    )}
                 </div>
               </div>
-
             </div>
           </button>
         ))}

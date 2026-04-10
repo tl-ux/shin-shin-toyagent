@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
 import { Mail, Phone, Save } from 'lucide-react';
+import { Switch } from '@/components/ui/switch';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -9,7 +10,7 @@ import { useToast } from '@/components/ui/use-toast';
 export default function Settings() {
   const [loading, setLoading] = useState(true);
   const [appSettings, setAppSettings] = useState(null);
-  const [settingsForm, setSettingsForm] = useState({ office_email: '', office_whatsapp: '', vat_rate: 0.18 });
+  const [settingsForm, setSettingsForm] = useState({ office_email: '', office_whatsapp: '', vat_rate: 0.18, rivhit_api_token: '', rivhit_enabled: false });
   const [savingSettings, setSavingSettings] = useState(false);
   const { toast } = useToast();
 
@@ -21,6 +22,8 @@ export default function Settings() {
         office_email: settings[0].office_email || '',
         office_whatsapp: settings[0].office_whatsapp || '',
         vat_rate: settings[0].vat_rate ?? 0.18,
+        rivhit_api_token: settings[0].rivhit_api_token || '',
+        rivhit_enabled: settings[0].rivhit_enabled ?? false,
       });
     }
     setLoading(false);
@@ -92,6 +95,33 @@ export default function Settings() {
             dir="ltr"
           />
           <p className="text-xs text-muted-foreground mt-1">כרגע: {Math.round(settingsForm.vat_rate * 100)}% — ישמש לחישוב מחירי סיטונאים</p>
+        </div>
+        <Button onClick={saveSettings} disabled={savingSettings} className="gap-2">
+          <Save className="w-4 h-4" />
+          {savingSettings ? 'שומר...' : 'שמור הגדרות'}
+        </Button>
+      </div>
+
+      {/* ריווחית */}
+      <div className="bg-card border border-border rounded-xl p-4 space-y-4">
+        <h2 className="text-xl font-semibold">ריווחית</h2>
+        <div>
+          <Label>API Token ריווחית</Label>
+          <Input
+            value={settingsForm.rivhit_api_token}
+            onChange={e => setSettingsForm(p => ({ ...p, rivhit_api_token: e.target.value }))}
+            type="password"
+            placeholder="הדבק את ה-Token כאן"
+            className="mt-1"
+            dir="ltr"
+          />
+        </div>
+        <div className="flex items-center gap-3">
+          <Switch
+            checked={!!settingsForm.rivhit_enabled}
+            onCheckedChange={v => setSettingsForm(p => ({ ...p, rivhit_enabled: v }))}
+          />
+          <Label>שליחה אוטומטית לריווחית</Label>
         </div>
         <Button onClick={saveSettings} disabled={savingSettings} className="gap-2">
           <Save className="w-4 h-4" />

@@ -119,6 +119,28 @@ function OrderCard({ order, officeEmail, officeWhatsapp, onEdit, onCopy, onDelet
               💬 {order.notes}
             </div>
           )}
+          {/* ריווחית סטטוס */}
+          {order.rivhit_status && (
+            <div className="mt-2 flex items-center gap-2 flex-wrap text-sm">
+              {order.rivhit_status === 'sent' && (
+                <>
+                  <span className="px-2 py-0.5 rounded-full bg-success/10 text-success text-xs font-medium">✓ ריווחית</span>
+                  {order.rivhit_pdf_link && (
+                    <a href={order.rivhit_pdf_link} target="_blank" rel="noopener noreferrer" className="text-xs text-primary underline">PDF ריווחית</a>
+                  )}
+                </>
+              )}
+              {order.rivhit_status === 'error' && (
+                <>
+                  <span className="px-2 py-0.5 rounded-full bg-destructive/10 text-destructive text-xs font-medium">⚠ ריווחית</span>
+                  {order.rivhit_error && <span className="text-xs text-destructive">{order.rivhit_error}</span>}
+                </>
+              )}
+              {order.rivhit_status === 'pending' && (
+                <span className="px-2 py-0.5 rounded-full bg-muted text-muted-foreground text-xs font-medium">ממתין לריווחית</span>
+              )}
+            </div>
+          )}
           <div className="mt-3">
             <OrderShareMenu order={order} officeEmail={officeEmail} officeWhatsapp={officeWhatsapp} />
           </div>
