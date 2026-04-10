@@ -127,18 +127,6 @@ export default function NewOrder() {
       visit_date: new Date().toISOString().split('T')[0],
       rivhit_status: 'pending',
     });
-    if (totalAmount > 0) {
-      await base44.entities.Debt.create({
-        customer_id: selectedCustomer?.id || '',
-        customer_name: selectedCustomer?.name || '',
-        order_id: order.id,
-        order_number: orderNum,
-        amount: totalAmount,
-        amount_paid: 0,
-        balance_due: totalAmount,
-        status: 'open',
-      });
-    }
     try {
       const settings = await base44.entities.AppSettings.list();
       const appSettings = settings[0] || {};

@@ -112,6 +112,23 @@ Deno.serve(async (req) => {
     rivhit_error: '',
   });
 
+  // יצירת חוב רק לאחר אישור ריווחית
+  if (order.total_amount > 0) {
+    const existingDebts = await base44.entities.Debt.filter({ order_id: order_id });
+    if (existingDebts.length === 0) {
+      await base44.entities.Debt.create({
+        customer_id: order.customer_id || '',
+        customer_name: order.customer_name || '',
+        order_id: order_id,
+        order_number: order.order_number || '',
+        amount: order.total_amount,
+        amount_paid: 0,
+        balance_due: order.total_amount,
+        status: 'open',
+      });
+    }
+  }
+
   if (!hasRivhitId && data.customer_id && customer?.id) {
     await base44.entities.Customer.update(customer.id, {
       rivhit_customer_id: data.customer_id,
