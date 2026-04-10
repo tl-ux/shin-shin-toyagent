@@ -38,7 +38,7 @@ export default function NewOrder() {
       setProducts(prods);
       // אם המשתמש הוא store_manager, הוא רואה רק את הלקוח שלו
       const filteredCustomers = user?.role === 'store_manager' && user?.email
-        ? custs.filter(c => c.email === user.email)
+        ? custs.filter(c => c.email?.toLowerCase() === user.email?.toLowerCase())
         : custs;
       setCustomers(filteredCustomers);
       if (settings.length > 0 && settings[0].vat_rate) {

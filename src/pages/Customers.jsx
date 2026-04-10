@@ -157,7 +157,7 @@ export default function Customers() {
     base44.entities.Customer.list('-created_date').then(d => {
       // אם המשתמש הוא store_manager, הוא רואה רק את הלקוח שלו
       const filteredCustomers = user?.role === 'store_manager' && user?.email
-        ? d.filter(c => c.email === user.email)
+        ? d.filter(c => c.email?.toLowerCase() === user.email?.toLowerCase())
         : d;
       setCustomers(filteredCustomers);
       setLoading(false);
