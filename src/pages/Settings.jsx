@@ -136,10 +136,20 @@ export default function Settings() {
       {/* Delete Account */}
       <div className="bg-card border border-destructive/30 rounded-xl p-4 space-y-3">
         <h2 className="text-xl font-semibold text-destructive">מחיקת חשבון</h2>
-        <p className="text-sm text-muted-foreground">פעולה זו בלתי הפיכה — כל הנתונים של המשתמש יימחקו לצמיתות.</p>
+        <div className="bg-destructive/5 border border-destructive/20 rounded-lg p-3 space-y-1.5 text-sm">
+          <p className="font-semibold text-destructive">⚠️ פעולה זו בלתי הפיכה לחלוטין</p>
+          <p className="text-muted-foreground">מחיקת החשבון תגרום להסרה מיידית ולצמיתות של:</p>
+          <ul className="list-disc list-inside text-muted-foreground space-y-0.5 mr-2">
+            <li>פרטי המשתמש האישיים (שם, אימייל)</li>
+            <li>כל ההזמנות וההיסטוריה שלך</li>
+            <li>נתוני לקוחות שמורים</li>
+            <li>כל המידע המשויך לחשבון</li>
+          </ul>
+          <p className="text-muted-foreground">לא ניתן לשחזר את הנתונים לאחר המחיקה.</p>
+        </div>
         <Button variant="destructive" onClick={() => setShowDeleteConfirm(true)} className="gap-2">
           <Trash2 className="w-4 h-4" />
-          מחק את החשבון שלי
+          מחק את החשבון שלי לצמיתות
         </Button>
       </div>
 

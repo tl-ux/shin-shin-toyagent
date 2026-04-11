@@ -1,7 +1,7 @@
 import { Link, useLocation, useNavigate, Outlet } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useRef, useEffect } from 'react';
 import { Baby, BookOpen, Users, BarChart3, Settings, CreditCard, LayoutDashboard, UserCircle, ShoppingCart, HelpCircle, Menu, X, ClipboardList, PenLine, TrendingUp, LogOut, ChevronRight } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { cn } from '@/lib/utils';
 import GlobalSearch from '@/components/GlobalSearch';
@@ -27,10 +27,24 @@ export default function Layout() {
   const { user } = useAuth();
 
   const isSubPage = !['/','/new-order'].includes(location.pathname) && !location.pathname.startsWith('/new-order');
-  const isHomePage = location.pathname === '/';
-  
+
   const navItems = allNavItems.filter(item => user && item.roles.includes(user.role));
   const bottomNavItems = allBottomNavItems.filter(item => user && item.roles.includes(user.role));
+
+  // Preserve scroll positions per tab
+  const scrollPositions = useRef({});
+  const mainRef = useRef(null);
+
+  useEffect(() => {
+    const main = mainRef.current;
+    if (!main) return;
+    // Restore scroll for current path
+    main.scrollTop = scrollPositions.current[location.pathname] || 0;
+    // Save scroll on scroll event
+    const save = () => { scrollPositions.current[location.pathname] = main.scrollTop; };
+    main.addEventListener('scroll', save, { passive: true });
+    return () => main.removeEventListener('scroll', save);
+  }, [location.pathname]);
 
   return (
     <div className="min-h-screen bg-background flex flex-col" dir="rtl">
@@ -70,7 +84,11 @@ export default function Layout() {
 
       {/* Main area */}
       <div className="flex-1 flex flex-col min-w-0">
-        <main className="flex-1 overflow-auto pb-20 lg:pb-0">
+        <main
+          ref={mainRef}
+          className="flex-1 overflow-auto"
+          style={{ paddingBottom: 'calc(env(safe-area-inset-bottom) + 5rem)' }}
+        >
           <AnimatePresence mode="wait" initial={false}>
             <motion.div
               key={location.pathname}
@@ -87,8 +105,8 @@ export default function Layout() {
 
       {/* Bottom nav — mobile only */}
       <nav
-        className="fixed bottom-0 inset-x-0 z-40 bg-white border-t border-border flex lg:hidden"
-        style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
+        className="fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur border-t border-border flex lg:hidden"
+        style={{ paddingBottom: 'env(safe-area-inset-bottom)', minHeight: 'calc(56px + env(safe-area-inset-bottom))' }}
       >
         {bottomNavItems.map(({ path, label, icon: Icon }) => {
           const active = location.pathname === path;
