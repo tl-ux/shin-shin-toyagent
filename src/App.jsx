@@ -3,21 +3,28 @@ import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClientInstance } from '@/lib/query-client'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import PageNotFound from './lib/PageNotFound';
+import { lazy, Suspense } from 'react';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 import Layout from '@/components/Layout';
-import Homepage from '@/pages/Homepage';
-import NewOrder from '@/pages/NewOrder';
-import Orders from '@/pages/Orders';
-import Customers from '@/pages/Customers';
-import Products from '@/pages/Products';
-import Settings from '@/pages/Settings';
-import Debts from '@/pages/Debts';
-import Dashboard from '@/pages/Dashboard';
-import AgentSummary from '@/pages/AgentSummary';
-import Help from '@/pages/Help';
-import PrivacyPolicy from '@/pages/PrivacyPolicy';
-import TermsOfService from '@/pages/TermsOfService';
+const Homepage = lazy(() => import('@/pages/Homepage'));
+const NewOrder = lazy(() => import('@/pages/NewOrder'));
+const Orders = lazy(() => import('@/pages/Orders'));
+const Customers = lazy(() => import('@/pages/Customers'));
+const Products = lazy(() => import('@/pages/Products'));
+const Settings = lazy(() => import('@/pages/Settings'));
+const Debts = lazy(() => import('@/pages/Debts'));
+const Dashboard = lazy(() => import('@/pages/Dashboard'));
+const AgentSummary = lazy(() => import('@/pages/AgentSummary'));
+const Help = lazy(() => import('@/pages/Help'));
+const PrivacyPolicy = lazy(() => import('@/pages/PrivacyPolicy'));
+const TermsOfService = lazy(() => import('@/pages/TermsOfService'));
+
+const PageLoader = () => (
+  <div className="fixed inset-0 flex items-center justify-center">
+    <div className="w-8 h-8 border-4 border-primary/30 border-t-primary rounded-full animate-spin" />
+  </div>
+);
 
 const ProtectedRoute = ({ element, allowedRoles }) => {
   const { user } = useAuth();
@@ -48,6 +55,7 @@ const AuthenticatedApp = () => {
   }
 
   return (
+    <Suspense fallback={<PageLoader />}>
     <Routes>
       <Route element={<Layout />}>
         <Route path="/" element={<Homepage />} />
@@ -64,8 +72,9 @@ const AuthenticatedApp = () => {
         <Route path="/terms" element={<TermsOfService />} />
       </Route>
       <Route path="*" element={<PageNotFound />} />
-    </Routes>
-  );
+      </Routes>
+      </Suspense>
+      );
 };
 
 function App() {

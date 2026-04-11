@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import PullToRefresh from '@/components/PullToRefresh';
 import { base44 } from '@/api/base44Client';
 import { format, differenceInDays } from 'date-fns';
 import { Search, CreditCard, ChevronDown, ChevronUp, Check, MessageCircle, FileDown, History } from 'lucide-react';
@@ -258,7 +259,7 @@ export default function Debts() {
   const [statusFilter, setStatusFilter] = useState('all');
   const [payingDebt, setPayingDebt] = useState(null);
 
-  const load = () => base44.entities.Debt.list('-created_date', 200).then(d => { setDebts(d); setLoading(false); });
+  const load = useCallback(() => base44.entities.Debt.list('-created_date', 200).then(d => { setDebts(d); setLoading(false); }), []);
   useEffect(() => { load(); }, []);
 
   const filtered = debts.filter(d => {
@@ -331,17 +332,19 @@ export default function Debts() {
         <Input value={search} onChange={e => setSearch(e.target.value)} placeholder="חיפוש לקוח / הזמנה..." className="pr-9 h-11 text-base" />
       </div>
 
-      <div className="space-y-3">
-        {filtered.length === 0 && (
-          <div className="text-center py-16 text-muted-foreground">
-            <CreditCard className="w-12 h-12 mx-auto mb-3 opacity-30" />
-            <p>אין חובות פתוחים</p>
-          </div>
-        )}
-        {filtered.map(debt => (
-          <DebtCard key={debt.id} debt={debt} onPayment={setPayingDebt} />
-        ))}
-      </div>
+      <PullToRefresh onRefresh={load}>
+        <div className="space-y-3">
+          {filtered.length === 0 && (
+            <div className="text-center py-16 text-muted-foreground">
+              <CreditCard className="w-12 h-12 mx-auto mb-3 opacity-30" />
+              <p>אין חובות פתוחים</p>
+            </div>
+          )}
+          {filtered.map(debt => (
+            <DebtCard key={debt.id} debt={debt} onPayment={setPayingDebt} />
+          ))}
+        </div>
+      </PullToRefresh>
 
       <Dialog open={!!payingDebt} onOpenChange={v => { if (!v) setPayingDebt(null); }}>
         {payingDebt && (
