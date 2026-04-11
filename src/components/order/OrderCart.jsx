@@ -16,16 +16,9 @@ export default function OrderCart({ cart, customer, totalAmount, onUpdateQty, on
 
   const handleSubmit = async () => {
     setSubmitting(true);
-    // Optimistic: show done state immediately
+    const order = await onSubmit(notes);
     setDone(true);
-    try {
-      const order = await onSubmit(notes);
-      setCompletedOrder(order);
-    } catch {
-      // Revert on failure
-      setDone(false);
-      setSubmitting(false);
-    }
+    setCompletedOrder(order);
   };
 
   const sendWhatsApp = () => {

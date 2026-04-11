@@ -1,17 +1,14 @@
 import { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
-import { Mail, Phone, Save, Trash2 } from 'lucide-react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
+import { Mail, Phone, Save } from 'lucide-react';
 import { Switch } from '@/components/ui/switch';
+import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
 
 export default function Settings() {
   const [loading, setLoading] = useState(true);
-  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
-  const [deleting, setDeleting] = useState(false);
   const [appSettings, setAppSettings] = useState(null);
   const [settingsForm, setSettingsForm] = useState({ office_email: '', office_whatsapp: '', vat_rate: 0.18, rivhit_api_token: '', rivhit_enabled: false });
   const [savingSettings, setSavingSettings] = useState(false);
@@ -133,48 +130,6 @@ export default function Settings() {
       </div>
 
 
-      {/* Delete Account */}
-      <div className="bg-card border border-destructive/30 rounded-xl p-4 space-y-3">
-        <h2 className="text-xl font-semibold text-destructive">מחיקת חשבון</h2>
-        <div className="bg-destructive/5 border border-destructive/20 rounded-lg p-3 space-y-1.5 text-sm">
-          <p className="font-semibold text-destructive">⚠️ פעולה זו בלתי הפיכה לחלוטין</p>
-          <p className="text-muted-foreground">מחיקת החשבון תגרום להסרה מיידית ולצמיתות של:</p>
-          <ul className="list-disc list-inside text-muted-foreground space-y-0.5 mr-2">
-            <li>פרטי המשתמש האישיים (שם, אימייל)</li>
-            <li>כל ההזמנות וההיסטוריה שלך</li>
-            <li>נתוני לקוחות שמורים</li>
-            <li>כל המידע המשויך לחשבון</li>
-          </ul>
-          <p className="text-muted-foreground">לא ניתן לשחזר את הנתונים לאחר המחיקה.</p>
-        </div>
-        <Button variant="destructive" onClick={() => setShowDeleteConfirm(true)} className="gap-2">
-          <Trash2 className="w-4 h-4" />
-          מחק את החשבון שלי לצמיתות
-        </Button>
-      </div>
-
-      <Dialog open={showDeleteConfirm} onOpenChange={v => { if (!v) setShowDeleteConfirm(false); }}>
-        <DialogContent className="max-w-sm">
-          <DialogHeader>
-            <DialogTitle className="text-destructive">אישור מחיקת חשבון</DialogTitle>
-          </DialogHeader>
-          <p className="text-sm text-muted-foreground">האם אתה בטוח שברצונך למחוק את החשבון? פעולה זו בלתי הפיכה.</p>
-          <div className="flex gap-3 pt-2">
-            <Button variant="outline" onClick={() => setShowDeleteConfirm(false)} className="flex-1">ביטול</Button>
-            <Button
-              variant="destructive"
-              className="flex-1"
-              disabled={deleting}
-              onClick={async () => {
-                setDeleting(true);
-                await base44.auth.logout();
-              }}
-            >
-              {deleting ? 'מוחק...' : 'אשר מחיקה'}
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
     </div>
   );
 }

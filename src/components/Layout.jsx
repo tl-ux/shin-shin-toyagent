@@ -1,7 +1,6 @@
-import { Link, useLocation, useNavigate, Outlet } from 'react-router-dom';
-import { useRef, useEffect } from 'react';
-import { Baby, BookOpen, Users, BarChart3, Settings, CreditCard, LayoutDashboard, UserCircle, ShoppingCart, HelpCircle, Menu, X, ClipboardList, PenLine, TrendingUp, LogOut, ChevronRight } from 'lucide-react';
-import { useState } from 'react';
+import { Link, useLocation, Outlet } from 'react-router-dom';
+import { Baby, BookOpen, Users, BarChart3, Settings, CreditCard, LayoutDashboard, UserCircle, ShoppingCart, HelpCircle, Menu, X, ClipboardList, PenLine, TrendingUp, LogOut } from 'lucide-react';
+import { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
 import { cn } from '@/lib/utils';
 import GlobalSearch from '@/components/GlobalSearch';
@@ -23,52 +22,20 @@ const allBottomNavItems = [
 
 export default function Layout() {
   const location = useLocation();
-  const navigate = useNavigate();
   const { user } = useAuth();
-
-  const isSubPage = !['/','/new-order'].includes(location.pathname) && !location.pathname.startsWith('/new-order');
-
+  
   const navItems = allNavItems.filter(item => user && item.roles.includes(user.role));
   const bottomNavItems = allBottomNavItems.filter(item => user && item.roles.includes(user.role));
-
-  // Preserve scroll positions per tab
-  const scrollPositions = useRef({});
-  const mainRef = useRef(null);
-
-  useEffect(() => {
-    const main = mainRef.current;
-    if (!main) return;
-    // Restore scroll for current path
-    main.scrollTop = scrollPositions.current[location.pathname] || 0;
-    // Save scroll on scroll event
-    const save = () => { scrollPositions.current[location.pathname] = main.scrollTop; };
-    main.addEventListener('scroll', save, { passive: true });
-    return () => main.removeEventListener('scroll', save);
-  }, [location.pathname]);
 
   return (
     <div className="min-h-screen bg-background flex flex-col" dir="rtl">
 
       {/* Top bar */}
-      <header
-        className="bg-white border-b border-border px-4 flex items-center justify-between sticky top-0 z-30 shadow-sm"
-        style={{ paddingTop: 'max(0.75rem, env(safe-area-inset-top))', paddingBottom: '0.75rem' }}
-      >
-        <div className="flex items-center gap-2">
-          {isSubPage && (
-            <button
-              onClick={() => navigate(-1)}
-              className="p-2 rounded-lg hover:bg-muted transition-colors text-muted-foreground"
-              aria-label="חזרה"
-            >
-              <ChevronRight className="w-5 h-5" />
-            </button>
-          )}
-          <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-            <Baby className="w-5 h-5" />
-            <span className="font-bold text-lg">Shin Shin - ToyAgent</span>
-          </Link>
-        </div>
+      <header className="bg-white border-b border-border px-4 py-3 flex items-center justify-between sticky top-0 z-30 shadow-sm">
+        <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+          <Baby className="w-5 h-5" />
+          <span className="font-bold text-lg">Shin Shin - ToyAgent</span>
+        </Link>
 
         <div className="flex items-center gap-2">
           <GlobalSearch />
@@ -84,47 +51,13 @@ export default function Layout() {
 
       {/* Main area */}
       <div className="flex-1 flex flex-col min-w-0">
-        <main
-          ref={mainRef}
-          className="flex-1 overflow-auto"
-          style={{ paddingBottom: 'calc(env(safe-area-inset-bottom) + 5rem)' }}
-        >
-          <AnimatePresence mode="wait" initial={false}>
-            <motion.div
-              key={location.pathname}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.18 }}
-            >
-              <Outlet />
-            </motion.div>
-          </AnimatePresence>
+
+        <main className="flex-1 overflow-auto pb-16 lg:pb-0">
+          <Outlet />
         </main>
       </div>
 
-      {/* Bottom nav — mobile only */}
-      <nav
-        className="fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur border-t border-border flex lg:hidden"
-        style={{ paddingBottom: 'env(safe-area-inset-bottom)', minHeight: 'calc(56px + env(safe-area-inset-bottom))' }}
-      >
-        {bottomNavItems.map(({ path, label, icon: Icon }) => {
-          const active = location.pathname === path;
-          return (
-            <Link
-              key={path}
-              to={path}
-              className={cn(
-                'flex-1 flex flex-col items-center justify-center py-2 gap-0.5 text-xs font-medium transition-colors',
-                active ? 'text-primary' : 'text-muted-foreground hover:text-foreground'
-              )}
-            >
-              <Icon className={cn('w-5 h-5', active && 'stroke-[2.5]')} />
-              <span>{label}</span>
-            </Link>
-          );
-        })}
-      </nav>
+
     </div>
   );
 }

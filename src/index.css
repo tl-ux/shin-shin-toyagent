@@ -36,63 +36,9 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
-    -webkit-tap-highlight-color: transparent;
   }
   body {
     @apply bg-background text-foreground font-heebo;
     direction: rtl;
-    overscroll-behavior: none;
-    -webkit-user-select: none;
-    user-select: none;
   }
-  input, textarea {
-    -webkit-user-select: text;
-    user-select: text;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not(.light) {
-    --background: 270 25% 10%;
-    --foreground: 0 0% 95%;
-    --card: 270 20% 14%;
-    --card-foreground: 0 0% 95%;
-    --popover: 270 20% 14%;
-    --popover-foreground: 0 0% 95%;
-    --primary: 280 65% 60%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 270 20% 20%;
-    --secondary-foreground: 0 0% 90%;
-    --muted: 270 15% 18%;
-    --muted-foreground: 270 10% 60%;
-    --accent: 195 50% 20%;
-    --accent-foreground: 195 80% 75%;
-    --destructive: 0 72% 51%;
-    --destructive-foreground: 0 0% 100%;
-    --border: 270 15% 25%;
-    --input: 270 15% 25%;
-    --ring: 280 65% 60%;
-  }
-}
-
-.dark {
-  --background: 270 25% 10%;
-  --foreground: 0 0% 95%;
-  --card: 270 20% 14%;
-  --card-foreground: 0 0% 95%;
-  --popover: 270 20% 14%;
-  --popover-foreground: 0 0% 95%;
-  --primary: 280 65% 60%;
-  --primary-foreground: 0 0% 100%;
-  --secondary: 270 20% 20%;
-  --secondary-foreground: 0 0% 90%;
-  --muted: 270 15% 18%;
-  --muted-foreground: 270 10% 60%;
-  --accent: 195 50% 20%;
-  --accent-foreground: 195 80% 75%;
-  --destructive: 0 72% 51%;
-  --destructive-foreground: 0 0% 100%;
-  --border: 270 15% 25%;
-  --input: 270 15% 25%;
-  --ring: 280 65% 60%;
 }

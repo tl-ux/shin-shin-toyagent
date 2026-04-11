@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useIsMobile } from '@/hooks/use-mobile';
 import { base44 } from '@/api/base44Client';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -18,7 +17,6 @@ const STATUS_OPTIONS = [
 ];
 
 export default function EditOrderDialog({ order, onClose, onSave }) {
-  const isMobile = useIsMobile();
   const [form, setForm] = useState({
     status: order.status,
     notes: order.notes || '',
@@ -64,29 +62,16 @@ export default function EditOrderDialog({ order, onClose, onSave }) {
       <div className="space-y-4 pt-2">
         <div>
           <Label>סטטוס</Label>
-          {isMobile ? (
-            <select
-              value={form.status}
-              onChange={e => setForm(p => ({ ...p, status: e.target.value }))}
-              className="mt-1 w-full rounded-md border border-input bg-transparent px-3 py-2 text-base shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-              dir="rtl"
-            >
+          <Select value={form.status} onValueChange={v => setForm(p => ({ ...p, status: v }))}>
+            <SelectTrigger className="mt-1" dir="rtl">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
               {STATUS_OPTIONS.map(s => (
-                <option key={s.value} value={s.value}>{s.label}</option>
+                <SelectItem key={s.value} value={s.value}>{s.label}</SelectItem>
               ))}
-            </select>
-          ) : (
-            <Select value={form.status} onValueChange={v => setForm(p => ({ ...p, status: v }))}>
-              <SelectTrigger className="mt-1" dir="rtl">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {STATUS_OPTIONS.map(s => (
-                  <SelectItem key={s.value} value={s.value}>{s.label}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          )}
+            </SelectContent>
+          </Select>
         </div>
 
         <div>

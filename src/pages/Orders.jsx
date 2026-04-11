@@ -1,5 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
-import PullToRefresh from '@/components/PullToRefresh';
+import { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
 import { format, startOfDay, startOfWeek, startOfMonth, subMonths, differenceInDays } from 'date-fns';
 import { Package, ChevronDown, ChevronUp, Search, Pencil, Copy, Trash2, AlertTriangle, BarChart2 } from 'lucide-react';
@@ -163,7 +162,7 @@ export default function Orders() {
   const [showChart, setShowChart] = useState(false);
   const { toast } = useToast();
 
-  const reload = useCallback(() => base44.entities.Order.list('-created_date', 100).then(setOrders), []);
+  const reload = () => base44.entities.Order.list('-created_date', 100).then(setOrders);
 
   useEffect(() => {
     Promise.all([
@@ -311,27 +310,25 @@ export default function Orders() {
         />
       </div>
 
-      <PullToRefresh onRefresh={reload}>
-        <div className="space-y-3">
-          {filtered.length === 0 && (
-            <div className="text-center py-16 text-muted-foreground">
-              <Package className="w-12 h-12 mx-auto mb-3 opacity-30" />
-              <p>לא נמצאו הזמנות</p>
-            </div>
-          )}
-          {filtered.map(order => (
-            <OrderCard
-              key={order.id}
-              order={order}
-              officeEmail={officeEmail}
-              officeWhatsapp={officeWhatsapp}
-              onEdit={setEditingOrder}
-              onCopy={handleCopy}
-              onDelete={handleDelete}
-            />
-          ))}
-        </div>
-      </PullToRefresh>
+      <div className="space-y-3">
+        {filtered.length === 0 && (
+          <div className="text-center py-16 text-muted-foreground">
+            <Package className="w-12 h-12 mx-auto mb-3 opacity-30" />
+            <p>לא נמצאו הזמנות</p>
+          </div>
+        )}
+        {filtered.map(order => (
+          <OrderCard
+            key={order.id}
+            order={order}
+            officeEmail={officeEmail}
+            officeWhatsapp={officeWhatsapp}
+            onEdit={setEditingOrder}
+            onCopy={handleCopy}
+            onDelete={handleDelete}
+          />
+        ))}
+      </div>
 
       <Dialog open={!!editingOrder} onOpenChange={v => { if (!v) setEditingOrder(null); }}>
         {editingOrder && (
