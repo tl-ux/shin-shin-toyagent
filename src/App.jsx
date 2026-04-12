@@ -17,6 +17,7 @@ import Dashboard from '@/pages/Dashboard';
 import AgentSummary from '@/pages/AgentSummary';
 import Help from '@/pages/Help';
 import PrivacyPolicy from '@/pages/PrivacyPolicy';
+import CRM from '@/pages/CRM';
 import TermsOfService from '@/pages/TermsOfService';
 
 const ProtectedRoute = ({ element, allowedRoles }) => {
@@ -59,6 +60,7 @@ const AuthenticatedApp = () => {
         <Route path="/settings" element={<ProtectedRoute element={<Settings />} allowedRoles={['admin']} />} />
         <Route path="/debts" element={<ProtectedRoute element={<Debts />} allowedRoles={['admin', 'user']} />} />
         <Route path="/agent-summary" element={<ProtectedRoute element={<AgentSummary />} allowedRoles={['admin', 'user']} />} />
+        <Route path="/crm" element={<ProtectedRoute element={<CRM />} allowedRoles={['admin', 'user']} />} />
         <Route path="/help" element={<Help />} />
         <Route path="/privacy" element={<PrivacyPolicy />} />
         <Route path="/terms" element={<TermsOfService />} />
