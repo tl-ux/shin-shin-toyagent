@@ -30,6 +30,7 @@ export default function NewOrder() {
   }, [location.key]);
 
   useEffect(() => {
+    if (!user) return;
     Promise.all([
       base44.entities.Product.filter({ is_active: true }),
       base44.entities.Customer.filter({ is_active: true }),
@@ -46,7 +47,7 @@ export default function NewOrder() {
       }
       setLoading(false);
     });
-  }, [user]);
+  }, [user?.id]);
 
   const loadRecentProducts = async (customer) => {
     const orders = await base44.entities.Order.filter({ customer_id: customer.id }, '-created_date', 5);
