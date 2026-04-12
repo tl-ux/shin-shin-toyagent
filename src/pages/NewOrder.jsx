@@ -30,7 +30,10 @@ export default function NewOrder() {
   }, [location.key]);
 
   useEffect(() => {
-    if (!user) return;
+    if (!user) {
+      setLoading(false);
+      return;
+    }
     Promise.all([
       base44.entities.Product.filter({ is_active: true }),
       base44.entities.Customer.filter({ is_active: true }),
