@@ -1,5 +1,5 @@
 import { Link, useLocation, Outlet } from 'react-router-dom';
-import { Baby, BookOpen, Users, BarChart3, Settings, CreditCard, LayoutDashboard, UserCircle, ShoppingCart, HelpCircle, Menu, X, ClipboardList, PenLine, TrendingUp, LogOut, Contact } from 'lucide-react';
+import { Baby, BookOpen, Users, BarChart3, Settings, CreditCard, LayoutDashboard, UserCircle, ShoppingCart, HelpCircle, Menu, X, ClipboardList, PenLine, TrendingUp, LogOut } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
 import { cn } from '@/lib/utils';
@@ -18,7 +18,7 @@ const allBottomNavItems = [
   { path: '/customers', label: 'לקוחות', icon: Users, roles: ['admin', 'user'] },
   { path: '/debts', label: 'חובות', icon: CreditCard, roles: ['admin', 'user'] },
   { path: '/products', label: 'קטלוג', icon: BookOpen, roles: ['admin', 'user'] },
-  { path: '/crm', label: 'CRM', icon: Contact, roles: ['admin', 'user'] },
+
 ];
 
 export default function Layout() {
