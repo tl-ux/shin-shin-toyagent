@@ -7,6 +7,7 @@ import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 import Layout from '@/components/Layout';
 import Homepage from '@/pages/Homepage';
+import Login from '@/pages/Login';
 import NewOrder from '@/pages/NewOrder';
 import Orders from '@/pages/Orders';
 import Customers from '@/pages/Customers';
@@ -65,7 +66,8 @@ const AuthenticatedApp = () => {
         <Route path="/privacy" element={<PrivacyPolicy />} />
         <Route path="/terms" element={<TermsOfService />} />
       </Route>
-      <Route path="*" element={<PageNotFound />} />
+      <Route path="/login" element={<Login />} />
+        <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
 };
