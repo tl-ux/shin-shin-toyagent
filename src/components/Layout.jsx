@@ -1,7 +1,7 @@
 import { Link, useLocation, Outlet } from 'react-router-dom';
 import { Baby, BookOpen, Users, BarChart3, Settings, CreditCard, LayoutDashboard, UserCircle, ShoppingCart, HelpCircle, Menu, X, ClipboardList, PenLine, TrendingUp, LogOut } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import { base44 } from '@/api/base44Client';
+import { base44, supabase } from '@/api/supabaseClient';
 import { cn } from '@/lib/utils';
 import GlobalSearch from '@/components/GlobalSearch';
 import { useAuth } from '@/lib/AuthContext';
