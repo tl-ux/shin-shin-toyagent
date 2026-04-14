@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -7,6 +7,8 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { Minus, Plus, Trash2, Save } from 'lucide-react';
+import { base44 } from '@/api/supabaseClient';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/components/ui/use-toast';
 
 const STATUS_OPTIONS = [
@@ -22,7 +24,14 @@ export default function EditOrderDialog({ order, onClose, onSave }) {
     notes: order.notes || '',
     items: order.items ? [...order.items] : [],
     delivery_date: order.delivery_date || '',
+    customer_id: order.customer_id || '',
+    customer_name: order.customer_name || '',
   });
+  const [customers, setCustomers] = useState([]);
+
+  useEffect(() => {
+    base44.entities.Customer.filter({ is_active: true }).then(setCustomers);
+  }, []);
   const [saving, setSaving] = useState(false);
   const { toast } = useToast();
 
@@ -48,6 +57,8 @@ export default function EditOrderDialog({ order, onClose, onSave }) {
       notes: form.notes,
       items: form.items,
       total_amount: totalAmount,
+      customer_id: form.customer_id,
+      customer_name: form.customer_name,
       delivery_date: form.delivery_date || null,
     });
     toast({ description: 'ההזמנה עודכנה בהצלחה' });
