@@ -79,6 +79,10 @@ export default function NewOrder() {
   };
 
   const addToCart = (product, qty) => {
+    if (qty <= 0) {
+      setCart(prev => prev.filter(i => i.product_id !== product.id));
+      return;
+    }
     const unitPrice = getProductPrice(product);
     setCart(prev => {
       const existing = prev.find(i => i.product_id === product.id);

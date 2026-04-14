@@ -214,16 +214,17 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
                       הוסף
                     </Button> :
 
-                  <button
-                    onClick={() => { setSelectedProduct(product); setInputQty(String(qty)); }}
-                    className="w-full flex items-center justify-between bg-accent rounded-lg p-1 hover:bg-accent/80 transition-colors"
-                  >
-                      <span className="w-7 h-7 rounded-md bg-primary text-primary-foreground flex items-center justify-center text-xs font-bold">✓</span>
+                  <div className="w-full flex items-center justify-between bg-accent rounded-lg p-1">
+                      <button
+                        onClick={() => onAdd(product, qty - 1)}
+                        className="w-8 h-8 rounded-md bg-primary/20 text-primary flex items-center justify-center text-lg font-bold hover:bg-primary/30"
+                      >-</button>
                       <span className="font-bold text-primary text-sm">{qty}</span>
-                      <span className="w-7 h-7 rounded-md bg-primary/20 text-primary flex items-center justify-center">
-                        <Edit2 className="w-3 h-3" />
-                      </span>
-                    </button>
+                      <button
+                        onClick={() => onAdd(product, qty + 1)}
+                        className="w-8 h-8 rounded-md bg-primary text-primary-foreground flex items-center justify-center text-lg font-bold hover:bg-primary/80"
+                      >+</button>
+                    </div>
                   }
                 </div>
               </div>
