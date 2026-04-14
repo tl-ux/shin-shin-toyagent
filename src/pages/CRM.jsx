@@ -182,7 +182,7 @@ function InteractionForm({ contactId, contactName, onSave, onClose }) {
   return (
     <DialogContent className="max-w-md">
       <DialogHeader>
-        <DialogTitle className="text-center">רישום אינטראקציה — {contactName}</DialogTitle>
+        <DialogTitle className="text-center">רישום אינטראקציה - {contactName}</DialogTitle>
       </DialogHeader>
       <div className="space-y-3 pt-2">
         <div className="grid grid-cols-2 gap-3">
@@ -325,7 +325,7 @@ export default function CRM() {
     <div className="p-4 pb-24 space-y-4">
       {/* Header */}
       <div className="flex items-center justify-between flex-wrap gap-3">
-        <h1 className="text-2xl font-bold">CRM — לידים ולקוחות</h1>
+        <h1 className="text-2xl font-bold">CRM - לידים ולקוחות</h1>
         <div className="flex gap-2">
           <Button variant="outline" size="sm" onClick={() => exportToExcel(filtered)} className="gap-1.5 text-green-700 border-green-200 hover:bg-green-50">
             <FileDown className="w-4 h-4" /> Excel

@@ -191,7 +191,7 @@ export default function Orders() {
       notes: order.notes || '',
       visit_date: new Date().toISOString().split('T')[0],
     });
-    toast({ description: `הזמנה הועתקה בהצלחה — ${newOrderNum}` });
+    toast({ description: `הזמנה הועתקה בהצלחה - ${newOrderNum}` });
     reload();
   };
 

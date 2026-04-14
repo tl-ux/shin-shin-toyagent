@@ -36,7 +36,7 @@ const TABLE = {
 // ---------------------------------------------------------------
 function buildEntity(tableName) {
   return {
-    // list(sortField, limit)  — e.g. list('-created_date', 100)
+    // list(sortField, limit)  - e.g. list('-created_date', 100)
     async list(sort = '-created_at', limit = 1000) {
       const ascending = !sort.startsWith('-');
       const column    = sort.replace(/^-/, '').replace('created_date', 'created_at');
@@ -124,7 +124,7 @@ function buildEntity(tableName) {
 }
 
 // ---------------------------------------------------------------
-// AUTH — mimics base44.auth.*
+// AUTH - mimics base44.auth.*
 // ---------------------------------------------------------------
 const auth = {
   // Returns current user with role from public.users
@@ -162,7 +162,7 @@ const auth = {
 };
 
 // ---------------------------------------------------------------
-// FUNCTIONS — mimics base44.functions.invoke(name, payload)
+// FUNCTIONS - mimics base44.functions.invoke(name, payload)
 // Calls Supabase Edge Functions
 // ---------------------------------------------------------------
 const functions = {
@@ -176,7 +176,7 @@ const functions = {
 };
 
 // ---------------------------------------------------------------
-// STORAGE — helper for product images
+// STORAGE - helper for product images
 // ---------------------------------------------------------------
 export const storage = {
   async uploadProductImage(file) {
@@ -199,7 +199,7 @@ export const storage = {
 };
 
 // ---------------------------------------------------------------
-// Main export — same shape as base44 object
+// Main export - same shape as base44 object
 // ---------------------------------------------------------------
 export const base44 = {
   entities: Object.fromEntries(

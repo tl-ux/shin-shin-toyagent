@@ -64,12 +64,12 @@ export default function NewOrder() {
   const getProductPrice = (product) => {
     let basePrice = product.price;
 
-    // סיטונאי — 50% ממחיר הצרכן כולל מע"מ
+    // סיטונאי - 50% ממחיר הצרכן כולל מע"מ
     if (selectedCustomer?.is_wholesale) {
       basePrice = Math.round(product.price * 0.5 * 100) / 100;
     }
 
-    // עמלת רשת — מתווספת על המחיר הסיטונאי (50% ממחיר צרכן כולל מע"מ)
+    // עמלת רשת - מתווספת על המחיר הסיטונאי (50% ממחיר צרכן כולל מע"מ)
     if (selectedCustomer?.network_commission_percent) {
       const wholesaleBase = Math.round(product.price * 0.5 * 100) / 100;
       basePrice = Math.round(wholesaleBase * (1 + selectedCustomer.network_commission_percent / 100) * 100) / 100;

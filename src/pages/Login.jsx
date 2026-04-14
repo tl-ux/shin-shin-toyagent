@@ -38,7 +38,7 @@ export default function Login() {
             <Baby className="w-8 h-8 text-primary" />
             <span className="text-2xl font-bold">Shin Shin</span>
           </div>
-          <p className="text-muted-foreground text-sm">ToyAgent — כניסה למערכת</p>
+          <p className="text-muted-foreground text-sm">ToyAgent - כניסה למערכת</p>
         </div>
 
         {sent ? (

@@ -15,7 +15,7 @@ const sections = [
       { title: 'בחירת לקוח', desc: 'חיפוש וסינון לקוחות לפי שם, עיר או איש קשר.' },
       { title: 'מספר לקוח בהדר', desc: 'הצגת שם הלקוח ומספרו בהדר עמוד ההזמנה לזיהוי מיידי.' },
       { title: 'קטלוג מוצרים', desc: 'עיון במוצרים לפי קטגוריה, חיפוש וסינון, עם תמונות ומחירים.' },
-      { title: 'מיון מוצרים', desc: 'מיון הקטלוג לפי מחיר עולה/יורד או לפי פופולריות — מוצרים שהלקוח הזמין לאחרונה יעלו לראש.' },
+      { title: 'מיון מוצרים', desc: 'מיון הקטלוג לפי מחיר עולה/יורד או לפי פופולריות - מוצרים שהלקוח הזמין לאחרונה יעלו לראש.' },
       { title: 'מוצרים אחרונים', desc: 'badge ⚡ "הוזמן לאחרונה" מופיע אוטומטית על מוצרים שהלקוח הנוכחי הזמין ב-5 ההזמנות האחרונות שלו.' },
       { title: 'הוספה לסל', desc: 'לחיצה על "הוסף" מפתחת חלון להזנת כמות עם כותרת שם הפריט ממורכזת.' },
       { title: 'מחירים סיטונאים', desc: 'עבור לקוחות סיטונאים, המערכת מחשבת אוטומטית 50% ממחיר הצרכן לפני מע"מ, בתוספת עמלת רשת אישית אם הוגדרה.' },
@@ -46,7 +46,7 @@ const sections = [
     features: [
       { title: 'ניהול לקוחות', desc: 'הוספה, עריכה וחיפוש לקוחות עם פרטי קשר מלאים.' },
       { title: 'מספר לקוח', desc: 'הגדרת מספר ייחודי לכל לקוח עבור מעקב וזיהוי קל.' },
-      { title: 'לקוח סיטונאי', desc: 'סימון לקוח כסיטונאי — המחיר יחושב כ-50% ממחיר הצרכן לפני מע"מ.' },
+      { title: 'לקוח סיטונאי', desc: 'סימון לקוח כסיטונאי - המחיר יחושב כ-50% ממחיר הצרכן לפני מע"מ.' },
       { title: 'עמלת רשת', desc: 'הגדרת אחוז עמלה אישי ללקוח (למשל: 10%) שיתווסף מעל המחיר הסיטונאי.' },
       { title: 'כרטיס לקוח', desc: 'צפייה בסיכום הזמנות, חובות והיסטוריית עסקאות לכל לקוח.' },
     ],
@@ -81,7 +81,7 @@ const sections = [
     title: 'פאנל ניהול',
     color: 'bg-primary/10 text-primary',
     features: [
-      { title: 'ניווט מרכזי', desc: 'גישה מהירה לכל המודולים — הזמנות, לקוחות, חובות, קטלוג, ביצועים והגדרות.' },
+      { title: 'ניווט מרכזי', desc: 'גישה מהירה לכל המודולים - הזמנות, לקוחות, חובות, קטלוג, ביצועים והגדרות.' },
       { title: 'מכירות החודש', desc: 'סיכום מכירות החודש הנוכחי.' },
       { title: 'השוואה שנה מול שנה', desc: 'טבלת מכירות חודשית עם השוואה לשנה הקודמת ואחוז שינוי.' },
       { title: 'לקוחות מובילים', desc: 'חמשת הלקוחות עם הרכישות הגבוהות ביותר.' },
@@ -139,7 +139,7 @@ function SectionCard({ section }) {
             <div key={i} className="flex gap-3 py-1.5">
               <div className="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0" />
               <div>
-                <span className="font-medium text-sm text-foreground">{f.title} — </span>
+                <span className="font-medium text-sm text-foreground">{f.title} - </span>
                 <span className="text-sm text-muted-foreground">{f.desc}</span>
               </div>
             </div>
@@ -163,7 +163,7 @@ export default function Help() {
           </div>
           <div>
             <h1 className="text-xl font-bold text-foreground">מדריך שימוש</h1>
-            <p className="text-sm text-muted-foreground">ToyAgent 🧸 — כל הפיצ'רים במקום אחד</p>
+            <p className="text-sm text-muted-foreground">ToyAgent 🧸 - כל הפיצ'רים במקום אחד</p>
           </div>
         </div>
         <div className="flex gap-4 mt-3 text-sm">
@@ -186,16 +186,16 @@ export default function Help() {
         </div>
         <div className="space-y-2 text-sm text-muted-foreground">
           <div className="flex gap-2"><Search className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" /><span>השתמש בחיפוש הגלובלי בסרגל העליון למציאת לקוח, הזמנה או מוצר מכל מקום באפליקציה.</span></div>
-          <div className="flex gap-2"><BookmarkCheck className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" /><span>שמור תבניות הזמנה ללקוחות שמזמינים תמיד את אותם פריטים — חוסך זמן רב.</span></div>
+          <div className="flex gap-2"><BookmarkCheck className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" /><span>שמור תבניות הזמנה ללקוחות שמזמינים תמיד את אותם פריטים - חוסך זמן רב.</span></div>
           <div className="flex gap-2"><MessageCircle className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" /><span>לאחר אישור הזמנה ניתן לשלוח אישור ישירות ב-WhatsApp ללקוח בלחיצה אחת.</span></div>
           <div className="flex gap-2"><FileDown className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" /><span>ניתן לייצא כל דוח (הזמנות, חובות) לאקסל או PDF לשימוש חיצוני.</span></div>
-          <div className="flex gap-2"><Copy className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" /><span>בדף ההזמנות — לחץ על אייקון ההעתקה כדי לשכפל הזמנה קיימת במהירות.</span></div>
+          <div className="flex gap-2"><Copy className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" /><span>בדף ההזמנות - לחץ על אייקון ההעתקה כדי לשכפל הזמנה קיימת במהירות.</span></div>
         </div>
       </div>
 
       {/* Sections */}
       <div className="space-y-2">
-        <h2 className="font-semibold text-sm text-muted-foreground px-1">מודולים — לחץ להרחבה</h2>
+        <h2 className="font-semibold text-sm text-muted-foreground px-1">מודולים - לחץ להרחבה</h2>
         {sections.map((s, i) => (
           <SectionCard key={i} section={s} />
         ))}

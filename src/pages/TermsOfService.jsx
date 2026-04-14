@@ -14,7 +14,7 @@ export default function TermsOfService() {
       <section className="space-y-2">
         <h2 className="text-xl font-semibold">2. שימוש מורשה</h2>
         <p className="text-muted-foreground leading-relaxed">
-          האפליקציה מיועדת לשימוש עסקי פנימי בלבד — לניהול הזמנות, לקוחות ומלאי. אין לעשות שימוש לצרכים אחרים ללא אישור מפורש.
+          האפליקציה מיועדת לשימוש עסקי פנימי בלבד - לניהול הזמנות, לקוחות ומלאי. אין לעשות שימוש לצרכים אחרים ללא אישור מפורש.
         </p>
       </section>
 

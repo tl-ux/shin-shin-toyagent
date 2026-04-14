@@ -157,7 +157,7 @@ function PaymentHistoryModal({ debt, onClose }) {
 
   return (
     <DialogContent className="max-w-sm">
-      <DialogHeader><DialogTitle>היסטוריית תשלומים — {debt.customer_name}</DialogTitle></DialogHeader>
+      <DialogHeader><DialogTitle>היסטוריית תשלומים - {debt.customer_name}</DialogTitle></DialogHeader>
       <div className="space-y-2 pt-2 max-h-72 overflow-y-auto">
         {loading && <div className="text-center text-muted-foreground py-4">טוען...</div>}
         {!loading && history.length === 0 && <div className="text-center text-muted-foreground py-6">אין תשלומים רשומים</div>}
