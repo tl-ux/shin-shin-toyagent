@@ -135,7 +135,7 @@ export default function NewOrder() {
       const settings = await base44.entities.AppSettings.list();
       const appSettings = settings[0] || {};
       if (appSettings.rivhit_enabled && appSettings.rivhit_api_token) {
-        base44.functions.invoke('sendToRivhit', { order_id: order.id })
+        supabase.functions.invoke('sendToRivhit', { order_id: order.id })
           .catch(() => {});
       }
     } catch (_) {}

@@ -55,24 +55,10 @@ export default function Settings() {
     }
     setInviting(p => ({ ...p, [customer.id]: true }));
     try {
-      const session = await supabase.auth.getSession();
-      const token = session.data.session?.access_token;
-      const response = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/auth/v1/invite`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'apikey': import.meta.env.VITE_SUPABASE_ANON_KEY,
-            'Authorization': `Bearer ${token}`,
-          },
-          body: JSON.stringify({ email: customer.email }),
-        }
-      );
-      if (!response.ok) {
-        const errData = await response.json();
-        throw new Error(errData.msg || errData.message || 'שגיאה בשליחת ההזמנה');
-      }
+      const { error } = await supabase.functions.invoke('invite-user', {
+        body: { email: customer.email },
+      });
+      if (error) throw error;
       setInviteStatus(p => ({ ...p, [customer.id]: 'sent' }));
       toast({ description: `הזמנה נשלחה ל-${customer.email}` });
     } catch (err) {
