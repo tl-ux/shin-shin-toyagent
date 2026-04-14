@@ -306,16 +306,13 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
              <Button
                 className="w-full"
                 onClick={() => {
-                  const qty = parseInt(inputQty) || 1;
-                  if (qty > 0) {
-                    onAdd(selectedProduct, qty);
-                    setSelectedProduct(null);
-                    setInputQty('');
-                  }
+                  const qty = parseInt(inputQty) || 0;
+                  onAdd(selectedProduct, qty);
+                  setSelectedProduct(null);
+                  setInputQty('');
                 }}>
-                
                <Plus className="w-4 h-4 ml-1" />
-               הוסף
+               {parseInt(inputQty) === 0 ? 'הסר מהזמנה' : 'הוסף'}
              </Button>
              </div>
              </div>
