@@ -16,6 +16,7 @@ export default function NewOrder() {
   const [loading, setLoading] = useState(true);
   const [step, setStep] = useState('customer');
   const [recentProductIds, setRecentProductIds] = useState([]);
+  const [draftOrderId, setDraftOrderId] = useState(null);
   const [vatRate, setVatRate] = useState(0.18);
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -27,6 +28,7 @@ export default function NewOrder() {
     setCart([]);
     setStep('customer');
     setRecentProductIds([]);
+    setDraftOrderId(null);
   }, [location.key]);
 
   useEffect(() => {
@@ -51,6 +53,16 @@ export default function NewOrder() {
       setLoading(false);
     });
   }, [user?.id]);
+
+  const loadDraft = async (customer) => {
+    const drafts = await base44.entities.Order.filter({ customer_id: customer.id, status: 'draft' }, '-created_date', 1);
+    if (drafts.length > 0) {
+      const draft = drafts[0];
+      setDraftOrderId(draft.id);
+      setCart(draft.items || []);
+      setStep('cart');
+    }
+  };
 
   const loadRecentProducts = async (customer) => {
     const orders = await base44.entities.Order.filter({ customer_id: customer.id }, '-created_date', 5);
@@ -80,28 +92,61 @@ export default function NewOrder() {
 
   const addToCart = (product, qty) => {
     if (qty <= 0) {
-      setCart(prev => prev.filter(i => i.product_id !== product.id));
+      setCart(prev => {
+        const newCart = prev.filter(i => i.product_id !== product.id);
+        saveDraft(newCart, selectedCustomer);
+        return newCart;
+      });
       return;
     }
     const unitPrice = getProductPrice(product);
     setCart(prev => {
       const existing = prev.find(i => i.product_id === product.id);
+      let newCart;
       if (existing) {
-        return prev.map(i =>
+        newCart = prev.map(i =>
           i.product_id === product.id
             ? { ...i, quantity: qty, total: qty * i.unit_price }
             : i
         );
+      } else {
+        newCart = [...prev, {
+          product_id: product.id,
+          product_name: product.name,
+          sku: product.sku || '',
+          quantity: qty,
+          unit_price: unitPrice,
+          total: qty * unitPrice,
+        }];
       }
-      return [...prev, {
-        product_id: product.id,
-        product_name: product.name,
-        sku: product.sku || '',
-        quantity: qty,
-        unit_price: unitPrice,
-        total: qty * unitPrice,
-      }];
+      saveDraft(newCart, selectedCustomer);
+      return newCart;
     });
+  };
+
+  const saveDraft = async (newCart, customer) => {
+    if (!customer || newCart.length === 0) return;
+    const total = newCart.reduce((s, i) => s + i.total, 0);
+    const currentUser = await base44.auth.me();
+    if (draftOrderId) {
+      await base44.entities.Order.update(draftOrderId, {
+        items: newCart,
+        total_amount: total,
+      });
+    } else {
+      const orderNum = `ORD-${Date.now().toString().slice(-6)}`;
+      const draft = await base44.entities.Order.create({
+        order_number: orderNum,
+        customer_id: customer.id || '',
+        customer_name: customer.name || '',
+        agent_name: currentUser?.full_name || '',
+        status: 'draft',
+        items: newCart,
+        total_amount: total,
+        visit_date: new Date().toISOString().split('T')[0],
+      });
+      setDraftOrderId(draft.id);
+    }
   };
 
   const removeFromCart = (productId) => {
@@ -121,20 +166,31 @@ export default function NewOrder() {
   const cartCount = cart.reduce((sum, i) => sum + i.quantity, 0);
 
   const submitOrder = async (notes) => {
-    const user = await base44.auth.me();
-    const orderNum = `ORD-${Date.now().toString().slice(-6)}`;
-    const order = await base44.entities.Order.create({
-      order_number: orderNum,
-      customer_id: selectedCustomer?.id || '',
-      customer_name: selectedCustomer?.name || '',
-      agent_name: user?.full_name || '',
-      status: 'confirmed',
-      items: cart,
-      total_amount: totalAmount,
-      notes,
-      visit_date: new Date().toISOString().split('T')[0],
-      rivhit_status: 'pending',
-    });
+    const currentUser = await base44.auth.me();
+    let order;
+    if (draftOrderId) {
+      order = await base44.entities.Order.update(draftOrderId, {
+        status: 'confirmed',
+        items: cart,
+        total_amount: totalAmount,
+        notes,
+        rivhit_status: 'pending',
+      });
+    } else {
+      const orderNum = `ORD-${Date.now().toString().slice(-6)}`;
+      order = await base44.entities.Order.create({
+        order_number: orderNum,
+        customer_id: selectedCustomer?.id || '',
+        customer_name: selectedCustomer?.name || '',
+        agent_name: currentUser?.full_name || '',
+        status: 'confirmed',
+        items: cart,
+        total_amount: totalAmount,
+        notes,
+        visit_date: new Date().toISOString().split('T')[0],
+        rivhit_status: 'pending',
+      });
+    }
     try {
       const settings = await base44.entities.AppSettings.list();
       const appSettings = settings[0] || {};
@@ -203,7 +259,7 @@ export default function NewOrder() {
         <CustomerSelect
           customers={customers}
           selected={selectedCustomer}
-          onSelect={(c) => { setSelectedCustomer(c); loadRecentProducts(c); setStep('catalog'); }}
+          onSelect={(c) => { setSelectedCustomer(c); loadRecentProducts(c); loadDraft(c); }}
         />
       )}
 
