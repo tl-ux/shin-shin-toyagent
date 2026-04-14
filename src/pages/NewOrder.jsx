@@ -259,7 +259,7 @@ export default function NewOrder() {
         <CustomerSelect
           customers={customers}
           selected={selectedCustomer}
-          onSelect={(c) => { setSelectedCustomer(c); loadRecentProducts(c); loadDraft(c); }}
+          onSelect={(c) => { setSelectedCustomer(c); loadRecentProducts(c); loadDraft(c).then(() => { setStep(s => s === 'customer' ? 'catalog' : s); }); }}
         />
       )}
 
