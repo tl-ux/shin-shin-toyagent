@@ -259,7 +259,7 @@ export default function NewOrder() {
         <CustomerSelect
           customers={customers}
           selected={selectedCustomer}
-          onSelect={(c) => { setSelectedCustomer(c); loadRecentProducts(c); loadDraft(c).then(() => { setStep(s => s === 'customer' ? 'catalog' : s); }); }}
+          onSelect={async (c) => { setSelectedCustomer(c); loadRecentProducts(c); const drafts = await base44.entities.Order.filter({ customer_id: c.id, status: 'draft' }, '-created_date', 1); if (drafts.length > 0) { setDraftOrderId(drafts[0].id); setCart(drafts[0].items || []); setStep('cart'); } else { setStep('catalog'); } }}
         />
       )}
 
