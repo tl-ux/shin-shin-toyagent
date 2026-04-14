@@ -196,10 +196,6 @@ export default function Orders() {
   };
 
   const handleDelete = async (order) => {
-    if (order.rivhit_status === 'sent') {
-      toast({ description: 'לא ניתן למחוק הזמנה שנשלחה לריווחית', variant: 'destructive' });
-      return;
-    }
     if (confirm(`האם אתה בטוח שברצונך למחוק את ההזמנה ${order.order_number}?`)) {
       await base44.entities.Order.delete(order.id);
       toast({ description: 'ההזמנה נמחקה בהצלחה' });
