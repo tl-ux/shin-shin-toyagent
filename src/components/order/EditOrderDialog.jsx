@@ -72,6 +72,26 @@ export default function EditOrderDialog({ order, onClose, onSave }) {
       </DialogHeader>
       <div className="space-y-4 pt-2">
         <div>
+          <Label>לקוח</Label>
+          <Select
+            value={form.customer_id}
+            onValueChange={(val) => {
+              const c = customers.find(c => c.id === val);
+              if (c) setForm(p => ({ ...p, customer_id: c.id, customer_name: c.name }));
+            }}
+          >
+            <SelectTrigger className="mt-1" dir="rtl">
+              <SelectValue placeholder="בחר לקוח" />
+            </SelectTrigger>
+            <SelectContent>
+              {customers.map(c => (
+                <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div>
           <Label>סטטוס</Label>
           <Select value={form.status} onValueChange={v => setForm(p => ({ ...p, status: v }))}>
             <SelectTrigger className="mt-1" dir="rtl">
