@@ -41,7 +41,7 @@ export default function Layout() {
         <div className="flex items-center gap-2">
           <GlobalSearch />
           <button
-            onClick={() => base44.auth.logout()}
+            onClick={() => supabase.auth.signOut().then(() => window.location.href = '/login')}
             className="p-2 rounded-lg hover:bg-muted transition-colors text-muted-foreground hover:text-foreground"
             title="התנתק"
           >
