@@ -102,7 +102,7 @@ export default function Settings() {
           גישת חנויות לאפליקציה
         </h2>
         <p className="text-sm text-muted-foreground">
-          שלח הזמנה לבעלי חנויות — הם יוכלו להיכנס ולבצע הזמנות בעצמם
+          שלח הזמנה לבעלי חנויות - הם יוכלו להיכנס ולבצע הזמנות בעצמם
         </p>
         {customersWithEmail.length === 0 ? (
           <p className="text-sm text-muted-foreground text-center py-4">
