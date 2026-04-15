@@ -5,32 +5,25 @@ import { base44, supabase } from '@/api/supabaseClient';
 import { useToast } from '@/components/ui/use-toast';
 
 function buildOrderText(order) {
-  const pad = (str, len) => String(str).substring(0, len).padEnd(len, ' ');
-  const padL = (str, len) => String(str).substring(0, len).padStart(len, ' ');
-
   const items = order.items || [];
-  const nameLen = Math.min(25, Math.max(10, ...items.map(i => (i.product_name || '').length)));
 
-  const sep = '-'.repeat(nameLen + 20);
-  const header = `${pad('פריט', nameLen)} | כמות | סכום`;
-
-  const rows = items.map(i =>
-    `${pad(i.product_name || '', nameLen)} | ${padL(i.quantity, 4) } | ₪${(i.total || 0).toLocaleString()}`
+  const rows = items.map((i, idx) =>
+    `${idx + 1}. ${i.product_name || ''} — ${i.quantity} יח' — ₪${(i.total || 0).toLocaleString()}`
   );
 
   const lines = [
-    `🧸 הזמנה ${order.order_number || ''}`,
-    `לקוח: ${order.customer_name}`,
-    `סוכן: ${order.agent_name || ''}`,
-    `תאריך: ${order.visit_date || ''}`,
+    `🧸 *הזמנה ${order.order_number || ''}*`,
+    `👤 לקוח: ${order.customer_name}`,
+    `🙋 סוכן: ${order.agent_name || ''}`,
+    `📅 תאריך: ${order.visit_date || ''}`,
     ``,
-    header,
-    sep,
+    `*פריטים:*`,
+    `─────────────────────`,
     ...rows,
-    sep,
-    `סה"כ: ₪${(order.total_amount || 0).toLocaleString()}`,
-    order.notes ? `הערות: ${order.notes}` : '',
-  ].filter(l => l !== undefined);
+    `─────────────────────`,
+    `💰 *סה"כ: ₪${(order.total_amount || 0).toLocaleString()}*`,
+    order.notes ? `📝 הערות: ${order.notes}` : '',
+  ].filter(l => l !== undefined && l !== '');
   return lines.join('\n');
 }
 
