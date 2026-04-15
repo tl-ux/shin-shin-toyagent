@@ -13,8 +13,10 @@ serve(async (req) => {
     const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY')!
 
     const items = order.items || []
-    const rows = items.map((i: any) => `
-      <tr>
+    const rows = items.map((i: any, idx: number) => `
+      <tr style="background:${idx % 2 === 0 ? '#ffffff' : '#f9f9f9'}">
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;text-align:center;color:#888;">${idx + 1}</td>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;text-align:center;color:#666;font-size:12px;">${i.sku || ''}</td>
         <td style="padding:8px 12px;border-bottom:1px solid #eee;text-align:right;">${i.product_name || ''}</td>
         <td style="padding:8px 12px;border-bottom:1px solid #eee;text-align:center;">${i.quantity}</td>
         <td style="padding:8px 12px;border-bottom:1px solid #eee;text-align:left;">₪${(i.unit_price || 0).toLocaleString()}</td>
@@ -50,10 +52,12 @@ serve(async (req) => {
       <table style="width:100%;border-collapse:collapse;border:1px solid #eee;">
         <thead>
           <tr style="background:#6366f1;color:white;">
-            <th style="padding:10px 12px;text-align:right;">פריט</th>
+            <th style="padding:10px 12px;text-align:center;">#</th>
+            <th style="padding:10px 12px;text-align:center;">מק"ט</th>
+            <th style="padding:10px 12px;text-align:right;">תאור פריט</th>
             <th style="padding:10px 12px;text-align:center;">כמות</th>
-            <th style="padding:10px 12px;text-align:left;">מחיר יחידה</th>
-            <th style="padding:10px 12px;text-align:left;">סכום</th>
+            <th style="padding:10px 12px;text-align:left;">מחיר ליחידה</th>
+            <th style="padding:10px 12px;text-align:left;">סה"כ ש"ח</th>
           </tr>
         </thead>
         <tbody>${rows}</tbody>

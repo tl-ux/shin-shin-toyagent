@@ -9,6 +9,8 @@ import { useAuth } from '@/lib/AuthContext';
 const allNavItems = [
   { path: '/', label: 'הזמנה חדשה', icon: PenLine, roles: ['admin', 'user', 'store_manager'] },
   { path: '/dashboard', label: 'פאנל ניהול', icon: LayoutDashboard, roles: ['admin', 'user'] },
+  { path: '/orders', label: 'ההזמנות שלי', icon: ClipboardList, roles: ['store_manager'] },
+  { path: '/debts', label: 'החובות שלי', icon: CreditCard, roles: ['store_manager'] },
   { path: '/help', label: 'עזרה', icon: HelpCircle, roles: ['admin', 'user', 'store_manager'] },
 ];
 
