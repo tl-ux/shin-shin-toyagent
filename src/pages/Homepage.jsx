@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { PenLine, BarChart3, Users, CreditCard, BookOpen, HelpCircle, Settings } from 'lucide-react';
+import { PenLine, BarChart3, Users, CreditCard, BookOpen, HelpCircle, Settings, ClipboardList } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/lib/AuthContext';
 
@@ -15,6 +15,8 @@ export default function Homepage() {
     { to: '/products', label: 'קטלוג', icon: BookOpen, color: 'bg-indigo-500', roles: ['admin', 'user'] },
     { to: '/settings', label: 'הגדרות', icon: Settings, color: 'bg-blue-800', roles: ['admin'] },
 
+    { to: '/orders', label: 'ההזמנות שלי', icon: ClipboardList, color: 'bg-purple-500', roles: ['store_manager'] },
+    { to: '/debts', label: 'החובות שלי', icon: CreditCard, color: 'bg-orange-500', roles: ['store_manager'] },
     { to: '/help', label: 'עזרה', icon: HelpCircle, color: 'bg-gray-500', roles: ['admin', 'user', 'store_manager'] },
   ];
 
