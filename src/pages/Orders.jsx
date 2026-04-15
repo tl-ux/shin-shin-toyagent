@@ -71,7 +71,7 @@ function OrderCard({ order, officeEmail, officeWhatsapp, onEdit, onCopy, onDelet
               <span className="text-primary font-medium">🚚 משלוח: {format(new Date(order.delivery_date), 'dd/MM/yyyy')}</span>
             )}
           </div>
-          {true {true && (!order.sent_via || order.sent_via.length === 0) && ({true && (!order.sent_via || order.sent_via.length === 0) && ( (
+          {(!order.sent_via || order.sent_via.length === 0) && (
             <div className="text-sm text-destructive mt-1 font-medium">⚠️ לא נשלחה</div>
           )}
           {order.sent_via && order.sent_via.length > 0 && (
