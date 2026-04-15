@@ -125,7 +125,14 @@ export default function NewOrder() {
   };
 
   const saveDraft = async (newCart, customer) => {
-    if (!customer || newCart.length === 0) return;
+    if (!customer) return;
+    if (newCart.length === 0) {
+      if (draftOrderId) {
+        await base44.entities.Order.delete(draftOrderId);
+        setDraftOrderId(null);
+      }
+      return;
+    }
     const total = newCart.reduce((s, i) => s + i.total, 0);
     const currentUser = await base44.auth.me();
     if (draftOrderId) {
