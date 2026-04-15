@@ -8,6 +8,7 @@ import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 import Layout from '@/components/Layout';
 import Homepage from '@/pages/Homepage';
 import Login from '@/pages/Login';
+import SetNameDialog from '@/components/SetNameDialog';
 import NewOrder from '@/pages/NewOrder';
 import Orders from '@/pages/Orders';
 import Customers from '@/pages/Customers';
@@ -30,7 +31,7 @@ const ProtectedRoute = ({ element, allowedRoles }) => {
 };
 
 const AuthenticatedApp = () => {
-  const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin, user } = useAuth();
+  const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin, user, refreshUser } = useAuth();
 
   if (isLoadingPublicSettings || isLoadingAuth) {
     return (
@@ -50,6 +51,8 @@ const AuthenticatedApp = () => {
   }
 
   return (
+    <>
+    <SetNameDialog user={user} onDone={() => window.location.reload()} />
     <Routes>
       <Route element={<Layout />}>
         <Route path="/" element={<Homepage />} />
@@ -69,6 +72,7 @@ const AuthenticatedApp = () => {
       <Route path="/login" element={<Login />} />
         <Route path="*" element={<PageNotFound />} />
     </Routes>
+    </>
   );
 };
 
