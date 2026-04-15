@@ -12,6 +12,15 @@ serve(async (req) => {
     const { order, toEmail } = await req.json()
     const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY')!
 
+    // טען פרטי לקוח
+    let customer = null;
+    if (order.customer_id) {
+      const { createClient } = await import('https://esm.sh/@supabase/supabase-js@2');
+      const sb = createClient(Deno.env.get('SUPABASE_URL')!, Deno.env.get('SERVICE_ROLE_KEY')!);
+      const { data } = await sb.from('customers').select('*').eq('id', order.customer_id).single();
+      customer = data;
+    }
+
     const items = order.items || []
     const rows = items.map((i: any, idx: number) => `
       <tr style="background:${idx % 2 === 0 ? '#ffffff' : '#f9f9f9'}">
@@ -37,6 +46,10 @@ serve(async (req) => {
             <td style="padding:4px 8px;color:#666;">לקוח:</td>
             <td style="padding:4px 8px;font-weight:bold;">${order.customer_name || ''}</td>
           </tr>
+          ${customer?.contact_name ? `<tr><td style="padding:4px 8px;color:#666;">איש קשר:</td><td style="padding:4px 8px;">${customer.contact_name}</td></tr>` : ''}
+          ${customer?.phone ? `<tr><td style="padding:4px 8px;color:#666;">טלפון:</td><td style="padding:4px 8px;">${customer.phone}</td></tr>` : ''}
+          ${customer?.address ? `<tr><td style="padding:4px 8px;color:#666;">כתובת:</td><td style="padding:4px 8px;">${customer.address}${customer.city ? ', ' + customer.city : ''}</td></tr>` : ''}
+          ${customer?.business_id ? `<tr><td style="padding:4px 8px;color:#666;">ח.פ / ע.מ:</td><td style="padding:4px 8px;">${customer.business_id}</td></tr>` : ''}
           <tr>
             <td style="padding:4px 8px;color:#666;">סוכן:</td>
             <td style="padding:4px 8px;">${order.agent_name || ''}</td>
