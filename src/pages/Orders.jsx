@@ -165,18 +165,26 @@ export default function Orders() {
   const reload = () => base44.entities.Order.list('-created_date', 100).then(setOrders);
 
   useEffect(() => {
-    Promise.all([
-      base44.entities.Order.list('-created_date', 100),
-      base44.entities.AppSettings.list(),
-    ]).then(([data, settings]) => {
-      setOrders(data);
+    const loadData = async () => {
+      let customerId = null;
+      if (user?.role === 'store_manager' && user?.email) {
+        const customers = await base44.entities.Customer.filter({ email: user.email });
+        if (customers.length > 0) customerId = customers[0].id;
+      }
+      const [data, settings] = await Promise.all([
+        base44.entities.Order.list('-created_date', 100),
+        base44.entities.AppSettings.list(),
+      ]);
+      const filtered = customerId ? data.filter(o => o.customer_id === customerId) : data;
+      setOrders(filtered);
       if (settings.length > 0) {
         setOfficeEmail(settings[0].office_email || '');
         setOfficeWhatsapp(settings[0].office_whatsapp || '');
       }
       setLoading(false);
-    });
-  }, []);
+    };
+    loadData();
+  }, [user]);
 
   const handleCopy = async (order) => {
     const newOrderNum = `ORD-${Date.now().toString().slice(-6)}`;
