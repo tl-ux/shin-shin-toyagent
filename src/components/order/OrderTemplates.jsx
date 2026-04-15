@@ -5,13 +5,13 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useToast } from '@/components/ui/use-toast';
+import { toast } from 'sonner';
 
 // Dialog to save current cart as template
 export function SaveTemplateDialog({ cart, customer, onClose, onSaved }) {
   const [name, setName] = useState(`תבנית - ${customer?.name || ''}`);
   const [saving, setSaving] = useState(false);
-  const { toast } = useToast();
+  
 
   const save = async () => {
     if (!name) return;
@@ -22,7 +22,7 @@ export function SaveTemplateDialog({ cart, customer, onClose, onSaved }) {
       customer_name: customer?.name || '',
       items: cart,
     });
-    toast({ description: 'התבנית נשמרה בהצלחה!' });
+    toast('התבנית נשמרה בהצלחה!');
     onSaved();
   };
 
@@ -47,7 +47,7 @@ export function SaveTemplateDialog({ cart, customer, onClose, onSaved }) {
 export function LoadTemplateDialog({ onLoad, onClose }) {
   const [templates, setTemplates] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { toast } = useToast();
+  
 
   useEffect(() => {
     base44.entities.OrderTemplate.list('-created_date').then(t => { setTemplates(t); setLoading(false); });
@@ -57,7 +57,7 @@ export function LoadTemplateDialog({ onLoad, onClose }) {
     e.stopPropagation();
     await base44.entities.OrderTemplate.delete(id);
     setTemplates(prev => prev.filter(t => t.id !== id));
-    toast({ description: 'התבנית נמחקה' });
+    toast('התבנית נמחקה');
   };
 
   return (

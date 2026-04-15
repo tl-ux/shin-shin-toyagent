@@ -10,7 +10,7 @@ import { cn } from '@/lib/utils';
 import OrderShareMenu from '@/components/order/OrderShareMenu';
 import EditOrderDialog from '@/components/order/EditOrderDialog';
 import { Dialog } from '@/components/ui/dialog';
-import { useToast } from '@/components/ui/use-toast';
+import { toast } from 'sonner';
 import MonthlySalesChart from '@/components/order/MonthlySalesChart';
 
 const STATUS_MAP = {
@@ -161,7 +161,7 @@ export default function Orders() {
   const [officeWhatsapp, setOfficeWhatsapp] = useState('');
   const [editingOrder, setEditingOrder] = useState(null);
   const [showChart, setShowChart] = useState(false);
-  const { toast } = useToast();
+  
   const { user } = useAuth();
 
   const reload = () => base44.entities.Order.list('-created_date', 100).then(setOrders);
@@ -208,7 +208,7 @@ export default function Orders() {
   const handleDelete = async (order) => {
     if (confirm(`האם אתה בטוח שברצונך למחוק את ההזמנה ${order.order_number}?`)) {
       await base44.entities.Order.delete(order.id);
-      toast({ description: 'ההזמנה נמחקה בהצלחה' });
+      toast('ההזמנה נמחקה בהצלחה');
       reload();
     }
   };

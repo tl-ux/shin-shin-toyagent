@@ -5,7 +5,7 @@ import { Switch } from '@/components/ui/switch';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useToast } from '@/components/ui/use-toast';
+import { toast } from 'sonner';
 
 export default function Settings() {
   const [loading, setLoading] = useState(true);
@@ -15,7 +15,7 @@ export default function Settings() {
   const [customers, setCustomers] = useState([]);
   const [inviting, setInviting] = useState({});
   const [inviteStatus, setInviteStatus] = useState({});
-  const { toast } = useToast();
+  
 
   const load = async () => {
     const [settings, custs] = await Promise.all([
@@ -45,12 +45,12 @@ export default function Settings() {
       setAppSettings(created);
     }
     setSavingSettings(false);
-    toast({ description: 'ההגדרות נשמרו בהצלחה' });
+    toast('ההגדרות נשמרו בהצלחה');
   };
 
   const inviteCustomer = async (customer) => {
     if (!customer.email) {
-      toast({ description: 'אין כתובת מייל ללקוח זה', variant: 'destructive' });
+      toast.error('אין כתובת מייל ללקוח זה');
       return;
     }
     setInviting(p => ({ ...p, [customer.id]: true }));
