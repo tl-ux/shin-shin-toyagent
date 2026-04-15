@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Mail, MessageCircle, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { base44, supabase } from '@/api/supabaseClient';
-import { toast } from 'sonner';
+import { useToast } from '@/components/ui/use-toast';
 
 function buildOrderText(order) {
   const items = order.items || [];
@@ -31,7 +31,7 @@ function buildOrderText(order) {
 
 export default function OrderShareMenu({ order, officeEmail, officeWhatsapp }) {
   const [sendingEmail, setSendingEmail] = useState(false);
-  
+  const { toast } = useToast();
 
   const handleWhatsApp = async () => {
     const text = encodeURIComponent(buildOrderText(order));
@@ -47,7 +47,7 @@ export default function OrderShareMenu({ order, officeEmail, officeWhatsapp }) {
 
   const handleEmail = async () => {
     if (!officeEmail) {
-      toast.error('יש להגדיר מייל משרד בהגדרות');
+      toast({ description: 'יש להגדיר מייל משרד בהגדרות', variant: 'destructive' });
       return;
     }
     setSendingEmail(true);
@@ -59,7 +59,7 @@ export default function OrderShareMenu({ order, officeEmail, officeWhatsapp }) {
       sent_via.push('email');
       await base44.entities.Order.update(order.id, { sent_via });
     }
-    toast('המייל נשלח בהצלחה!');
+    toast({ description: 'המייל נשלח בהצלחה!' });
   };
 
 

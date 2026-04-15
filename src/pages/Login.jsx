@@ -3,7 +3,7 @@ import { supabase } from '@/api/supabaseClient';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { toast } from 'sonner';
+import { useToast } from '@/components/ui/use-toast';
 import { Baby, Loader2 } from 'lucide-react';
 
 export default function Login() {
@@ -14,7 +14,7 @@ export default function Login() {
 
   const handleMagicLink = async () => {
     if (!email) {
-      toast.error('נא להזין אימייל');
+      toast({ description: 'נא להזין אימייל', variant: 'destructive' });
       return;
     }
     setLoading(true);

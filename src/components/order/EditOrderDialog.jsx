@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea';
 import { Minus, Plus, Trash2, Save } from 'lucide-react';
 import { base44 } from '@/api/supabaseClient';
-import { toast } from 'sonner';
+import { useToast } from '@/components/ui/use-toast';
 
 const STATUS_OPTIONS = [
   { value: 'draft', label: 'טיוטה' },
@@ -31,7 +31,7 @@ export default function EditOrderDialog({ order, onClose, onSave }) {
     base44.entities.Customer.filter({ is_active: true }).then(setCustomers);
   }, []);
   const [saving, setSaving] = useState(false);
-  
+  const { toast } = useToast();
 
   const updateQty = (idx, qty) => {
     if (qty <= 0) {
@@ -59,7 +59,7 @@ export default function EditOrderDialog({ order, onClose, onSave }) {
       customer_name: form.customer_name,
       delivery_date: form.delivery_date || null,
     });
-    toast('ההזמנה עודכנה בהצלחה');
+    toast({ description: 'ההזמנה עודכנה בהצלחה' });
     onSave();
   };
 

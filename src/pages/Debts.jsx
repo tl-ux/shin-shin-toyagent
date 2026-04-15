@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
-import { toast } from 'sonner';
+import { useToast } from '@/components/ui/use-toast';
 import jsPDF from 'jspdf';
 
 const STATUS_MAP = {
@@ -20,7 +20,7 @@ const STATUS_MAP = {
 function PaymentDialog({ debt, onClose, onSave }) {
   const [amount, setAmount] = useState('');
   const [saving, setSaving] = useState(false);
-  
+  const { toast } = useToast();
 
   const handlePay = async () => {
     const paid = parseFloat(amount);
