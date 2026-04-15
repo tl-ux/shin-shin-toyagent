@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { base44 } from '@/api/base44Client';
+import { base44 } from '@/api/supabaseClient';
+import { useAuth } from '@/lib/AuthContext';
 import { format, startOfDay, startOfWeek, startOfMonth, subMonths, differenceInDays } from 'date-fns';
 import { Package, ChevronDown, ChevronUp, Search, Pencil, Copy, Trash2, AlertTriangle, BarChart2 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
