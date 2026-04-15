@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Mail, MessageCircle, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { base44 } from '@/api/base44Client';
+import { base44, supabase } from '@/api/supabaseClient';
 import { useToast } from '@/components/ui/use-toast';
 
 function buildOrderText(order) {
@@ -58,7 +58,7 @@ export default function OrderShareMenu({ order, officeEmail, officeWhatsapp }) {
       return;
     }
     setSendingEmail(true);
-    await base44.functions.invoke('sendOrderEmail', { order, toEmail: officeEmail });
+    await supabase.functions.invoke('sendOrderEmail', { body: { order, toEmail: officeEmail } });
     setSendingEmail(false);
     // Mark as sent via email
     const sent_via = [...(order.sent_via || [])];
