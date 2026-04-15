@@ -52,6 +52,26 @@ export default function Layout() {
         </div>
       </header>
 
+      {/* Nav bar for store_manager */}
+      {user?.role === 'store_manager' && (
+        <nav className="bg-white border-b border-border px-4 py-2 flex gap-4">
+          {navItems.map(item => (
+            <Link
+              key={item.path + item.label}
+              to={item.path}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                location.pathname === item.path
+                  ? 'bg-primary/10 text-primary'
+                  : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+              }`}
+            >
+              <item.icon className="w-4 h-4" />
+              {item.label}
+            </Link>
+          ))}
+        </nav>
+      )}
+
       {/* Main area */}
       <div className="flex-1 flex flex-col min-w-0">
         <main className="flex-1 overflow-auto pb-16 lg:pb-0">
