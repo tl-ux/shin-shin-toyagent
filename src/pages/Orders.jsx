@@ -162,6 +162,7 @@ export default function Orders() {
   const [editingOrder, setEditingOrder] = useState(null);
   const [showChart, setShowChart] = useState(false);
   const { toast } = useToast();
+  const { user } = useAuth();
 
   const reload = () => base44.entities.Order.list('-created_date', 100).then(setOrders);
 
