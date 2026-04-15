@@ -67,9 +67,9 @@ export default function OrderShareMenu({ order, officeEmail, officeWhatsapp }) {
   return (
     <div className="flex flex-wrap gap-2">
 
-      <Button variant="outline" size="sm" onClick={handleEmail} disabled={sendingEmail} className="gap-1.5 text-blue-600 border-blue-200 hover:bg-blue-50">
-        {sendingEmail ? <Loader2 className="w-4 h-4 animate-spin" /> : <Mail className="w-4 h-4" />}
-        מייל
+      <Button variant="outline" onClick={handleEmail} disabled={sendingEmail} className="gap-2 text-blue-600 border-blue-200 hover:bg-blue-50 w-full py-3 text-base">
+        {sendingEmail ? <Loader2 className="w-5 h-5 animate-spin" /> : <Mail className="w-5 h-5" />}
+        שליחה במייל
       </Button>
     </div>
   );
