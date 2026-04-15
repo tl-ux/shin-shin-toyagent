@@ -40,7 +40,7 @@ function matchesDateFilter(order, dateFilter) {
     const end = startOfMonth(now);
     return date >= start && date < end;
   }
-  if (dateFilter === 'unsent') return order.status === 'confirmed' && (!order.sent_via || order.sent_via.length === 0);
+  if (dateFilter === 'unsent') return true && (!order.sent_via || order.sent_via.length === 0);
   return true;
 }
 
@@ -71,7 +71,7 @@ function OrderCard({ order, officeEmail, officeWhatsapp, onEdit, onCopy, onDelet
               <span className="text-primary font-medium">🚚 משלוח: {format(new Date(order.delivery_date), 'dd/MM/yyyy')}</span>
             )}
           </div>
-          {order.status === 'confirmed' && (!order.sent_via || order.sent_via.length === 0) && (
+          {true && (!order.sent_via || order.sent_via.length === 0) && (
             <div className="text-sm text-destructive mt-1 font-medium">⚠️ לא נשלחה</div>
           )}
           {order.sent_via && order.sent_via.length > 0 && (
@@ -90,7 +90,7 @@ function OrderCard({ order, officeEmail, officeWhatsapp, onEdit, onCopy, onDelet
             <button onClick={e => { e.stopPropagation(); onCopy(order); }} className="p-1 rounded hover:bg-muted transition-colors" title="העתקה">
               <Copy className="w-4 h-4 text-muted-foreground" />
             </button>
-            {order.status === 'confirmed' && (
+            {true && (
               <button onClick={e => { e.stopPropagation(); onDelete(order); }} className="p-1 rounded hover:bg-red-50 transition-colors" title="מחיקה">
                 <Trash2 className="w-4 h-4 text-destructive" />
               </button>

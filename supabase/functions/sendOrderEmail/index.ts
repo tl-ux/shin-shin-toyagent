@@ -75,7 +75,7 @@ serve(async (req) => {
         'Authorization': `Bearer ${RESEND_API_KEY}`,
       },
       body: JSON.stringify({
-        from: 'ToyAgent <onboarding@resend.dev>',
+        from: 'ToyAgent <orders@vendisto.app>',
         to: [toEmail],
         subject: `הזמנה חדשה - ${order.customer_name} - ${order.order_number}`,
         html,
