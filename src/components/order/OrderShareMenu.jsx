@@ -66,10 +66,7 @@ export default function OrderShareMenu({ order, officeEmail, officeWhatsapp }) {
 
   return (
     <div className="flex flex-wrap gap-2">
-      <Button variant="outline" size="sm" onClick={handleWhatsApp} className="gap-1.5 text-green-600 border-green-200 hover:bg-green-50">
-        <MessageCircle className="w-4 h-4" />
-        וואטסאפ
-      </Button>
+
       <Button variant="outline" size="sm" onClick={handleEmail} disabled={sendingEmail} className="gap-1.5 text-blue-600 border-blue-200 hover:bg-blue-50">
         {sendingEmail ? <Loader2 className="w-4 h-4 animate-spin" /> : <Mail className="w-4 h-4" />}
         מייל
