@@ -100,33 +100,7 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
             ))}
           </div>
 
-          {/* Sort button */}
-          <div className="relative">
-            <button
-              onClick={() => setShowSortMenu(v => !v)}
-              className={cn('flex items-center gap-1.5 px-3 h-9 rounded-md border text-sm font-medium transition-colors',
-                sortKey !== 'default' ? 'bg-primary text-white border-primary' : 'border-border text-muted-foreground hover:text-foreground bg-white'
-              )}
-            >
-              <ArrowUpDown className="w-4 h-4" />
-              {SORT_OPTIONS.find(s => s.key === sortKey)?.label}
-            </button>
-            {showSortMenu && (
-              <div className="absolute left-0 top-10 bg-white border border-border rounded-xl shadow-lg z-50 min-w-[130px] overflow-hidden">
-                {SORT_OPTIONS.map(opt => (
-                  <button
-                    key={opt.key}
-                    onClick={() => { setSortKey(opt.key); setShowSortMenu(false); }}
-                    className={cn('w-full text-right px-4 py-2.5 text-sm hover:bg-muted transition-colors',
-                      sortKey === opt.key ? 'font-bold text-primary' : 'text-foreground'
-                    )}
-                  >
-                    {opt.label}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
+
         </div>
 
         {cats.length > 1 &&
