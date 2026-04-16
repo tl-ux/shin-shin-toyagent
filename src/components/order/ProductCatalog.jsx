@@ -137,7 +137,7 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
             key={cat}
             onClick={() => setCategory(cat)}
             className={cn(
-              'flex-shrink-0 px-4 py-2 rounded-full text-base font-medium transition-colors border',
+              'flex-shrink-0 px-6 py-3 rounded-full text-xl font-medium transition-colors border',
               category === cat ?
               'bg-primary text-primary-foreground border-primary' :
               'bg-white text-muted-foreground border-border hover:border-primary/50'
