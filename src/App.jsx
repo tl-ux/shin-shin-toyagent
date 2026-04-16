@@ -9,6 +9,7 @@ import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 import Layout from '@/components/Layout';
 import Homepage from '@/pages/Homepage';
 import Login from '@/pages/Login';
+import HelpStore from '@/pages/HelpStore';
 import SetNameDialog from '@/components/SetNameDialog';
 import NewOrder from '@/pages/NewOrder';
 import Orders from '@/pages/Orders';
@@ -67,6 +68,7 @@ const AuthenticatedApp = () => {
         <Route path="/agent-summary" element={<ProtectedRoute element={<AgentSummary />} allowedRoles={['admin', 'user']} />} />
 
         <Route path="/help" element={<Help />} />
+        <Route path="/help-store" element={<HelpStore />} />
         <Route path="/privacy" element={<PrivacyPolicy />} />
         <Route path="/terms" element={<TermsOfService />} />
       </Route>
