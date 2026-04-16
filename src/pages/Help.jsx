@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import {
   ShoppingCart, Users, Package, CreditCard, BarChart3,
   LayoutDashboard, UserCircle, Settings, ChevronDown, ChevronUp,
-  Search, BookOpen, Zap, MessageCircle, FileDown, Copy, BookmarkCheck
+  Search, BookOpen, Zap, Mail, Copy, BookmarkCheck
 } from 'lucide-react';
 
 const sections = [
@@ -14,15 +14,14 @@ const sections = [
     features: [
       { title: 'בחירת לקוח', desc: 'חיפוש וסינון לקוחות לפי שם, עיר או איש קשר.' },
       { title: 'מספר לקוח בהדר', desc: 'הצגת שם הלקוח ומספרו בהדר עמוד ההזמנה לזיהוי מיידי.' },
-      { title: 'קטלוג מוצרים', desc: 'עיון במוצרים לפי קטגוריה, חיפוש וסינון, עם תמונות ומחירים.' },
-      { title: 'מיון מוצרים', desc: 'מיון הקטלוג לפי מחיר עולה/יורד או לפי פופולריות - מוצרים שהלקוח הזמין לאחרונה יעלו לראש.' },
-      { title: 'מוצרים אחרונים', desc: 'badge ⚡ "הוזמן לאחרונה" מופיע אוטומטית על מוצרים שהלקוח הנוכחי הזמין ב-5 ההזמנות האחרונות שלו.' },
-      { title: 'הוספה לסל', desc: 'לחיצה על "הוסף" מפתחת חלון להזנת כמות עם כותרת שם הפריט ממורכזת.' },
-      { title: 'מחירים סיטונאים', desc: 'עבור לקוחות סיטונאים, המערכת מחשבת אוטומטית 50% ממחיר הצרכן לפני מע"מ, בתוספת עמלת רשת אישית אם הוגדרה.' },
-      { title: 'תבניות הזמנה', desc: 'טעינת הזמנות קבועות שמורות ושמירת הזמנה נוכחית כתבנית לשימוש עתידי.' },
-      { title: 'הערות', desc: 'הוספת הערות חופשיות להזמנה.' },
+      { title: 'קטלוג מוצרים', desc: 'עיון במוצרים לפי קטגוריה ומותג, חיפוש וסינון, עם תמונות ומחירים.' },
+      { title: 'כפתורי כמות', desc: 'לחיצה על + ו- ישירות על כרטיס המוצר. הקלדת 0 מסירה את המוצר.' },
+      { title: 'שמירת טיוטה אוטומטית', desc: 'ההזמנה נשמרת אוטומטית כטיוטה בכל שינוי - גם אחרי יציאה מהדף וריענון.' },
+      { title: 'מיון מוצרים', desc: 'מיון הקטלוג לפי מחיר עולה/יורד או לפי פופולריות.' },
+      { title: 'מחירים סיטונאים', desc: '50% ממחיר הצרכן לפני מע\"מ, בתוספת עמלת רשת אישית.' },
+      { title: 'תבניות הזמנה', desc: 'טעינת הזמנות קבועות שמורות ושמירת הזמנה נוכחית כתבנית.' },
       { title: 'אישור הזמנה', desc: 'שליחת ההזמנה - נוצרת אוטומטית גם רשומת חוב ללקוח.' },
-      { title: 'שליחת אישור ב-WhatsApp', desc: 'לאחר אישור ההזמנה ניתן לשלוח ללקוח אישור ישירות ב-WhatsApp.' },
+      { title: 'שליחת אישור במייל', desc: 'שליחת מייל HTML מסודר עם פרטי הלקוח והמוצרים כולל מק\"ט.' },
     ],
   },
   {
@@ -30,13 +29,15 @@ const sections = [
     title: 'הזמנות',
     color: 'bg-success/10 text-success',
     features: [
-       { title: 'רשימת הזמנות', desc: 'צפייה בכל ההזמנות עם סינון לפי סטטוס, תאריך וחיפוש חופשי.' },
-       { title: 'סינון תאריכים', desc: 'היום / השבוע / החודש / חודש קודם / לא נשלחו.' },
-       { title: 'עריכת הזמנה', desc: 'שינוי סטטוס, כמויות ופריטים בהזמנה קיימת.' },
-       { title: 'העתקת הזמנה', desc: 'יצירת הזמנה חדשה זהה בלחיצה אחת.' },
-       { title: 'שיתוף הזמנה', desc: 'שליחת פרטי הזמנה ב-WhatsApp או מייל עם עדכון אוטומטי של סטטוס שליחה.' },
-       { title: 'מעקב שליחה', desc: 'סימונים (💬 וואטסאפ, 📧 מייל) וסימון לא נשלחה להזמנות מאושרות ללא שליחה.' },
-       { title: 'מחיקת הזמנה', desc: 'מחיקת הזמנות מאושרות שאינן נדרשות עוד.' },
+      { title: 'רשימת הזמנות', desc: 'צפייה בכל ההזמנות עם סינון לפי סטטוס, תאריך וחיפוש חופשי.' },
+      { title: 'סינון תאריכים', desc: 'היום / השבוע / החודש / חודש קודם / לא נשלחו.' },
+      { title: 'עריכת הזמנה', desc: 'שינוי סטטוס, כמויות, פריטים ולקוח - גם אחרי אישור.' },
+      { title: 'הוספת מוצרים לאחר אישור', desc: 'חיפוש מהיר להוספת מוצרים חדשים להזמנה קיימת.' },
+      { title: 'שינוי לקוח', desc: 'העברת הזמנה קיימת מלקוח אחד לאחר.' },
+      { title: 'טיוטות', desc: 'הזמנות שלא אושרו נשמרות כטיוטה.' },
+      { title: 'העתקת הזמנה', desc: 'יצירת הזמנה חדשה זהה בלחיצה אחת.' },
+      { title: 'שיתוף הזמנה', desc: 'שליחת פרטי הזמנה במייל HTML מסודר.' },
+      { title: 'מחיקת הזמנה', desc: 'מחיקת כל הזמנה בכל סטטוס.' },
     ],
   },
   {
@@ -45,10 +46,9 @@ const sections = [
     color: 'bg-accent-foreground/10 text-accent-foreground',
     features: [
       { title: 'ניהול לקוחות', desc: 'הוספה, עריכה וחיפוש לקוחות עם פרטי קשר מלאים.' },
-      { title: 'מספר לקוח', desc: 'הגדרת מספר ייחודי לכל לקוח עבור מעקב וזיהוי קל.' },
-      { title: 'לקוח סיטונאי', desc: 'סימון לקוח כסיטונאי - המחיר יחושב כ-50% ממחיר הצרכן לפני מע"מ.' },
-      { title: 'עמלת רשת', desc: 'הגדרת אחוז עמלה אישי ללקוח (למשל: 10%) שיתווסף מעל המחיר הסיטונאי.' },
-      { title: 'כרטיס לקוח', desc: 'צפייה בסיכום הזמנות, חובות והיסטוריית עסקאות לכל לקוח.' },
+      { title: 'לקוח סיטונאי', desc: 'סימון לקוח כסיטונאי - המחיר יחושב כ-50% ממחיר הצרכן לפני מע\"מ.' },
+      { title: 'עמלת רשת', desc: 'הגדרת אחוז עמלה אישי ללקוח שיתווסף מעל המחיר הסיטונאי.' },
+      { title: 'גישת חנות', desc: 'הזמנת בעל חנות לאפליקציה - יוכל לצפות בהזמנות ובחובות שלו ולבצע הזמנות.' },
     ],
   },
   {
@@ -60,8 +60,7 @@ const sections = [
       { title: 'רישום תשלום', desc: 'רישום תשלום חלקי או מלא לחוב.' },
       { title: 'היסטוריית תשלומים', desc: 'צפייה בכל התשלומים שנרשמו לכל חוב.' },
       { title: 'גיל חוב', desc: 'הצגת מספר ימים מאז יצירת החוב עם קידוד צבעים.' },
-      { title: 'תזכורת ב-WhatsApp', desc: 'שליחת הודעת תזכורת ישירות ללקוח ב-WhatsApp.' },
-      { title: 'ייצוא לאקסל ו-PDF', desc: 'הורדת דוח חובות פתוחים.' },
+      { title: 'ייצוא לאקסל', desc: 'הורדת דוח חובות פתוחים לאקסל.' },
     ],
   },
   {
@@ -69,11 +68,11 @@ const sections = [
     title: 'מלאי',
     color: 'bg-warning/10 text-warning',
     features: [
-      { title: 'ניהול מוצרים', desc: 'הוספה, עריכה וארכיון מוצרים עם תמונה, מחיר, מק"ט וקטגוריה.' },
-      { title: 'סוג פריט', desc: 'סימון האם מדובר בפריט בודד או בדיספליי (אריזה רובוטית).' },
-      { title: 'מעקב מלאי', desc: 'עדכון כמות במלאי והתראה על מלאי נמוך (5 יחידות ומטה).' },
+      { title: 'ניהול מוצרים', desc: 'הוספה, עריכה וארכיון מוצרים עם תמונה, מחיר, מק\"ט וקטגוריה.' },
+      { title: 'קטגוריות מרובות', desc: 'שיוך מוצר למספר קטגוריות בו זמנית - מותג וגיל מומלץ.' },
+      { title: 'סוג פריט', desc: 'סימון האם מדובר בפריט בודד או בדיספליי.' },
+      { title: 'מעקב מלאי', desc: 'עדכון כמות במלאי והתראה על מלאי נמוך.' },
       { title: 'ייבוא מאקסל', desc: 'ייבוא מוצרים בכמות מקובץ Excel או CSV.' },
-      { title: 'סינון קטגוריות', desc: 'סינון מוצרים לפי קטגוריה וחיפוש חופשי.' },
     ],
   },
   {
@@ -81,12 +80,9 @@ const sections = [
     title: 'פאנל ניהול',
     color: 'bg-primary/10 text-primary',
     features: [
-      { title: 'ניווט מרכזי', desc: 'גישה מהירה לכל המודולים - הזמנות, לקוחות, חובות, קטלוג, ביצועים והגדרות.' },
       { title: 'מכירות החודש', desc: 'סיכום מכירות החודש הנוכחי.' },
-      { title: 'השוואה שנה מול שנה', desc: 'טבלת מכירות חודשית עם השוואה לשנה הקודמת ואחוז שינוי.' },
+      { title: 'השוואה שנה מול שנה', desc: 'טבלת מכירות חודשית עם השוואה לשנה הקודמת.' },
       { title: 'לקוחות מובילים', desc: 'חמשת הלקוחות עם הרכישות הגבוהות ביותר.' },
-      { title: 'פריטים נמכרים', desc: 'חמשת המוצרים שנמכרו בכמות הגדולה ביותר.' },
-      { title: 'הזמנות ממתינות', desc: 'הזמנות מאושרות שטרם נמסרו.' },
       { title: 'התראות מלאי נמוך', desc: 'פריטים עם פחות מ-5 יחידות במלאי.' },
     ],
   },
@@ -95,10 +91,9 @@ const sections = [
     title: 'ביצועים (סוכן)',
     color: 'bg-success/10 text-success',
     features: [
-      { title: 'סיכום אישי', desc: 'סה"כ מכירות, מספר הזמנות ולקוחות בטווח זמן נבחר.' },
+      { title: 'סיכום אישי', desc: 'סה\"כ מכירות, מספר הזמנות ולקוחות בטווח זמן נבחר.' },
       { title: 'גרף מגמה', desc: 'גרף מכירות חודשי לביצועי הסוכן.' },
       { title: 'דירוג סוכנים', desc: 'השוואת ביצועים מול יתר הסוכנים.' },
-      { title: 'הזמנות אחרונות', desc: 'רשימת ההזמנות האחרונות של הסוכן.' },
     ],
   },
   {
@@ -106,9 +101,10 @@ const sections = [
     title: 'הגדרות',
     color: 'bg-muted-foreground/10 text-muted-foreground',
     features: [
+      { title: 'הזמנת חנויות', desc: 'שליחת הזמנה לבעל חנות - יקבל גישה לצפייה בהזמנות ובחובות שלו.' },
       { title: 'מייל משרד', desc: 'הגדרת כתובת מייל לקבלת עותק הזמנות.' },
-      { title: 'WhatsApp משרד', desc: 'הגדרת מספר WhatsApp של המשרד לשליחת הזמנות.' },
-      { title: 'שיעור מע"מ', desc: 'הגדרת אחוז המע"מ הנוכחי לחישוב מחירי סיטונאים (ברירת מחדל: 18%).' },
+      { title: 'שיעור מע\"מ', desc: 'הגדרת אחוז המע\"מ הנוכחי (ברירת מחדל: 18%).' },
+      { title: 'ריווחית', desc: 'חיבור API לריווחית לשליחה אוטומטית של הזמנות.' },
     ],
   },
 ];
@@ -116,23 +112,18 @@ const sections = [
 function SectionCard({ section }) {
   const [open, setOpen] = useState(false);
   const Icon = section.icon;
-
   return (
     <div className="bg-card border border-border rounded-xl overflow-hidden">
-      <button
-        onClick={() => setOpen(!open)}
-        className="w-full flex items-center gap-3 p-4 text-right hover:bg-muted/30 transition-colors"
-      >
+      <button onClick={() => setOpen(!open)} className="w-full flex items-center gap-3 p-4 text-right hover:bg-muted/30 transition-colors">
         <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${section.color}`}>
           <Icon className="w-5 h-5" />
         </div>
         <div className="flex-1 text-right">
           <div className="font-semibold text-foreground">{section.title}</div>
-          <div className="text-xs text-muted-foreground">{section.features.length} פיצ'רים</div>
+          <div className="text-xs text-muted-foreground">{section.features.length} פיצ\'רים</div>
         </div>
         {open ? <ChevronUp className="w-4 h-4 text-muted-foreground" /> : <ChevronDown className="w-4 h-4 text-muted-foreground" />}
       </button>
-
       {open && (
         <div className="border-t border-border px-4 py-3 space-y-2 bg-muted/20">
           {section.features.map((f, i) => (
@@ -152,10 +143,8 @@ function SectionCard({ section }) {
 
 export default function Help() {
   const totalFeatures = sections.reduce((s, sec) => s + sec.features.length, 0);
-
   return (
     <div className="p-4 pb-24 space-y-4 max-w-2xl mx-auto">
-      {/* Header */}
       <div className="bg-gradient-to-l from-primary/5 to-primary/10 border border-primary/20 rounded-2xl p-5">
         <div className="flex items-center gap-3 mb-2">
           <div className="w-12 h-12 rounded-2xl bg-primary/20 flex items-center justify-center">
@@ -163,7 +152,7 @@ export default function Help() {
           </div>
           <div>
             <h1 className="text-xl font-bold text-foreground">מדריך שימוש</h1>
-            <p className="text-sm text-muted-foreground">ToyAgent 🧸 - כל הפיצ'רים במקום אחד</p>
+            <p className="text-sm text-muted-foreground">ToyAgent 🧸 - כל הפיצ\'רים במקום אחד</p>
           </div>
         </div>
         <div className="flex gap-4 mt-3 text-sm">
@@ -173,34 +162,26 @@ export default function Help() {
           </div>
           <div className="bg-white/60 rounded-lg px-3 py-1.5 text-center">
             <div className="font-bold text-primary text-lg">{totalFeatures}</div>
-            <div className="text-xs text-muted-foreground">פיצ'רים</div>
+            <div className="text-xs text-muted-foreground">פיצ\'רים</div>
           </div>
         </div>
       </div>
-
-      {/* Quick tips */}
       <div className="bg-card border border-border rounded-xl p-4">
         <div className="flex items-center gap-2 mb-3">
           <Zap className="w-4 h-4 text-warning" />
           <span className="font-semibold text-sm">טיפים מהירים</span>
         </div>
         <div className="space-y-2 text-sm text-muted-foreground">
-          <div className="flex gap-2"><Search className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" /><span>השתמש בחיפוש הגלובלי בסרגל העליון למציאת לקוח, הזמנה או מוצר מכל מקום באפליקציה.</span></div>
-          <div className="flex gap-2"><BookmarkCheck className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" /><span>שמור תבניות הזמנה ללקוחות שמזמינים תמיד את אותם פריטים - חוסך זמן רב.</span></div>
-          <div className="flex gap-2"><MessageCircle className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" /><span>לאחר אישור הזמנה ניתן לשלוח אישור ישירות ב-WhatsApp ללקוח בלחיצה אחת.</span></div>
-          <div className="flex gap-2"><FileDown className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" /><span>ניתן לייצא כל דוח (הזמנות, חובות) לאקסל או PDF לשימוש חיצוני.</span></div>
+          <div className="flex gap-2"><Search className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" /><span>השתמש בחיפוש הגלובלי בסרגל העליון למציאת לקוח, הזמנה או מוצר.</span></div>
+          <div className="flex gap-2"><BookmarkCheck className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" /><span>שמור תבניות הזמנה ללקוחות שמזמינים תמיד את אותם פריטים.</span></div>
+          <div className="flex gap-2"><Mail className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" /><span>לאחר אישור הזמנה ניתן לשלוח למשרד מייל מסודר עם כל פרטי ההזמנה.</span></div>
           <div className="flex gap-2"><Copy className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" /><span>בדף ההזמנות - לחץ על אייקון ההעתקה כדי לשכפל הזמנה קיימת במהירות.</span></div>
         </div>
       </div>
-
-      {/* Sections */}
       <div className="space-y-2">
         <h2 className="font-semibold text-sm text-muted-foreground px-1">מודולים - לחץ להרחבה</h2>
-        {sections.map((s, i) => (
-          <SectionCard key={i} section={s} />
-        ))}
+        {sections.map((s, i) => (<SectionCard key={i} section={s} />))}
       </div>
-
       <div className="text-center text-xs text-muted-foreground pt-2">
         <Link to="/privacy" className="underline hover:text-foreground transition-colors">מדיניות פרטיות</Link>
         <span className="mx-2">·</span>
