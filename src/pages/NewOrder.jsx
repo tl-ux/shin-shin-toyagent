@@ -161,6 +161,7 @@ export default function NewOrder() {
   };
 
   const saveDraft = async (newCart, customer) => {
+    if (draftOrderId === 'deleted') return;
     if (!customer) return;
     if (newCart.length === 0) {
       if (draftOrderId) {
@@ -213,10 +214,11 @@ export default function NewOrder() {
     if (draftOrderId) {
       await base44.entities.Order.delete(draftOrderId);
     }
+    setDraftOrderId('deleted');
     setCart([]);
     setSelectedCustomer(null);
-    setDraftOrderId(null);
     setStep('customer');
+    setTimeout(() => setDraftOrderId(null), 500);
   };
 
   const submitOrder = async (notes) => {
