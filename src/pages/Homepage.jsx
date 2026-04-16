@@ -17,7 +17,7 @@ export default function Homepage() {
 
     { to: '/orders', label: 'ההזמנות שלי', icon: ClipboardList, color: 'bg-purple-500', roles: ['store_manager'] },
     { to: '/debts', label: 'החובות שלי', icon: CreditCard, color: 'bg-orange-500', roles: ['store_manager'] },
-    { to: '/help', label: 'עזרה', icon: HelpCircle, color: 'bg-gray-500', roles: ['admin', 'user', 'store_manager'] },
+    { to: '/help', label: 'עזרה', icon: HelpCircle, color: 'bg-gray-500', roles: ['admin', 'user'] },
   ];
 
   const actions = allActions.filter(action => user && action.roles.includes(user.role));
