@@ -208,6 +208,17 @@ export default function NewOrder() {
   const totalAmount = cart.reduce((sum, i) => sum + i.total, 0);
   const cartCount = cart.reduce((sum, i) => sum + i.quantity, 0);
 
+  const deleteDraft = async () => {
+    if (!window.confirm('למחוק את ההזמנה לצמיתות?')) return;
+    if (draftOrderId) {
+      await base44.entities.Order.delete(draftOrderId);
+    }
+    setCart([]);
+    setSelectedCustomer(null);
+    setDraftOrderId(null);
+    setStep('customer');
+  };
+
   const submitOrder = async (notes) => {
     const currentUser = await base44.auth.me();
     let order;
