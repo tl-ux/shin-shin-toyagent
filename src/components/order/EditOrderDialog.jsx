@@ -26,9 +26,13 @@ export default function EditOrderDialog({ order, onClose, onSave }) {
     customer_name: order.customer_name || '',
   });
   const [customers, setCustomers] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [showAddProduct, setShowAddProduct] = useState(false);
+  const [productSearch, setProductSearch] = useState('');
 
   useEffect(() => {
     base44.entities.Customer.filter({ is_active: true }).then(setCustomers);
+    base44.entities.Product.filter({ is_active: true }).then(setProducts);
   }, []);
   const [saving, setSaving] = useState(false);
   const { toast } = useToast();
@@ -44,6 +48,27 @@ export default function EditOrderDialog({ order, onClose, onSave }) {
         i === idx ? { ...item, quantity: qty, total: qty * item.unit_price } : item
       ),
     }));
+  };
+
+  const addProduct = (product) => {
+    const existing = form.items.find(i => i.product_id === product.id);
+    if (existing) {
+      updateQty(form.items.indexOf(existing), existing.quantity + 1);
+    } else {
+      setForm(prev => ({
+        ...prev,
+        items: [...prev.items, {
+          product_id: product.id,
+          product_name: product.name,
+          sku: product.sku || '',
+          quantity: 1,
+          unit_price: product.price,
+          total: product.price,
+        }]
+      }));
+    }
+    setShowAddProduct(false);
+    setProductSearch('');
   };
 
   const totalAmount = form.items.reduce((s, i) => s + (i.total || 0), 0);
@@ -128,6 +153,43 @@ export default function EditOrderDialog({ order, onClose, onSave }) {
               </div>
             ))}
           </div>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="mt-2 w-full gap-1.5"
+            onClick={() => setShowAddProduct(!showAddProduct)}
+          >
+            <Plus className="w-3.5 h-3.5" />
+            הוסף מוצר להזמנה
+          </Button>
+          {showAddProduct && (
+            <div className="mt-2 border border-border rounded-xl p-3 space-y-2 bg-background">
+              <Input
+                placeholder="חפש מוצר..."
+                value={productSearch}
+                onChange={e => setProductSearch(e.target.value)}
+                autoFocus
+                dir="rtl"
+              />
+              <div className="max-h-48 overflow-y-auto space-y-1">
+                {products
+                  .filter(p => !productSearch || p.name.includes(productSearch) || (p.sku && p.sku.includes(productSearch)))
+                  .slice(0, 20)
+                  .map(p => (
+                    <button
+                      key={p.id}
+                      onClick={() => addProduct(p)}
+                      className="w-full text-right flex items-center justify-between p-2 hover:bg-muted rounded-lg text-sm"
+                    >
+                      <span className="text-muted-foreground text-xs">₪{p.price}</span>
+                      <span className="font-medium">{p.name}</span>
+                    </button>
+                  ))
+                }
+              </div>
+            </div>
+          )}
         </div>
 
         <div>
