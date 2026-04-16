@@ -288,7 +288,7 @@ export default function NewOrder() {
                 <span className={`w-6 h-6 rounded-full text-sm flex items-center justify-center font-bold ${
                   step === s.key ? 'bg-primary text-white' : 'bg-muted text-muted-foreground'
                 }`}>{s.icon ? <s.icon className="w-3.5 h-3.5" /> : idx + 1}</span>
-                <span className="text-base">{s.label}</span>
+                <span className="text-2xl">{s.label}</span>
                 {s.key === 'cart' && cartCount > 0 && (
                   <Badge className="h-10 px-3 text-lg bg-primary">{cartCount}</Badge>
                 )}
