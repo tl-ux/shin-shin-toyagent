@@ -173,7 +173,7 @@ export default function EditOrderDialog({ order, onClose, onSave }) {
                 dir="rtl"
                 className="text-right"
               />
-              <div className="max-h-48 overflow-y-auto space-y-1">
+              <div className="max-h-48 overflow-y-auto space-y-1" dir="rtl">
                 {products
                   .filter(p => !productSearch || p.name.includes(productSearch) || (p.sku && p.sku.includes(productSearch)))
                   .slice(0, 20)
