@@ -171,6 +171,7 @@ export default function EditOrderDialog({ order, onClose, onSave }) {
                 onChange={e => setProductSearch(e.target.value)}
                 autoFocus
                 dir="rtl"
+                className="text-right"
               />
               <div className="max-h-48 overflow-y-auto space-y-1">
                 {products
@@ -180,7 +181,8 @@ export default function EditOrderDialog({ order, onClose, onSave }) {
                     <button
                       key={p.id}
                       onClick={() => addProduct(p)}
-                      className="w-full text-right flex items-center justify-between p-2 hover:bg-muted rounded-lg text-sm"
+                      className="w-full flex items-center justify-between p-2 hover:bg-muted rounded-lg text-sm"
+                      dir="rtl"
                     >
                       <span className="text-muted-foreground text-xs">₪{p.price}</span>
                       <span className="font-medium">{p.name}</span>
