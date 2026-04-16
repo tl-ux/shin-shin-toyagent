@@ -276,7 +276,7 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
                 placeholder="הקלד כמות..."
                 autoFocus
                 dir="rtl"
-                className="text-center text-xl py-6" />
+                className="text-center text-2xl py-7" />
               
 
              {/* Add Button */}
