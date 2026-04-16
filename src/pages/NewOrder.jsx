@@ -255,10 +255,10 @@ export default function NewOrder() {
     <div className="pb-20 lg:pb-6">
       {/* Customer header */}
       {selectedCustomer && (
-        <div className="bg-primary/10 border-b border-primary/20 px-4 py-3 text-center">
-          <div className="text-lg font-bold text-primary">{selectedCustomer.name}</div>
+        <div className="bg-primary/10 border-b border-primary/20 px-4 py-5 text-center">
+          <div className="text-3xl font-bold text-primary">{selectedCustomer.name}</div>
           {selectedCustomer.customer_number && (
-            <div className="text-xs text-primary/70 mt-1">מספר לקוח: {selectedCustomer.customer_number}</div>
+            <div className="text-base text-primary/70 mt-2">מספר לקוח: {selectedCustomer.customer_number}</div>
           )}
         </div>
       )}
@@ -278,7 +278,7 @@ export default function NewOrder() {
                 if (s.key === 'cart' && cart.length === 0) return;
                 setStep(s.key);
               }}
-              className={`flex-1 py-4 text-base font-medium border-b-2 transition-colors relative ${
+              className={`flex-1 py-6 text-xl font-medium border-b-2 transition-colors relative ${
                 step === s.key
                   ? 'border-primary text-primary'
                   : 'border-transparent text-muted-foreground hover:text-foreground'
