@@ -1,4 +1,4 @@
-const CACHE_NAME = 'toyagent-v4';
+const CACHE_NAME = 'toyagent-v5';
 const PRECACHE_URLS = ['/', '/index.html', '/manifest.json'];
 
 self.addEventListener('install', (event) => {
