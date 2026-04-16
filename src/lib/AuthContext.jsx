@@ -23,6 +23,7 @@ export const AuthProvider = ({ children }) => {
       } else {
         setIsLoadingAuth(false);
         setIsAuthenticated(false);
+        if (window.location.pathname !== '/login') window.location.href = '/login';
       }
     });
 
