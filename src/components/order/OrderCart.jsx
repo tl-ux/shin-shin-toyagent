@@ -6,7 +6,7 @@ import { Dialog } from '@/components/ui/dialog';
 import { SaveTemplateDialog, LoadTemplateDialog } from '@/components/order/OrderTemplates';
 import * as XLSX from 'xlsx';
 
-export default function OrderCart({ cart, customer, totalAmount, onUpdateQty, onRemove, onSubmit, onBackToCatalog, onLoadTemplate }) {
+export default function OrderCart({ cart, customer, totalAmount, onUpdateQty, onRemove, onSubmit, onBackToCatalog, onLoadTemplate, onDeleteDraft }) {
   const [notes, setNotes] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
@@ -151,6 +151,10 @@ export default function OrderCart({ cart, customer, totalAmount, onUpdateQty, on
         <Button variant="outline" onClick={onBackToCatalog} className="flex-1 gap-1">
           <ArrowRight className="w-4 h-4" />
           חזרה לקטלוג
+        </Button>
+        <Button variant="outline" onClick={onDeleteDraft} className="flex-1 gap-1 text-destructive border-destructive hover:bg-destructive/10">
+          <Trash2 className="w-4 h-4" />
+          מחק הזמנה
         </Button>
         <Button variant="outline" onClick={downloadExcel} disabled={cart.length === 0} className="flex-1 gap-1">
           <FileDown className="w-4 h-4" />

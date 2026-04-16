@@ -328,6 +328,8 @@ export default function NewOrder() {
           onRemove={removeFromCart}
           onSubmit={submitOrder}
           onBackToCatalog={() => setStep('catalog')}
+          onDeleteDraft={deleteDraft}
+          onDeleteDraft={deleteDraft}
           onLoadTemplate={(template) => {
             // Load template items into cart
             const newCart = (template.items || []).map(item => ({
