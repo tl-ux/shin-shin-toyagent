@@ -16,7 +16,6 @@ const buildCategories = (products, allCategories) => {
 };
 
 const SORT_OPTIONS = [
-  { key: 'default', label: 'ברירת מחדל' },
   { key: 'price_asc', label: 'מחיר ↑' },
   { key: 'price_desc', label: 'מחיר ↓' },
   { key: 'popular', label: 'פופולרי' },
