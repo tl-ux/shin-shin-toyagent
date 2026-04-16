@@ -170,7 +170,7 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
 
           return groups.map(({ category: cat, items }) => (
             <div key={cat}>
-              <h2 className="text-lg font-bold text-foreground mb-3 border-b border-border pb-1">{cat}</h2>
+              <h2 className="text-lg font-bold text-foreground mb-3 border-b border-border pb-1 text-center">{cat}</h2>
               <div className={cn('gap-3', cols === 1 ? 'flex flex-col' : cols === 2 ? 'grid grid-cols-2' : 'grid grid-cols-3')}>
                 {items.map((product) => {
           const qty = getCartQty(product.id);
