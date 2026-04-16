@@ -424,7 +424,7 @@ export default function Products() {
         });
         return groups.map(({ cat, items }) => (
           <div key={cat} className="space-y-2">
-            <h2 className="text-lg font-bold text-foreground border-b border-border pb-1 text-center">{cat}</h2>
+            <h2 className="text-lg font-bold text-foreground border-b border-border pb-1 text-center w-full" style={{textAlign: "center"}}>{cat}</h2>
             <div className="grid grid-cols-2 gap-3 lg:grid-cols-3 xl:grid-cols-4">
               {items.map((p) => (
                 <ProductCard key={p.id} p={p} onClick={() => { setEditing(p); setShowForm(true); }} />
