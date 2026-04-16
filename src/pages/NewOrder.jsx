@@ -23,14 +23,47 @@ export default function NewOrder() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // איפוס הזמנה בכל כניסה חדשה לדף
+  // איפוס הזמנה רק כשמגיעים מדף אחר (לא ריענון)
   useEffect(() => {
+    const isRefresh = sessionStorage.getItem('new-order-refresh');
+    if (isRefresh) {
+      sessionStorage.removeItem('new-order-refresh');
+      return;
+    }
     setSelectedCustomer(null);
     setCart([]);
     setStep('customer');
     setRecentProductIds([]);
     setDraftOrderId(null);
   }, [location.key]);
+
+  // סמן שהדף עומד להתרענן
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      if (selectedCustomer) {
+        sessionStorage.setItem('new-order-refresh', '1');
+        sessionStorage.setItem('new-order-customer', JSON.stringify(selectedCustomer));
+        sessionStorage.setItem('new-order-step', step);
+      }
+    };
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, [selectedCustomer, step]);
+
+  // שחזר מצב אחרי ריענון
+  useEffect(() => {
+    const saved = sessionStorage.getItem('new-order-customer');
+    const savedStep = sessionStorage.getItem('new-order-step');
+    if (saved && savedStep) {
+      try {
+        const customer = JSON.parse(saved);
+        setSelectedCustomer(customer);
+        setStep(savedStep);
+        sessionStorage.removeItem('new-order-customer');
+        sessionStorage.removeItem('new-order-step');
+      } catch (_) {}
+    }
+  }, []);
 
   useEffect(() => {
     if (!user) {
