@@ -12,7 +12,7 @@ import ProductCard from '@/components/products/ProductCard';
 
 function ProductForm({ product, categories, allProducts, onSave, onClose }) {
   const [form, setForm] = useState(product || {
-    name: '', sku: '', category: '', product_type: 'single', price: '', unit: "יח'", stock: '', description: '', image_url: '', is_active: true
+    name: '', sku: '', category: '', categories: [], product_type: 'single', price: '', unit: "יח'", stock: '', description: '', image_url: '', is_active: true
   });
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
@@ -73,18 +73,27 @@ function ProductForm({ product, categories, allProducts, onSave, onClose }) {
           <Input value={form.price} onChange={(e) => set('price', e.target.value)} type="number" placeholder="0.00" className="mt-1 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" dir="ltr" />
         </div>
         <div>
-          <Label>קטגוריה</Label>
-          <Select value={form.category || '__none__'} onValueChange={(v) => set('category', v === '__none__' ? '' : v)}>
-            <SelectTrigger className="mt-1" dir="rtl">
-              <SelectValue placeholder="בחר קטגוריה" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="__none__">ללא קטגוריה</SelectItem>
-              {categories.map(cat => (
-                <SelectItem key={cat.id} value={cat.name}>{cat.name}</SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <Label>קטגוריות</Label>
+          <div className="mt-1 border border-input rounded-lg p-2 space-y-1 max-h-40 overflow-y-auto" dir="rtl">
+            {categories.map(cat => (
+              <label key={cat.id} className="flex items-center gap-2 cursor-pointer hover:bg-muted p-1 rounded">
+                <input
+                  type="checkbox"
+                  checked={(form.categories || []).includes(cat.name)}
+                  onChange={(e) => {
+                    const current = form.categories || [];
+                    if (e.target.checked) {
+                      set('categories', [...current, cat.name]);
+                      if (!form.category) set('category', cat.name);
+                    } else {
+                      set('categories', current.filter(c => c !== cat.name));
+                    }
+                  }}
+                />
+                <span className="text-sm">{cat.name}</span>
+              </label>
+            ))}
+          </div>
         </div>
         <div>
           <Label>סוג פריט</Label>
