@@ -12,7 +12,7 @@ import ProductCard from '@/components/products/ProductCard';
 
 function ProductForm({ product, categories, allProducts, onSave, onClose }) {
   const [form, setForm] = useState(product || {
-    name: '', sku: '', category: '', categories: [], product_type: 'single', price: '', unit: "יח'", stock: '', description: '', image_url: '', is_active: true
+    name: '', sku: '', category: '', categories: [], product_type: 'single', price: '', unit: "יח'", stock: '', description: '', image_url: '', video_url: '', is_active: true
   });
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
