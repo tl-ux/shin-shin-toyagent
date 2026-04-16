@@ -235,7 +235,7 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
       {/* Quantity input dialog */}
       <Dialog open={!!selectedProduct} onOpenChange={(v) => {if (!v) setSelectedProduct(null);}}>
         {selectedProduct &&
-        <DialogContent className="max-w-sm p-0 overflow-hidden max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-w-lg p-0 overflow-hidden max-h-[90vh] overflow-y-auto">
            <div className="flex flex-col items-center w-full">
              {/* Product Image */}
              <div className="w-full aspect-square bg-white flex items-center justify-center overflow-hidden">
@@ -255,8 +255,8 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
              {/* Content */}
              <div className="p-4 space-y-3 w-full flex flex-col items-center text-center">
                <div className="w-full text-center">
-                 <h2 className="text-base font-semibold text-center">{selectedProduct.name}</h2>
-                 {selectedProduct.sku && <div className="text-xs text-muted-foreground mt-0.5 text-center">מק"ט: {selectedProduct.sku}</div>}
+                 <h2 className="text-2xl font-semibold text-center">{selectedProduct.name}</h2>
+                 {selectedProduct.sku && <div className="text-base text-muted-foreground mt-0.5 text-center">מק"ט: {selectedProduct.sku}</div>}
                </div>
 
                {/* Price and Stock */}
@@ -276,12 +276,12 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
                 placeholder="הקלד כמות..."
                 autoFocus
                 dir="rtl"
-                className="text-center" />
+                className="text-center text-xl py-6" />
               
 
              {/* Add Button */}
              <Button
-                className="w-full"
+                className="w-full text-xl py-6"
                 onClick={() => {
                   const raw = inputQty.trim();
                   const qty = raw === '' ? 1 : parseInt(raw);
