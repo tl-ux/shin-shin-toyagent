@@ -260,8 +260,8 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
                </div>
 
                {/* Price and Stock */}
-               <div className="w-full flex items-center justify-center gap-4 text-sm">
-               <span className="font-bold text-primary">
+               <div className="w-full flex items-center justify-center gap-4">
+               <span className="font-bold text-primary text-2xl">
                  ₪{getProductPrice ? getProductPrice(selectedProduct) : selectedProduct.price}
                </span>
 
