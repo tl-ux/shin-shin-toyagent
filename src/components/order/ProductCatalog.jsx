@@ -7,7 +7,10 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { cn } from '@/lib/utils';
 
 const categories = (products) => {
-  const cats = [...new Set(products.map((p) => p.category).filter(Boolean))];
+  const cats = [...new Set([
+    ...products.map((p) => p.category).filter(Boolean),
+    ...products.flatMap((p) => p.categories || []).filter(Boolean),
+  ])];
   return ['הכל', ...cats];
 };
 
@@ -32,7 +35,7 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
     let list = products.filter((p) => {
       const matchSearch = p.name.toLowerCase().includes(search.toLowerCase()) ||
         (p.sku || '').toLowerCase().includes(search.toLowerCase());
-      const matchCat = category === 'הכל' || p.category === category;
+      const matchCat = category === 'הכל' || p.category === category || (p.categories || []).includes(category);
       return matchSearch && matchCat;
     });
 
