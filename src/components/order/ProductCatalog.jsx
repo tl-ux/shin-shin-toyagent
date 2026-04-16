@@ -6,12 +6,13 @@ import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { cn } from '@/lib/utils';
 
-const categories = (products) => {
-  const cats = [...new Set([
+const buildCategories = (products, allCategories) => {
+  const fromProducts = [...new Set([
     ...products.map((p) => p.category).filter(Boolean),
     ...products.flatMap((p) => p.categories || []).filter(Boolean),
   ])];
-  return ['הכל', ...cats];
+  const extra = (allCategories || []).filter(c => !fromProducts.includes(c));
+  return ['הכל', ...fromProducts, ...extra];
 };
 
 const SORT_OPTIONS = [
@@ -21,7 +22,7 @@ const SORT_OPTIONS = [
   { key: 'popular', label: 'פופולרי' },
 ];
 
-export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cartCount, getProductPrice, recentProductIds = [] }) {
+export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cartCount, getProductPrice, recentProductIds = [], allCategories = [] }) {
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('הכל');
   const [sortKey, setSortKey] = useState('default');
@@ -68,7 +69,7 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
     return list;
   }, [products, search, category, sortKey, getProductPrice, recentProductIds]);
 
-  const cats = categories(products);
+  const cats = buildCategories(products, allCategories);
 
   const getCartQty = (productId) => {
     return cart.find((i) => i.product_id === productId)?.quantity || 0;

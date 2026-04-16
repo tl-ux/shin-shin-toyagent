@@ -16,6 +16,7 @@ export default function NewOrder() {
   const [loading, setLoading] = useState(true);
   const [step, setStep] = useState('customer');
   const [recentProductIds, setRecentProductIds] = useState([]);
+  const [allCategories, setAllCategories] = useState([]);
   const [draftOrderId, setDraftOrderId] = useState(null);
   const [vatRate, setVatRate] = useState(0.18);
   const { user } = useAuth();
@@ -40,7 +41,9 @@ export default function NewOrder() {
       base44.entities.Product.filter({ is_active: true }),
       base44.entities.Customer.filter({ is_active: true }),
       base44.entities.AppSettings.list(),
-    ]).then(([prods, custs, settings]) => {
+      base44.entities.Category.list(),
+    ]).then(([prods, custs, settings, cats]) => {
+      setAllCategories(cats.map(c => c.name));
       setProducts(prods);
       // אם המשתמש הוא store_manager, הוא רואה רק את הלקוח שלו
       const filteredCustomers = user?.role === 'store_manager' && user?.email
@@ -279,6 +282,7 @@ export default function NewOrder() {
           cartCount={cartCount}
           getProductPrice={getProductPrice}
           recentProductIds={recentProductIds}
+          allCategories={allCategories}
         />
       )}
 
