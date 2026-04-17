@@ -259,7 +259,7 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
              {((selectedProduct.images && selectedProduct.images.length > 0) || selectedProduct.image_url) && (
                <div className="grid grid-cols-4 gap-2 p-2 w-full">
                  {[originalImageUrl, ...(selectedProduct.images || [])].filter(Boolean).map((url, idx) => (
-                   <img key={idx} src={url} alt="" className="aspect-square object-contain rounded-lg border border-border cursor-pointer bg-white w-full" onClick={(e) => { e.stopPropagation(); setSelectedProduct(prev => ({...prev, image_url: url})); }} />
+                   <img key={idx} src={url} alt="" loading="lazy" className="aspect-square object-contain rounded-lg border border-border cursor-pointer bg-white w-full" onClick={(e) => { e.stopPropagation(); setSelectedProduct(prev => ({...prev, image_url: url})); }} />
                  ))}
                </div>
              )}
