@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { base44 } from '@/api/base44Client';
+import { base44, supabase } from '@/api/supabaseClient';
 import { Search, Plus, Package, Upload, X, ImagePlus, Edit2, Trash2, Tag } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
