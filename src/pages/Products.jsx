@@ -33,8 +33,12 @@ function ProductForm({ product, categories, allProducts, onSave, onClose }) {
     const file = e.target.files[0];
     if (!file) return;
     setUploadingImg(true);
-    const { file_url } = await base44.integrations.Core.UploadFile({ file });
-    setForm((prev) => ({ ...prev, image_url: file_url }));
+    const fileExt = file.name.split('.').pop();
+    const fileName = `${Date.now()}.${fileExt}`;
+    const { error } = await supabase.storage.from('product-images').upload(fileName, file, { upsert: true });
+    if (error) throw error;
+    const { data: { publicUrl } } = supabase.storage.from('product-images').getPublicUrl(fileName);
+    setForm((prev) => ({ ...prev, image_url: publicUrl }));
     setUploadingImg(false);
     e.target.value = '';
   };
