@@ -12,7 +12,7 @@ import ProductCard from '@/components/products/ProductCard';
 
 function ProductForm({ product, categories, allProducts, onSave, onClose }) {
   const [form, setForm] = useState(product || {
-    name: '', sku: '', category: '', categories: [], product_type: 'single', price: '', unit: "יח'", stock: '', description: '', image_url: '', video_url: '', is_active: true
+    name: '', sku: '', category: '', categories: [], product_type: 'single', price: '', unit: "יח'", stock: '', description: '', image_url: '', video_url: '', images: [], is_active: true
   });
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
@@ -151,6 +151,18 @@ function ProductForm({ product, categories, allProducts, onSave, onClose }) {
         <div>
           <Label>סרטון (YouTube URL)</Label>
           <Input value={form.video_url || ''} onChange={(e) => set('video_url', e.target.value)} placeholder="https://youtube.com/watch?v=..." className="mt-1" dir="ltr" />
+        </div>
+        <div>
+          <Label>תמונות נוספות</Label>
+          <div className="mt-1 space-y-2">
+            {(form.images || []).map((url, idx) => (
+              <div key={idx} className="flex gap-2 items-center">
+                <Input value={url} onChange={(e) => { const imgs = [...(form.images||[])]; imgs[idx]=e.target.value; set('images',imgs); }} placeholder="https://..." dir="ltr" className="flex-1" />
+                <button onClick={() => { const imgs = (form.images||[]).filter((_,i)=>i!==idx); set('images',imgs); }} className="text-destructive p-1">X</button>
+              </div>
+            ))}
+            <button onClick={() => set('images', [...(form.images||[]), ''])} className="text-sm text-primary hover:underline">+ הוסף תמונה</button>
+          </div>
         </div>
 
         <div className="flex gap-3 pt-2">
