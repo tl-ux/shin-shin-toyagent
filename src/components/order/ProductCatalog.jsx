@@ -227,7 +227,7 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
 
       {/* Zoomed image overlay */}
       {zoomedProduct && (
-        <div className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4" onClick={() => setZoomedProduct(null)}>
+        <div className="fixed inset-0 z-[200] bg-black/90 flex items-center justify-center p-4" onClick={() => setZoomedProduct(null)}>
           <img src={zoomedProduct.image_url} alt="" className="max-w-full max-h-[80vh] object-contain rounded-lg" style={{ imageRendering: 'crisp-edges' }} />
         </div>
       )}
