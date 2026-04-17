@@ -252,6 +252,15 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
                }
              </div>
 
+             {/* Additional images gallery */}
+             {selectedProduct.images && selectedProduct.images.length > 0 && (
+               <div className="flex gap-2 p-2 overflow-x-auto w-full">
+                 {selectedProduct.images.filter(Boolean).map((url, idx) => (
+                   <img key={idx} src={url} alt="" className="h-20 w-20 object-cover rounded-lg border border-border flex-shrink-0 cursor-pointer" onClick={() => setZoomedProduct({image_url: url})} />
+                 ))}
+               </div>
+             )}
+
              {/* Content */}
              <div className="p-4 space-y-3 w-full flex flex-col items-center text-center">
                <div className="w-full text-center">
