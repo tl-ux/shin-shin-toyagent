@@ -30,6 +30,7 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
   const [inputQty, setInputQty] = useState('');
   const [cols, setCols] = useState(2);
   const [zoomedProduct, setZoomedProduct] = useState(null);
+  const [zoomedImageUrl, setZoomedImageUrl] = useState(null);
 
   const filtered = useMemo(() => {
     let list = products.filter((p) => {
@@ -226,9 +227,9 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
       }
 
       {/* Zoomed image overlay */}
-      {zoomedProduct && (
-        <div className="fixed inset-0 z-[200] bg-black/90 flex items-center justify-center p-4" onClick={() => setZoomedProduct(null)}>
-          <img src={zoomedProduct.image_url} alt="" className="max-w-full max-h-[80vh] object-contain rounded-lg" style={{ imageRendering: 'crisp-edges' }} />
+      {zoomedImageUrl && (
+        <div className="fixed inset-0 z-[200] bg-black/90 flex items-center justify-center p-4" onClick={() => setZoomedImageUrl(null)}>
+          <img src={zoomedImageUrl} alt="" className="max-w-full max-h-[80vh] object-contain rounded-lg" style={{ imageRendering: 'crisp-edges' }} />
         </div>
       )}
 
@@ -246,7 +247,7 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
                  className="w-full h-full object-contain cursor-zoom-in"
                  style={{ imageRendering: 'crisp-edges' }}
                  loading="lazy"
-                 onClick={() => { setZoomedProduct(selectedProduct); }}
+                 onClick={() => setZoomedImageUrl(selectedProduct.image_url)}
                /> :
                <span className="text-6xl font-bold text-primary/30">{selectedProduct.name[0]}</span>
                }
@@ -256,7 +257,7 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
              {selectedProduct.images && selectedProduct.images.length > 0 && (
                <div className="flex gap-2 p-2 overflow-x-auto w-full">
                  {selectedProduct.images.filter(Boolean).map((url, idx) => (
-                   <img key={idx} src={url} alt="" className="h-20 w-20 object-cover rounded-lg border border-border flex-shrink-0 cursor-pointer" onClick={() => setZoomedProduct({image_url: url})} />
+                   <img key={idx} src={url} alt="" className="h-20 w-20 object-cover rounded-lg border border-border flex-shrink-0 cursor-pointer" onClick={(e) => { e.stopPropagation(); setZoomedImageUrl(url); }} />
                  ))}
                </div>
              )}
