@@ -271,6 +271,23 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
 
 
 
+               {/* Video */}
+               {selectedProduct.video_url && (() => {
+                 const url = selectedProduct.video_url;
+                 const ytMatch = url.match(/(?:youtube.com.watch.v=|youtu.be.)([^&]+)/);
+                 const driveMatch = url.match(/drive.google.com.file.d.([^/]+)/);
+                 const embedUrl = ytMatch
+                   ? `https://www.youtube.com/embed/${ytMatch[1]}`
+                   : driveMatch
+                   ? `https://drive.google.com/file/d/${driveMatch[1]}/preview`
+                   : url;
+                 return (
+                   <div className="w-full aspect-video rounded-lg overflow-hidden border border-border">
+                     <iframe src={embedUrl} className="w-full h-full" allowFullScreen allow="autoplay" />
+                   </div>
+                 );
+               })()}
+
                {/* Quantity Input */}
              <Input
                 type="number"
