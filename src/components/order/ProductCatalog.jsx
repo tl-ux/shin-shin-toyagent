@@ -236,7 +236,7 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
       {/* Quantity input dialog */}
       <Dialog open={!!selectedProduct} onOpenChange={(v) => {if (!v) setSelectedProduct(null);}}>
         {selectedProduct &&
-        <DialogContent className="max-w-lg p-0 overflow-hidden max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-w-xl p-0 overflow-hidden max-h-[90vh] overflow-y-auto">
            <div className="flex flex-col items-center w-full">
              {/* Product Image */}
              <div className="w-full aspect-square bg-white flex items-center justify-center overflow-hidden">
