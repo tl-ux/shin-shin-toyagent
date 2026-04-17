@@ -341,7 +341,7 @@ export default function Products() {
   const filtered = products.filter((p) => {
     const matchSearch = p.name.toLowerCase().includes(search.toLowerCase()) ||
       (p.sku || '').toLowerCase().includes(search.toLowerCase());
-    const matchCat = category === 'הכל' || p.category === category;
+    const matchCat = category === 'הכל' || p.category === category || (p.categories || []).includes(category);
     return matchSearch && matchCat;
   });
 
