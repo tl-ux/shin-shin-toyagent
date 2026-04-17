@@ -101,6 +101,10 @@ function ProductForm({ product, categories, allProducts, onSave, onClose }) {
           </div>
         </div>
         <div>
+          <Label>מלאי</Label>
+          <Input value={form.stock} onChange={(e) => set('stock', e.target.value)} type="number" placeholder="כמות במלאי" className="mt-1" dir="ltr" />
+        </div>
+        <div>
           <Label>סוג פריט</Label>
           <Select value={form.product_type || 'single'} onValueChange={(v) => set('product_type', v)}>
             <SelectTrigger className="mt-1" dir="rtl">
