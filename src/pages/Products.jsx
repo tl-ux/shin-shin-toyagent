@@ -359,7 +359,7 @@ export default function Products() {
       (p.sku || '').toLowerCase().includes(search.toLowerCase());
     const matchCat = category === 'הכל' || p.category === category || (p.categories || []).includes(category);
     return matchSearch && matchCat;
-  });
+  }).sort((a, b) => (a.name || '').localeCompare(b.name || '', 'he'));
 
   if (loading) return (
     <div className="flex items-center justify-center min-h-[60vh]">
