@@ -280,6 +280,19 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
                  </a>
                )}
 
+               {/* Video Button */}
+               {selectedProduct.video_url && (
+                 
+                   href={selectedProduct.video_url}
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   className="w-full flex items-center justify-center gap-2 py-2 px-4 rounded-lg bg-red-50 text-red-600 border border-red-200 hover:bg-red-100 transition-colors text-sm font-medium"
+                 >
+                   <span>▶</span>
+                   צפה בסרטון
+                 </a>
+               )}
+
                {/* Quantity Input */}
              <Input
                 type="number"
