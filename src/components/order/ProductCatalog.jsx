@@ -267,31 +267,49 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
 
                </div>
 
-               {/* Video Button */}
-               {selectedProduct.video_url && (
-                 
-                   href={selectedProduct.video_url}
-                   target="_blank"
-                   rel="noopener noreferrer"
-                   className="w-full flex items-center justify-center gap-2 py-2 px-4 rounded-lg bg-red-50 text-red-600 border border-red-200 hover:bg-red-100 transition-colors text-sm font-medium"
-                 >
-                   <span>▶</span>
-                   צפה בסרטון
-                 </a>
-               )}
+               {/* Video */}
+               {selectedProduct.video_url && (() => {
+                 const url = selectedProduct.video_url;
+                 const ytMatch = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&]+)/);
+                 const driveMatch = url.match(/drive\.google\.com\/file\/d\/([^/]+)/);
+                 const embedUrl = ytMatch
+                   ? `https://www.youtube.com/embed/${ytMatch[1]}`
+                   : driveMatch
+                   ? `https://drive.google.com/file/d/${driveMatch[1]}/preview`
+                   : url;
+                 return (
+                   <div className="w-full aspect-video rounded-lg overflow-hidden border border-border">
+                     <iframe
+                       src={embedUrl}
+                       className="w-full h-full"
+                       allowFullScreen
+                       allow="autoplay"
+                     />
+                   </div>
+                 );
+               })()}
 
-               {/* Video Button */}
-               {selectedProduct.video_url && (
-                 
-                   href={selectedProduct.video_url}
-                   target="_blank"
-                   rel="noopener noreferrer"
-                   className="w-full flex items-center justify-center gap-2 py-2 px-4 rounded-lg bg-red-50 text-red-600 border border-red-200 hover:bg-red-100 transition-colors text-sm font-medium"
-                 >
-                   <span>▶</span>
-                   צפה בסרטון
-                 </a>
-               )}
+               {/* Video */}
+               {selectedProduct.video_url && (() => {
+                 const url = selectedProduct.video_url;
+                 const ytMatch = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&]+)/);
+                 const driveMatch = url.match(/drive\.google\.com\/file\/d\/([^/]+)/);
+                 const embedUrl = ytMatch
+                   ? `https://www.youtube.com/embed/${ytMatch[1]}`
+                   : driveMatch
+                   ? `https://drive.google.com/file/d/${driveMatch[1]}/preview`
+                   : url;
+                 return (
+                   <div className="w-full aspect-video rounded-lg overflow-hidden border border-border">
+                     <iframe
+                       src={embedUrl}
+                       className="w-full h-full"
+                       allowFullScreen
+                       allow="autoplay"
+                     />
+                   </div>
+                 );
+               })()}
 
                {/* Quantity Input */}
              <Input
