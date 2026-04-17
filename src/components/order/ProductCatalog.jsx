@@ -296,7 +296,7 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
                    : url;
                  return (
                    <div className="w-full aspect-video rounded-lg overflow-hidden border border-border">
-                     <iframe src={embedUrl} className="w-full h-full" allowFullScreen allow="autoplay" />
+                     <iframe src={embedUrl} className="w-full h-full" allowFullScreen allow="autoplay" loading="lazy" />
                    </div>
                  );
                })()}
