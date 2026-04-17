@@ -261,6 +261,20 @@ export default function NewOrder() {
       });
     } catch (_) {}
 
+    // צור חוב אוטומטי
+    try {
+      await base44.entities.Debt.create({
+        customer_id: selectedCustomer?.id || '',
+        customer_name: selectedCustomer?.name || '',
+        order_id: order.id,
+        order_number: order.order_number,
+        amount: totalAmount,
+        remaining_amount: totalAmount,
+        status: 'open',
+        created_date: new Date().toISOString().split('T')[0],
+      });
+    } catch (_) {}
+
     try {
       const settings = await base44.entities.AppSettings.list();
       const appSettings = settings[0] || {};
