@@ -52,7 +52,8 @@ function ProductForm({ product, categories, allProducts, onSave, onClose }) {
   const save = async () => {
     if (!form.name || !form.price) return;
     setSaving(true);
-    const data = { ...form, price: parseFloat(form.price), stock: form.stock !== '' ? parseInt(form.stock) : null };
+    const data = { ...form, price: parseFloat(form.price), stock: form.stock !== '' ? parseInt(form.stock) : null, categories: form.categories || [] };
+    console.log('saving data:', JSON.stringify(data.categories));
     if (product?.id) {
       await base44.entities.Product.update(product.id, data);
     } else {
