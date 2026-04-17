@@ -241,7 +241,7 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
         <DialogContent className="max-w-xl p-0 overflow-hidden max-h-[90vh] overflow-y-auto">
            <div className="flex flex-col items-center w-full">
              {/* Product Image */}
-             <div className="w-full bg-white flex items-center justify-center overflow-hidden" style={{maxHeight:"50vh"}}>
+             <div className="w-full bg-white flex items-center justify-center overflow-hidden" style={{maxHeight:"35vh"}}>
                {selectedProduct.image_url ?
                <img
                  src={selectedProduct.image_url}
