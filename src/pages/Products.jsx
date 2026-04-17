@@ -428,7 +428,7 @@ export default function Products() {
         const groups = [];
         const seen = new Set();
         filtered.forEach((p) => {
-          const cat = p.category || 'ללא קטגוריה';
+          const cat = (category !== 'הכל' && (p.categories || []).includes(category)) ? category : (p.category || 'ללא קטגוריה');
           if (!seen.has(cat)) { seen.add(cat); groups.push({ cat, items: [] }); }
           groups.find(g => g.cat === cat).items.push(p);
         });
