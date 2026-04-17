@@ -43,18 +43,19 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
     });
 
     const categoryOrder = (cat) => {
-      if (!cat) return 3;
+      if (!cat) return 99;
       const trimmed = cat.trim().toLowerCase();
       if (trimmed.includes('tiger')) return 0;
-      if (trimmed === 'שין שין - עץ' || trimmed.includes('שין שין - עץ')) return 1;
-      if (trimmed === 'שין שין - יצירה' || trimmed.includes('שין שין - יצירה')) return 2;
-      if (trimmed.includes('box candiy') || trimmed.includes('box candy')) return 3;
-      if (trimmed.includes('sluban')) return 4;
+      if (trimmed.includes('שין שין - עץ')) return 1;
+      if (trimmed.includes('שין שין - יצירה')) return 2;
+      if (trimmed.includes('box cand')) return 3;
+      if (trimmed.includes('מדע')) return 4;
       if (trimmed.includes('mideer')) return 5;
-      if (trimmed.includes('mudpuppy')) return 6;
-      if (trimmed.includes('mbi')) return 7;
+      if (trimmed.includes('mbi')) return 6;
+      if (trimmed.includes('mudpuppy')) return 7;
       if (trimmed.includes('kaichi')) return 8;
-      return 9;
+      if (trimmed.includes('sluban')) return 9;
+      return 99;
     };
 
     if (sortKey === 'default') list = [...list].sort((a, b) => {
