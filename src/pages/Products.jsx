@@ -143,6 +143,11 @@ function ProductForm({ product, categories, allProducts, onSave, onClose }) {
             />
           </div>
         </div>
+        <div>
+          <Label>סרטון (YouTube URL)</Label>
+          <Input value={form.video_url || ''} onChange={(e) => set('video_url', e.target.value)} placeholder="https://youtube.com/watch?v=..." className="mt-1" dir="ltr" />
+        </div>
+
         <div className="flex gap-3 pt-2">
           <Button onClick={save} disabled={saving || !form.name || !form.price || duplicateWarning} className="flex-1">
             {saving ? 'שומר...' : 'שמור'}
