@@ -38,7 +38,8 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
       const matchSearch = p.name.toLowerCase().includes(search.toLowerCase()) ||
         (p.sku || '').toLowerCase().includes(search.toLowerCase());
       const matchCat = category === 'הכל' || p.category === category || (p.categories || []).includes(category);
-      return matchSearch && matchCat;
+      const inStock = p.stock === null || p.stock === undefined || p.stock > 0;
+      return matchSearch && matchCat && inStock;
     });
 
     const categoryOrder = (cat) => {
