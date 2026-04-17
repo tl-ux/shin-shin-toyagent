@@ -247,7 +247,7 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
                  className="w-full h-full object-contain cursor-zoom-in"
                  style={{ imageRendering: 'crisp-edges' }}
                  loading="lazy"
-                 onClick={() => setZoomedImageUrl(selectedProduct.image_url)}
+ 
                /> :
                <span className="text-6xl font-bold text-primary/30">{selectedProduct.name[0]}</span>
                }
@@ -257,7 +257,7 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
              {selectedProduct.images && selectedProduct.images.length > 0 && (
                <div className="flex gap-2 p-2 overflow-x-auto w-full">
                  {selectedProduct.images.filter(Boolean).map((url, idx) => (
-                   <img key={idx} src={url} alt="" className="h-20 w-20 object-cover rounded-lg border border-border flex-shrink-0 cursor-pointer" onClick={(e) => { e.stopPropagation(); setZoomedImageUrl(url); }} />
+                   <img key={idx} src={url} alt="" className="h-20 w-20 object-cover rounded-lg border border-border flex-shrink-0 cursor-pointer" onClick={(e) => { e.stopPropagation(); setSelectedProduct({...selectedProduct, image_url: url}); }} />
                  ))}
                </div>
              )}
