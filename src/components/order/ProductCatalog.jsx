@@ -187,6 +187,7 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
                    className="w-full h-10 text-base"
                     onClick={() => {
                       setSelectedProduct(product);
+                      setOriginalImageUrl(product.image_url);
                       setInputQty('');
                     }}>
                       <Plus className="w-3 h-3 ml-1" />
