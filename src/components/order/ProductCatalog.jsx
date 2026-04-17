@@ -254,9 +254,9 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
              </div>
 
              {/* Additional images gallery */}
-             {selectedProduct.images && selectedProduct.images.length > 0 && (
+             {((selectedProduct.images && selectedProduct.images.length > 0) || selectedProduct.image_url) && (
                <div className="flex gap-2 p-2 overflow-x-auto w-full">
-                 {selectedProduct.images.filter(Boolean).map((url, idx) => (
+                 {[selectedProduct.image_url, ...(selectedProduct.images || [])].filter(Boolean).map((url, idx) => (
                    <img key={idx} src={url} alt="" className="h-20 w-20 object-cover rounded-lg border border-border flex-shrink-0 cursor-pointer" onClick={(e) => { e.stopPropagation(); setSelectedProduct({...selectedProduct, image_url: url}); }} />
                  ))}
                </div>
