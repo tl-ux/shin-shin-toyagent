@@ -159,7 +159,7 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
                   className="w-full h-full object-contain cursor-zoom-in"
                   style={{ imageRendering: 'crisp-edges' }}
                   loading="lazy"
-                  onClick={(e) => { e.stopPropagation(); setZoomedProduct(product); }}
+                  onClick={(e) => { e.stopPropagation(); setZoomedImageUrl(product.image_url); }}
                 /> :
                 <span className={cn('font-bold text-primary/30', placeholderText)}>{product.name[0]}</span>
                 }
