@@ -177,7 +177,7 @@ function ProductForm({ product, categories, allProducts, onSave, onClose }) {
                   const { error } = await supabase.storage.from('product-images').upload(fileName, file, { upsert: true });
                   if (!error) {
                     const { data: { publicUrl } } = supabase.storage.from('product-images').getPublicUrl(fileName);
-                    set('images', prev => [...(prev || []), publicUrl]);
+                    set('images', [...(form.images || []), publicUrl]);
                   }
                 }
                 e.target.value = '';
