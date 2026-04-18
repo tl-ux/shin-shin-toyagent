@@ -171,14 +171,18 @@ function ProductForm({ product, categories, allProducts, onSave, onClose }) {
               <button type="button" onClick={() => document.getElementById('gallery-upload').click()} className="text-sm text-primary hover:underline">+ העלה מהמחשב</button>
               <input id="gallery-upload" type="file" accept="image/*" multiple className="hidden" onChange={async (e) => {
                 const files = Array.from(e.target.files);
+                const newUrls = [];
                 for (const file of files) {
                   const fileExt = file.name.split('.').pop();
                   const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.${fileExt}`;
                   const { error } = await supabase.storage.from('product-images').upload(fileName, file, { upsert: true });
                   if (!error) {
                     const { data: { publicUrl } } = supabase.storage.from('product-images').getPublicUrl(fileName);
-                    set('images', [...(form.images || []), publicUrl]);
+                    newUrls.push(publicUrl);
                   }
+                }
+                if (newUrls.length > 0) {
+                  set('images', [...(form.images || []), ...newUrls]);
                 }
                 e.target.value = '';
               }} />
