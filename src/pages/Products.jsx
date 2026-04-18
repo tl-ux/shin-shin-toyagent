@@ -182,7 +182,7 @@ function ProductForm({ product, categories, allProducts, onSave, onClose }) {
                   }
                 }
                 if (newUrls.length > 0) {
-                  set('images', [...(form.images || []), ...newUrls]);
+                  set('images', [...(imagesRef.current || []), ...newUrls]);
                 }
                 e.target.value = '';
               }} />
