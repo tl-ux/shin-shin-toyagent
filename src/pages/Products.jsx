@@ -165,7 +165,24 @@ function ProductForm({ product, categories, allProducts, onSave, onClose }) {
                 <button onClick={() => { const imgs = (form.images||[]).filter((_,i)=>i!==idx); set('images',imgs); }} className="text-destructive p-1">X</button>
               </div>
             ))}
-            <button onClick={() => set('images', [...(form.images||[]), ''])} className="text-sm text-primary hover:underline">+ הוסף תמונה</button>
+            <div className="flex gap-2 mt-1">
+              <button onClick={() => set('images', [...(form.images||[]), ''])} className="text-sm text-primary hover:underline">+ הוסף URL</button>
+              <span className="text-muted-foreground text-sm">|</span>
+              <button type="button" onClick={() => document.getElementById('gallery-upload').click()} className="text-sm text-primary hover:underline">+ העלה מהמחשב</button>
+              <input id="gallery-upload" type="file" accept="image/*" multiple className="hidden" onChange={async (e) => {
+                const files = Array.from(e.target.files);
+                for (const file of files) {
+                  const fileExt = file.name.split('.').pop();
+                  const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.${fileExt}`;
+                  const { error } = await supabase.storage.from('product-images').upload(fileName, file, { upsert: true });
+                  if (!error) {
+                    const { data: { publicUrl } } = supabase.storage.from('product-images').getPublicUrl(fileName);
+                    set('images', prev => [...(prev || []), publicUrl]);
+                  }
+                }
+                e.target.value = '';
+              }} />
+            </div>
           </div>
         </div>
 
