@@ -141,6 +141,10 @@ function CustomerForm({ customer, onSave, onClose }) {
           <Label>הערות</Label>
           <Textarea value={form.notes} onChange={e => set('notes', e.target.value)} rows={2} className="mt-1 resize-none" />
         </div>
+        <div>
+          <Label>תנאי תשלום</Label>
+          <Input value={form.payment_terms || ''} onChange={e => set('payment_terms', e.target.value)} placeholder="למשל: שוטף 60, שוטף 30..." className="mt-1" dir="rtl" />
+        </div>
 
         {customer?.id && (
           <div>
