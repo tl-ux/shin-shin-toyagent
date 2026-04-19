@@ -300,9 +300,9 @@ export default function Debts() {
           <div className="text-sm text-muted-foreground mt-2 text-center">{debts.filter(d => d.status !== 'paid').length} לקוחות</div>
         </div>
         <div className="bg-warning/5 border border-warning/20 rounded-xl p-4">
-          <div className="text-sm text-muted-foreground">חובות באיחור</div>
-          <div className="text-3xl font-bold text-warning mt-2">₪{totalOverdue.toLocaleString()}</div>
-          <div className="text-sm text-muted-foreground mt-2">{debts.filter(d => d.status === 'overdue').length} לקוחות</div>
+          <div className="text-sm text-muted-foreground text-center">חובות באיחור</div>
+          <div className="text-3xl font-bold text-warning mt-2 text-center">₪{totalOverdue.toLocaleString()}</div>
+          <div className="text-sm text-muted-foreground mt-2 text-center">{debts.filter(d => d.status === 'overdue').length} לקוחות</div>
         </div>
       </div>
 
