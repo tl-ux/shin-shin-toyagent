@@ -100,7 +100,7 @@ export default function EditOrderDialog({ order, onClose, onSave }) {
             value={form.customer_id}
             onValueChange={(val) => {
               const c = customers.find(c => c.id === val);
-              if (c) setForm(p => ({ ...p, customer_id: c.id, customer_name: c.name }));
+              if (c) setForm(p => ({ ...p, customer_id: c.id, customer_name: c.name, status: p.status === 'draft' ? 'confirmed' : p.status }));
             }}
           >
             <SelectTrigger className="mt-1" dir="rtl">
