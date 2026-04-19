@@ -284,6 +284,7 @@ export default function Customers() {
         {showForm && (
           <CustomerForm
             customer={editing}
+            networks={networks}
             onSave={() => { setShowForm(false); load(); }}
             onClose={() => setShowForm(false)}
           />
