@@ -141,7 +141,7 @@ function CustomerForm({ customer, onSave, onClose, networks = [] }) {
         {customer?.id && (
           <div>
             <div className="font-medium text-sm mb-2 border-t border-border pt-3">סיכום לקוח</div>
-            <CustomerCard customer={customer} />
+            <CustomerCard customer={customer} networks={networks} />
           </div>
         )}
         <div className="flex gap-3 pt-2">

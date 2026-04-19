@@ -3,7 +3,7 @@ import { base44 } from '@/api/base44Client';
 import { Phone, MapPin, ShoppingCart, CreditCard, TrendingUp } from 'lucide-react';
 import CustomerDebtHistory from './CustomerDebtHistory';
 
-export default function CustomerCard({ customer }) {
+export default function CustomerCard({ customer, networks = [] }) {
   const [orders, setOrders] = useState([]);
   const [openDebt, setOpenDebt] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -54,7 +54,7 @@ export default function CustomerCard({ customer }) {
           </a>
         )}
         {customer.city && <div className="flex gap-2 text-muted-foreground"><MapPin className="w-4 h-4 flex-shrink-0" /><span>{customer.city} {customer.address}</span></div>}
-        {customer.is_wholesale && <div className="flex gap-2 text-muted-foreground"><span>סוג לקוח:</span><span className="bg-accent text-accent-foreground px-1.5 py-0.5 rounded text-xs font-medium">{customer.network_name || 'סיטונאי'}</span></div>}
+        {customer.is_wholesale && <div className="flex gap-2 text-muted-foreground"><span>סוג לקוח:</span><span className="bg-accent text-accent-foreground px-1.5 py-0.5 rounded text-xs font-medium">{networks.find(n => n.id === customer.network_id)?.name || customer.network_name || 'סיטונאי'}</span></div>}
         {customer.network_commission_percent > 0 && <div className="flex gap-2 text-muted-foreground"><span>עמלת רשת:</span><span className="bg-primary/10 text-primary px-1.5 py-0.5 rounded text-xs font-medium">{customer.network_commission_percent}%</span></div>}
         {customer.notes && <div className="text-muted-foreground bg-muted/50 rounded-lg p-2 text-xs">💬 {customer.notes}</div>}
       </div>
