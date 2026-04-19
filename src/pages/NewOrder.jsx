@@ -16,6 +16,7 @@ export default function NewOrder() {
   const [loading, setLoading] = useState(true);
   const [step, setStep] = useState('customer');
   const [recentProductIds, setRecentProductIds] = useState([]);
+  const [allNetworks, setAllNetworks] = useState([]);
   const [allCategories, setAllCategories] = useState([]);
   const [draftOrderId, setDraftOrderId] = useState(null);
   const [vatRate, setVatRate] = useState(0.18);
@@ -118,10 +119,14 @@ export default function NewOrder() {
       basePrice = Math.round((product.price / vatRate) * 0.5 * 100) / 100;
     }
 
-    // עמלת רשת - מתווספת על המחיר הסיטונאי (50% ממחיר צרכן כולל מע"מ)
-    if (selectedCustomer?.network_commission_percent) {
-      const wholesaleBase = Math.round(product.price * 0.5 * 100) / 100;
-      basePrice = Math.round(wholesaleBase * (1 + selectedCustomer.network_commission_percent / 100) * 100) / 100;
+    // עמלת רשת - לפי הרשת המשויכת ללקוח
+    if (selectedCustomer?.network_id && allNetworks.length > 0) {
+      const network = allNetworks.find(n => n.id === selectedCustomer.network_id);
+      if (network && network.commission_percent) {
+        const vatRate = 1.18;
+        const wholesaleBase = Math.round((product.price / vatRate) * 0.5 * 100) / 100;
+        basePrice = Math.round(wholesaleBase * (1 + network.commission_percent / 100) * 100) / 100;
+      }
     }
 
     return basePrice;
