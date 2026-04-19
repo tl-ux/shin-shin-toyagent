@@ -14,7 +14,7 @@ import { cn } from '@/lib/utils';
 function CustomerForm({ customer, onSave, onClose }) {
   const [form, setForm] = useState(customer || {
     customer_number: '', name: '', email: '', contact_name: '', phone: '',
-    address: '', city: '', notes: '', is_wholesale: true, network_commission_percent: '', network_id: '',
+    address: '', city: '', notes: '', is_wholesale: true, network_commission_percent: '', network_id: '', network_id: '',
     is_active: true, business_id: '', rivhit_document_type: 10, rivhit_customer_id: null
   });
   const [saving, setSaving] = useState(false);
@@ -158,6 +158,20 @@ function CustomerForm({ customer, onSave, onClose }) {
           </Select>
         </div>
         <div>
+          <Label>רשת</Label>
+          <Select value={form.network_id || '__none__'} onValueChange={v => set('network_id', v === '__none__' ? '' : v)}>
+            <SelectTrigger className="mt-1" dir="rtl">
+              <SelectValue placeholder="ללא רשת" />
+            </SelectTrigger>
+            <SelectContent dir="rtl">
+              <SelectItem value="__none__">ללא רשת</SelectItem>
+              {networks.map(n => (
+                <SelectItem key={n.id} value={n.id}>{n.name} - {n.commission_percent}%</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+        <div>
           <Label>תנאי תשלום</Label>
           <Select value={form.payment_terms || ''} onValueChange={v => set('payment_terms', v)}>
             <SelectTrigger className="mt-1" dir="rtl">
@@ -208,6 +222,7 @@ function CustomerForm({ customer, onSave, onClose }) {
 export default function Customers() {
   const { user } = useAuth();
   const [customers, setCustomers] = useState([]);
+  const [networks, setNetworks] = useState([]);
   const [networks, setNetworks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
