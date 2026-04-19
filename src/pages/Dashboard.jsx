@@ -60,11 +60,11 @@ export default function Dashboard() {
     const endLY = endOfMonth(dateLastYear);
 
     const total = orders.
-    filter((o) => {const d = new Date(o.created_date);return d >= start && d <= end && o.status !== 'cancelled';}).
+    filter((o) => {const d = new Date(o.visit_date || o.created_at);return d >= start && d <= end && o.status !== 'cancelled';}).
     reduce((s, o) => s + (o.total_amount || 0), 0);
 
     const totalLastYear = orders.
-    filter((o) => {const d = new Date(o.created_date);return d >= startLY && d <= endLY && o.status !== 'cancelled';}).
+    filter((o) => {const d = new Date(o.visit_date || o.created_at);return d >= startLY && d <= endLY && o.status !== 'cancelled';}).
     reduce((s, o) => s + (o.total_amount || 0), 0);
 
     return {
