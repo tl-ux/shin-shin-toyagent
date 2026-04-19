@@ -223,7 +223,6 @@ export default function Customers() {
   const { user } = useAuth();
   const [customers, setCustomers] = useState([]);
   const [networks, setNetworks] = useState([]);
-  const [networks, setNetworks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [cityFilter, setCityFilter] = useState('הכל');
