@@ -391,7 +391,7 @@ export default function Products() {
   return (
     <div className="p-4 pb-24 space-y-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-center">קטלוג מוצרים</h1>
+        <h1 className="text-2xl font-bold text-center w-full">קטלוג מוצרים</h1>
         <div className="flex gap-2">
           <input ref={fileRef} type="file" accept=".xlsx,.xls,.csv" className="hidden" onChange={handleImport} />
           <Button variant="outline" onClick={() => fileRef.current.click()} disabled={importing} className="gap-1 h-10 text-base">

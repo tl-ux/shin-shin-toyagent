@@ -234,7 +234,7 @@ export default function Orders() {
   return (
     <div className="p-4 pb-24 space-y-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-center">הזמנות</h1>
+        <h1 className="text-2xl font-bold text-center w-full">הזמנות</h1>
         <div className="flex items-center gap-3">
           <button
             onClick={() => setShowChart(v => !v)}

@@ -280,7 +280,7 @@ export default function Debts() {
   return (
     <div className="p-4 pb-24 space-y-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-center">חובות וגבייה</h1>
+        <h1 className="text-2xl font-bold text-center w-full">חובות וגבייה</h1>
         <div className="flex gap-1.5">
           <Button variant="outline" size="sm" onClick={() => exportDebtsExcel(filtered.filter(d => d.status !== 'paid'))} className="gap-1.5 text-green-700 border-green-200 hover:bg-green-50">
             <FileDown className="w-4 h-4" />
