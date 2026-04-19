@@ -78,7 +78,7 @@ export default function Settings() {
   return (
     <div className="p-4 pb-24 space-y-6" dir="rtl">
       <div>
-        <h1 className="text-2xl font-bold">הגדרות</h1>
+        <h1 className="text-2xl font-bold text-center">הגדרות</h1>
         <p className="text-sm text-muted-foreground mt-1">ניהול הגדרות המערכת</p>
       </div>
 
