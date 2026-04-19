@@ -117,16 +117,14 @@ export default function NewOrder() {
 
     // סיטונאי - 50% ממחיר הצרכן לפני מע"מ
     if (selectedCustomer?.is_wholesale) {
-      const vatRate = 1.18;
-      basePrice = Math.round((product.price / vatRate) * 0.5 * 100) / 100;
+      basePrice = Math.round(product.price * 0.5 * 100) / 100;
     }
 
     // עמלת רשת - לפי הרשת המשויכת ללקוח
     if (selectedCustomer?.network_id && allNetworks.length > 0) {
       const network = allNetworks.find(n => n.id === selectedCustomer.network_id);
       if (network && network.commission_percent) {
-        const vatRate = 1.18;
-        const wholesaleBase = Math.round((product.price / vatRate) * 0.5 * 100) / 100;
+        const wholesaleBase = Math.round(product.price * 0.5 * 100) / 100;
         basePrice = Math.round(wholesaleBase * (1 + network.commission_percent / 100) * 100) / 100;
       }
     }
