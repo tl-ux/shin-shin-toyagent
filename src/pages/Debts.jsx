@@ -295,9 +295,9 @@ export default function Debts() {
 
       <div className="grid grid-cols-2 gap-3">
         <div className="bg-destructive/5 border border-destructive/20 rounded-xl p-4">
-          <div className="text-sm text-muted-foreground">סה"כ חובות פתוחים</div>
-          <div className="text-3xl font-bold text-destructive mt-2">₪{totalOpen.toLocaleString()}</div>
-          <div className="text-sm text-muted-foreground mt-2">{debts.filter(d => d.status !== 'paid').length} לקוחות</div>
+          <div className="text-sm text-muted-foreground text-center">סה"כ חובות פתוחים</div>
+          <div className="text-3xl font-bold text-destructive mt-2 text-center">₪{totalOpen.toLocaleString()}</div>
+          <div className="text-sm text-muted-foreground mt-2 text-center">{debts.filter(d => d.status !== 'paid').length} לקוחות</div>
         </div>
         <div className="bg-warning/5 border border-warning/20 rounded-xl p-4">
           <div className="text-sm text-muted-foreground">חובות באיחור</div>
