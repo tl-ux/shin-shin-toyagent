@@ -96,48 +96,13 @@ function CustomerForm({ customer, onSave, onClose, networks = [] }) {
             />
             <div>
 
-              <p className="text-xs text-muted-foreground mt-0.5">המחיר יחושב כ-50% ממחיר הצרכן לפני מע"מ</p>
+  
             </div>
           </div>
-          <div>
-            <Label>עמלת רשת (%)</Label>
-            <Input
-              value={form.network_commission_percent ?? ''}
-              onChange={e => set('network_commission_percent', e.target.value !== '' ? parseFloat(e.target.value) : '')}
-              type="number"
-              placeholder="למשל: 10 עבור 10%"
-              className="mt-1 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-              dir="ltr"
-            />
-            <p className="text-xs text-muted-foreground mt-1">יתווסף מעל למחיר הבסיס. השאר ריק אם אין עמלת רשת.</p>
-          </div>
+
         </div>
 
-        {/* ריווחית */}
-        <div className="border border-border rounded-xl p-3 space-y-3">
-          <div className="font-medium text-sm">ריווחית</div>
-          <div>
-            <Label>ח.פ / ע.מ.</Label>
-            <Input value={form.business_id || ''} onChange={e => set('business_id', e.target.value)} placeholder="123456789" className="mt-1" dir="ltr" />
-          </div>
-          <div>
-            <Label>סוג מסמך בריווחית</Label>
-            <Input
-              value={form.rivhit_document_type ?? 10}
-              onChange={e => set('rivhit_document_type', e.target.value !== '' ? parseInt(e.target.value) : 10)}
-              type="number"
-              className="mt-1 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-              dir="ltr"
-            />
-            <p className="text-xs text-muted-foreground mt-1">10 = הצעת מחיר (ברירת מחדל)</p>
-          </div>
-          {form.rivhit_customer_id > 0 && (
-            <div>
-              <Label>מזהה ריווחית</Label>
-              <div className="mt-1 px-3 py-2 bg-muted rounded-md text-sm text-muted-foreground" dir="ltr">{form.rivhit_customer_id}</div>
-            </div>
-          )}
-        </div>
+
 
         <div>
           <Label>הערות</Label>
