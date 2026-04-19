@@ -79,7 +79,7 @@ export default function Settings() {
     <div className="p-4 pb-24 space-y-6" dir="rtl">
       <div>
         <h1 className="text-2xl font-bold text-center">הגדרות</h1>
-        <p className="text-sm text-muted-foreground mt-1">ניהול הגדרות המערכת</p>
+        <p className="text-sm text-muted-foreground mt-1 text-center">ניהול הגדרות המערכת</p>
       </div>
 
       <div className="bg-card border border-border rounded-xl p-4 space-y-4">
