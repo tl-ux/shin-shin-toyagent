@@ -14,7 +14,7 @@ import { cn } from '@/lib/utils';
 function CustomerForm({ customer, onSave, onClose }) {
   const [form, setForm] = useState(customer || {
     customer_number: '', name: '', email: '', contact_name: '', phone: '',
-    address: '', city: '', notes: '', is_wholesale: false, network_commission_percent: '',
+    address: '', city: '', notes: '', is_wholesale: true, network_commission_percent: '',
     is_active: true, business_id: '', rivhit_document_type: 10, rivhit_customer_id: null
   });
   const [saving, setSaving] = useState(false);
@@ -89,12 +89,13 @@ function CustomerForm({ customer, onSave, onClose }) {
             <input
               type="checkbox"
               id="is_wholesale"
-              checked={!!form.is_wholesale}
-              onChange={e => set('is_wholesale', e.target.checked)}
+              checked={true}
+              onChange={() => {}}
+              style={{display:'none'}}
               className="w-4 h-4 accent-primary"
             />
             <div>
-              <Label htmlFor="is_wholesale" className="cursor-pointer font-medium">לקוח סיטונאי</Label>
+
               <p className="text-xs text-muted-foreground mt-0.5">המחיר יחושב כ-50% ממחיר הצרכן לפני מע"מ</p>
             </div>
           </div>
