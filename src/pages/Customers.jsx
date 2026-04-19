@@ -117,7 +117,7 @@ function CustomerForm({ customer, onSave, onClose, networks = [] }) {
             <SelectContent dir="rtl">
               <SelectItem value="__none__">ללא רשת</SelectItem>
               {networks.map(n => (
-                <SelectItem key={n.id} value={n.id}>{n.name} - {n.commission_percent}%</SelectItem>
+                <SelectItem key={n.id} value={n.id}>{n.name}</SelectItem>
               ))}
             </SelectContent>
           </Select>
