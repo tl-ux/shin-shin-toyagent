@@ -143,7 +143,17 @@ function CustomerForm({ customer, onSave, onClose }) {
         </div>
         <div>
           <Label>תנאי תשלום</Label>
-          <Input value={form.payment_terms || ''} onChange={e => set('payment_terms', e.target.value)} placeholder="למשל: שוטף 60, שוטף 30..." className="mt-1" dir="rtl" />
+          <Select value={form.payment_terms || ''} onValueChange={v => set('payment_terms', v)}>
+            <SelectTrigger className="mt-1" dir="rtl">
+              <SelectValue placeholder="בחר תנאי תשלום" />
+            </SelectTrigger>
+            <SelectContent dir="rtl">
+              <SelectItem value="העברה בנקאית - 5% הנחה">העברה בנקאית - 5% הנחה</SelectItem>
+              <SelectItem value="כרטיס אשראי - 3.5% הנחה">כרטיס אשראי - 3.5% הנחה</SelectItem>
+              <SelectItem value="שיק גוביינא - שוטף 60+">שיק גוביינא - שוטף 60+</SelectItem>
+              <SelectItem value="שיק - שוטף 60+ (טל אוסף)">שיק - שוטף 60+ (טל אוסף)</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
 
         {customer?.id && (
