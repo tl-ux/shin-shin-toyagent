@@ -27,8 +27,18 @@ function CustomerForm({ customer, onSave, onClose, networks = [] }) {
     if (!form.name) return;
     setSaving(true);
     const data = {
-      ...form,
-
+      name: form.name,
+      email: form.email,
+      phone: form.phone,
+      contact_person: form.contact_person,
+      address: form.address,
+      city: form.city,
+      notes: form.notes,
+      is_wholesale: form.is_wholesale,
+      network_id: form.network_id || null,
+      payment_terms: form.payment_terms || null,
+      customer_number: form.customer_number,
+      is_active: form.is_active,
     };
     if (customer?.id) {
       await base44.entities.Customer.update(customer.id, data);
