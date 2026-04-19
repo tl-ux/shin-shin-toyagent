@@ -158,6 +158,58 @@ export default function Settings() {
         </Button>
       </div>
 
+      {/* Networks */}
+      <div className="bg-card border border-border rounded-xl p-4 space-y-4">
+        <h2 className="text-xl font-semibold">רשתות</h2>
+        <NetworkManager />
+      </div>
+
+    </div>
+  );
+}
+
+function NetworkManager() {
+  const [networks, setNetworks] = useState([]);
+  const [newName, setNewName] = useState('');
+  const [newCommission, setNewCommission] = useState('');
+  const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    base44.entities.Network.list().then(setNetworks);
+  }, []);
+
+  const add = async () => {
+    if (!newName.trim()) return;
+    setSaving(true);
+    await base44.entities.Network.create({
+      name: newName.trim(),
+      commission_percent: parseFloat(newCommission) || 0,
+    });
+    setNewName('');
+    setNewCommission('');
+    const updated = await base44.entities.Network.list();
+    setNetworks(updated);
+    setSaving(false);
+  };
+
+  const remove = async (id) => {
+    await base44.entities.Network.delete(id);
+    setNetworks(prev => prev.filter(n => n.id !== id));
+  };
+
+  return (
+    <div className="space-y-3">
+      {networks.map(n => (
+        <div key={n.id} className="flex items-center justify-between p-2 bg-muted rounded-lg">
+          <span className="text-sm font-medium">{n.name} — {n.commission_percent}%</span>
+          <button onClick={() => remove(n.id)} className="text-destructive text-sm">מחק</button>
+        </div>
+      ))}
+      <div className="flex gap-2">
+        <Input value={newName} onChange={e => setNewName(e.target.value)} placeholder="שם רשת" dir="rtl" className="flex-1" />
+        <Input value={newCommission} onChange={e => setNewCommission(e.target.value)} placeholder="עמלה %" type="number" dir="ltr" className="w-24" />
+        <Button onClick={add} disabled={saving || !newName.trim()} size="sm">הוסף</Button>
+      </div>
     </div>
   );
 }
