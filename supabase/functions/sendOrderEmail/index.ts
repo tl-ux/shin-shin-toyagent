@@ -59,6 +59,7 @@ serve(async (req) => {
             <td style="padding:4px 8px;">${order.visit_date || ''}</td>
           </tr>
           ${order.delivery_date ? `<tr><td style="padding:4px 8px;color:#666;">משלוח:</td><td style="padding:4px 8px;">${order.delivery_date}</td></tr>` : ''}
+          ${customer?.payment_terms ? `<tr><td style="padding:4px 8px;color:#666;">תנאי תשלום:</td><td style="padding:4px 8px;font-weight:bold;">${customer.payment_terms}</td></tr>` : ''}
         </table>
       </div>
 
