@@ -157,7 +157,7 @@ export default function Settings() {
         <NetworkManager />
       </div>
 
-      <Button onClick={saveSettings} disabled={savingSettings} className="gap-2 w-full">
+      <Button onClick={saveSettings} disabled={savingSettings} className="gap-2">
         <Save className="w-4 h-4" />
         {savingSettings ? 'שומר...' : 'שמור הגדרות'}
       </Button>
