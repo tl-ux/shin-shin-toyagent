@@ -8,7 +8,7 @@ function buildOrderText(order) {
   const items = order.items || [];
 
   const rows = items.map((i, idx) =>
-    `${idx + 1}. ${i.product_name || ''} — ${i.quantity} יח' — ₪${(i.total || 0).toLocaleString()}`
+    `${idx + 1}. ${i.product_name || ''} - ${i.quantity} יח' - ₪${(i.total || 0).toLocaleString()}`
   );
 
   const lines = [

@@ -200,7 +200,7 @@ function NetworkManager() {
     <div className="space-y-3">
       {networks.map(n => (
         <div key={n.id} className="flex items-center justify-between p-2 bg-muted rounded-lg">
-          <span className="text-sm font-medium">{n.name} — {n.commission_percent}%</span>
+          <span className="text-sm font-medium">{n.name} - {n.commission_percent}%</span>
           <button onClick={() => remove(n.id)} className="text-destructive text-sm">מחק</button>
         </div>
       ))}
