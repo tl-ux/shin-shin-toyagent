@@ -187,7 +187,14 @@ export default function Customers() {
       const filteredCustomers = user?.role === 'store_manager' && user?.email
         ? d.filter(c => c.email?.toLowerCase() === user.email?.toLowerCase())
         : d;
-      setCustomers(filteredCustomers);
+      // הוסף שם רשת לכל לקוח
+      base44.entities.Network.list().then(nets => {
+        const withNetwork = filteredCustomers.map(c => ({
+          ...c,
+          network_name: c.network_id ? (nets.find(n => n.id === c.network_id)?.name || null) : null
+        }));
+        setCustomers(withNetwork);
+      });
       setLoading(false);
     });
   };
