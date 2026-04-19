@@ -152,10 +152,7 @@ export default function Settings() {
           <Input value={Math.round(settingsForm.vat_rate * 100)} onChange={e => setSettingsForm(p => ({ ...p, vat_rate: parseFloat(e.target.value) / 100 || 0 }))} type="number" placeholder="18" className="mt-1 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" dir="ltr" />
           <p className="text-xs text-muted-foreground mt-1">כרגע: {Math.round(settingsForm.vat_rate * 100)}%</p>
         </div>
-        <Button onClick={saveSettings} disabled={savingSettings} className="gap-2">
-          <Save className="w-4 h-4" />
-          {savingSettings ? 'שומר...' : 'שמור הגדרות'}
-        </Button>
+
       </div>
 
       {/* Networks */}
@@ -164,6 +161,10 @@ export default function Settings() {
         <NetworkManager />
       </div>
 
+      <Button onClick={saveSettings} disabled={savingSettings} className="gap-2 w-full">
+        <Save className="w-4 h-4" />
+        {savingSettings ? 'שומר...' : 'שמור הגדרות'}
+      </Button>
     </div>
   );
 }
