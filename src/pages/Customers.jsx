@@ -182,6 +182,7 @@ export default function Customers() {
   const [showForm, setShowForm] = useState(false);
 
   const load = () => {
+    base44.entities.Network.list().then(setNetworks);
     base44.entities.Customer.list('-created_date').then(d => {
       const filteredCustomers = user?.role === 'store_manager' && user?.email
         ? d.filter(c => c.email?.toLowerCase() === user.email?.toLowerCase())
