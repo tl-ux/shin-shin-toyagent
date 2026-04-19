@@ -223,12 +223,7 @@ export default function Orders() {
 
   const totalSales = filtered.reduce((s, o) => s + (o.total_amount || 0), 0);
 
-  // הזמנות מאושרות ישנות שלא נמסרו (מעל 3 ימים)
-  const staleOrders = orders.filter(o => {
-    if (o.status !== 'confirmed') return false;
-    const d = o.visit_date ? new Date(o.visit_date) : new Date(o.created_date);
-    return differenceInDays(new Date(), d) >= 3;
-  });
+  const staleOrders = [];
 
   if (loading) return (
     <div className="flex items-center justify-center min-h-[60vh]">
