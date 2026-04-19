@@ -142,11 +142,7 @@ export default function Settings() {
           <Label>מייל המשרד לקבלת הזמנות</Label>
           <Input value={settingsForm.office_email} onChange={e => setSettingsForm(p => ({ ...p, office_email: e.target.value }))} placeholder="office@example.com" className="mt-1" dir="ltr" type="email" />
         </div>
-        <div>
-          <Label className="flex items-center gap-1"><Phone className="w-3 h-3" /> מספר וואטסאפ של המשרד</Label>
-          <Input value={settingsForm.office_whatsapp} onChange={e => setSettingsForm(p => ({ ...p, office_whatsapp: e.target.value }))} placeholder="972501234567" className="mt-1" dir="ltr" />
-          <p className="text-xs text-muted-foreground mt-1">ללא + ורווחים, לדוגמה: 972501234567</p>
-        </div>
+
         <div>
           <Label>שיעור מע"מ (%)</Label>
           <Input value={Math.round(settingsForm.vat_rate * 100)} onChange={e => setSettingsForm(p => ({ ...p, vat_rate: parseFloat(e.target.value) / 100 || 0 }))} type="number" placeholder="18" className="mt-1 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" dir="ltr" />
