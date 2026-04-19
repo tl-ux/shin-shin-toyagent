@@ -75,6 +75,13 @@ export default function EditOrderDialog({ order, onClose, onSave }) {
 
   const save = async () => {
     setSaving(true);
+    // מחק טיוטות ישנות של הלקוח הישן אם הלקוח השתנה
+    if (form.customer_id !== order.customer_id) {
+      const oldDrafts = await base44.entities.Order.filter({ customer_id: order.customer_id, status: 'draft' });
+      for (const d of oldDrafts) {
+        if (d.id !== order.id) await base44.entities.Order.delete(d.id);
+      }
+    }
     await base44.entities.Order.update(order.id, {
       status: form.status,
       notes: form.notes,
