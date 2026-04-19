@@ -286,10 +286,7 @@ export default function Debts() {
             <FileDown className="w-4 h-4" />
             Excel
           </Button>
-          <Button variant="outline" size="sm" onClick={() => exportDebtsPDF(filtered.filter(d => d.status !== 'paid'))} className="gap-1.5 text-orange-600 border-orange-200 hover:bg-orange-50">
-            <FileDown className="w-4 h-4" />
-            PDF
-          </Button>
+
         </div>
       </div>
 
