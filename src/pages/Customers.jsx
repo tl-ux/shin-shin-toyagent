@@ -11,7 +11,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
 
-function CustomerForm({ customer, onSave, onClose }) {
+function CustomerForm({ customer, onSave, onClose, networks = [] }) {
   const [form, setForm] = useState(customer || {
     customer_number: '', name: '', email: '', contact_name: '', phone: '',
     address: '', city: '', notes: '', is_wholesale: true, network_commission_percent: '', network_id: '',
