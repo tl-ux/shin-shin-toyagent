@@ -20,7 +20,7 @@ export default function CustomerSelect({ customers, selected, onSelect }) {
   return (
     <div className="p-4 space-y-4">
       <div>
-        <h2 className="text-xl font-bold text-foreground mb-1">בחר לקוח</h2>
+        <h2 className="text-xl font-bold text-foreground mb-1 text-center">בחר לקוח</h2>
       </div>
 
       <div className="relative">
