@@ -158,21 +158,6 @@ export default function Settings() {
         </Button>
       </div>
 
-      <div className="bg-card border border-border rounded-xl p-4 space-y-4">
-        <h2 className="text-xl font-semibold">ריווחית</h2>
-        <div>
-          <Label>API Token ריווחית</Label>
-          <Input value={settingsForm.rivhit_api_token} onChange={e => setSettingsForm(p => ({ ...p, rivhit_api_token: e.target.value }))} type="password" placeholder="הדבק את ה-Token כאן" className="mt-1" dir="ltr" />
-        </div>
-        <div className="flex items-center gap-3">
-          <Switch checked={!!settingsForm.rivhit_enabled} onCheckedChange={v => setSettingsForm(p => ({ ...p, rivhit_enabled: v }))} />
-          <Label>שליחה אוטומטית לריווחית</Label>
-        </div>
-        <Button onClick={saveSettings} disabled={savingSettings} className="gap-2">
-          <Save className="w-4 h-4" />
-          {savingSettings ? 'שומר...' : 'שמור הגדרות'}
-        </Button>
-      </div>
     </div>
   );
 }
