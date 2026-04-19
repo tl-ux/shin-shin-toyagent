@@ -228,7 +228,7 @@ export default function Customers() {
   return (
     <div className="p-4 pb-24 space-y-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">לקוחות</h1>
+        <h1 className="text-2xl font-bold text-center">לקוחות</h1>
         <Button onClick={() => { setEditing(null); setShowForm(true); }} className="gap-1 h-10 text-base">
           <Plus className="w-4 h-4" />
           לקוח חדש
