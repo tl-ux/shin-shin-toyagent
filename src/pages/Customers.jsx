@@ -14,7 +14,7 @@ import { cn } from '@/lib/utils';
 function CustomerForm({ customer, onSave, onClose, networks = [] }) {
   const [form, setForm] = useState(customer || {
     customer_number: '', name: '', email: '', contact_name: '', phone: '',
-    address: '', city: '', notes: '', is_wholesale: true, network_commission_percent: '', network_id: '',
+    address: '', city: '', notes: '', is_wholesale: true, network_id: '',
     is_active: true, business_id: '', rivhit_document_type: 10, rivhit_customer_id: null
   });
   const [saving, setSaving] = useState(false);
@@ -28,7 +28,7 @@ function CustomerForm({ customer, onSave, onClose, networks = [] }) {
     setSaving(true);
     const data = {
       ...form,
-      network_commission_percent: form.network_commission_percent !== '' ? parseFloat(form.network_commission_percent) : null
+
     };
     if (customer?.id) {
       await base44.entities.Customer.update(customer.id, data);
