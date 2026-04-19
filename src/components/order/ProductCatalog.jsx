@@ -289,16 +289,19 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
                {selectedProduct.video_url && (() => {
                  const url = selectedProduct.video_url;
                  const ytMatch = url.match(/(?:youtube.com.watch.v=|youtu.be.)([^&]+)/);
-                 const driveMatch = url.match(/drive.google.com.file.d.([^/]+)/);
-                 const embedUrl = ytMatch
-                   ? `https://www.youtube.com/embed/${ytMatch[1]}`
-                   : driveMatch
-                   ? `https://drive.google.com/file/d/${driveMatch[1]}/preview`
-                   : url;
+                 if (ytMatch) {
+                   const embedUrl = `https://www.youtube.com/embed/${ytMatch[1]}`;
+                   return (
+                     <div className="w-full aspect-video rounded-lg overflow-hidden border border-border">
+                       <iframe src={embedUrl} className="w-full h-full" allowFullScreen allow="autoplay" loading="lazy" />
+                     </div>
+                   );
+                 }
                  return (
-                   <div className="w-full aspect-video rounded-lg overflow-hidden border border-border">
-                     <iframe src={embedUrl} className="w-full h-full" allowFullScreen allow="autoplay" loading="lazy" />
-                   </div>
+                   <a href={url} target="_blank" rel="noopener noreferrer"
+                     className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-lg bg-blue-50 text-blue-600 border border-blue-200 hover:bg-blue-100 transition-colors font-medium">
+                     ▶ צפה בסרטון
+                   </a>
                  );
                })()}
 
