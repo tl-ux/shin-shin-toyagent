@@ -84,7 +84,8 @@ function PaymentDialog({ debt, onClose, onSave }) {
 
 function agingLabel(debt) {
   if (debt.status === 'paid') return null;
-  const created = new Date(debt.created_at);
+  const created = debt.created_at ? new Date(debt.created_at) : null;
+  if (!created || isNaN(created.getTime())) return null;
   const days = differenceInDays(new Date(), created);
   if (days < 30) return { label: `${days} ימים`, color: 'text-success' };
   if (days < 60) return { label: `${days} ימים`, color: 'text-warning' };
