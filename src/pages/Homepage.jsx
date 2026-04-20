@@ -5,7 +5,6 @@ import { useAuth } from '@/lib/AuthContext';
 import { useState, useEffect } from 'react';
 import { base44 } from '@/api/supabaseClient';
 import { differenceInDays } from 'date-fns';
-import { Link } from 'react-router-dom';
 
 export default function Homepage() {
   const { user } = useAuth();
@@ -43,6 +42,7 @@ export default function Homepage() {
   }, []);
 
   return (
+    <>
     {upcomingDebts.length > 0 && (
       <div className="mx-4 mt-4 p-3 bg-destructive/10 border border-destructive/30 rounded-xl">
         <div className="font-semibold text-destructive mb-1">⚠️ תזכורת גבייה</div>
@@ -53,7 +53,7 @@ export default function Homepage() {
         ))}
       </div>
     )}
-    <div className=""min-h-screen bg-gradient-to-b from-primary/10 to-background p-4">
+    <div className="min-h-screen bg-gradient-to-b from-primary/10 to-background p-4">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center py-12">
@@ -78,5 +78,6 @@ export default function Homepage() {
 
       </div>
     </div>
+    </>
   );
 }
