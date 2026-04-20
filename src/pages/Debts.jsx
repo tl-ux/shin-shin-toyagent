@@ -240,13 +240,7 @@ function DebtCard({ debt, onPayment }) {
                   <CreditCard className="w-4 h-4" />
                   רשום תשלום
                 </Button>
-                <Button size="sm" variant="outline" onClick={() => {
-                  const msg = `שלום ${debt.customer_name}, יש יתרה פתוחה בסך ₪${(debt.balance_due||0).toLocaleString()} עבור הזמנה ${debt.order_number||''}. נא לסדר את התשלום. תודה!`;
-                  window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
-                }} className="gap-1.5 text-green-600 border-green-200 hover:bg-green-50">
-                  <MessageCircle className="w-4 h-4" />
-                  וואטסאפ
-                </Button>
+                
               </>
             )}
           </div>
