@@ -30,7 +30,7 @@ function CustomerForm({ customer, onSave, onClose, networks = [] }) {
       name: form.name,
       email: form.email,
       phone: form.phone,
-      contact_person: form.contact_person,
+      contact_name: form.contact_name,
       address: form.address,
       city: form.city,
       notes: form.notes,
