@@ -266,7 +266,7 @@ export default function Debts() {
   const [statusFilter, setStatusFilter] = useState('all');
   const [payingDebt, setPayingDebt] = useState(null);
 
-  const load = () => base44.entities.Debt.list('-created_date', 200).then(d => { setDebts(d); setLoading(false); });
+  const load = () => base44.entities.Debt.list('-created_date', 200).then(d => { if(d[0]) console.log('debt keys:', Object.keys(d[0]), 'created_at:', d[0].created_at, 'created_date:', d[0].created_date); setDebts(d); setLoading(false); });
   useEffect(() => { load(); }, []);
 
   const filtered = debts.filter(d => {
