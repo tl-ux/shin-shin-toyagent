@@ -51,7 +51,12 @@ export default function OrderShareMenu({ order, officeEmail, officeWhatsapp }) {
       return;
     }
     setSendingEmail(true);
-    await supabase.functions.invoke('sendOrderEmail', { body: { order, toEmail: officeEmail } });
+    const { data: { session } } = await supabase.auth.getSession();
+    await fetch('https://rdvvkefnhgegcviluokx.supabase.co/functions/v1/sendOrderEmail', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${session?.access_token}` },
+      body: JSON.stringify({ order, toEmail: officeEmail }),
+    });
     setSendingEmail(false);
     // Mark as sent via email
     const sent_via = [...(order.sent_via || [])];
