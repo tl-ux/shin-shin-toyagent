@@ -48,7 +48,7 @@ export default function Homepage() {
         <div className="font-semibold text-destructive mb-1">⚠️ תזכורת גבייה</div>
         {upcomingDebts.map(d => (
           <Link key={d.id} to="/debts" className="block text-sm text-destructive">
-            {d.customer_name} - ₪{(d.balance_due||0).toLocaleString()} - {d.collection_date}
+            {d.customer_name} - ₪{(d.balance_due||0).toLocaleString()} - {d.collection_date ? d.collection_date.split('-').reverse().join('-') : ''}
           </Link>
         ))}
       </div>
