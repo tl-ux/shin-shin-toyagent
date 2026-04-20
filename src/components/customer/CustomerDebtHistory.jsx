@@ -58,7 +58,7 @@ export default function CustomerDebtHistory({ customerId }) {
                 </div>
                 {debt.created_date && (
                   <div className="text-xs text-muted-foreground mt-1">
-                    {format(new Date(debt.created_date), 'dd/MM/yyyy')}
+                    {format(new Date(debt.created_date), 'dd-MM-yyyy')}
                   </div>
                 )}
               </div>

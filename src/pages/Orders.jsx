@@ -66,10 +66,10 @@ function OrderCard({ order, officeEmail, officeWhatsapp, onEdit, onCopy, onDelet
           </div>
           <div className="text-sm text-muted-foreground mt-1 flex gap-3 flex-wrap">
             {order.order_number && <span>{order.order_number}</span>}
-            {order.visit_date && <span>{format(new Date(order.visit_date), 'dd/MM/yyyy')}</span>}
+            {order.visit_date && <span>{format(new Date(order.visit_date), 'dd-MM-yyyy')}</span>}
             {order.agent_name && <span>סוכן: {order.agent_name}</span>}
             {order.delivery_date && (
-              <span className="text-primary font-medium">🚚 משלוח: {format(new Date(order.delivery_date), 'dd/MM/yyyy')}</span>
+              <span className="text-primary font-medium">🚚 משלוח: {format(new Date(order.delivery_date), 'dd-MM-yyyy')}</span>
             )}
           </div>
           {(!order.sent_via || order.sent_via.length === 0) && (

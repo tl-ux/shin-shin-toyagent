@@ -168,7 +168,7 @@ function PaymentHistoryModal({ debt, onClose }) {
               <div className="font-medium text-success">₪{(h.amount || 0).toLocaleString()}</div>
               {h.notes && <div className="text-xs text-muted-foreground">{h.notes}</div>}
             </div>
-            <div className="text-xs text-muted-foreground">{h.payment_date ? format(new Date(h.payment_date), 'dd/MM/yyyy') : format(new Date(h.created_date), 'dd/MM/yyyy')}</div>
+            <div className="text-xs text-muted-foreground">{h.payment_date ? format(new Date(h.payment_date), 'dd-MM-yyyy') : format(new Date(h.created_date), 'dd-MM-yyyy')}</div>
           </div>
         ))}
         <div className="border-t border-border pt-2 flex justify-between text-sm font-semibold">
@@ -196,8 +196,8 @@ function DebtCard({ debt, onPayment }) {
           </div>
           <div className="text-xs text-muted-foreground mt-1 flex gap-3 flex-wrap">
             {debt.order_number && <span>הזמנה: {debt.order_number}</span>}
-            {debt.due_date && <span>יעד: {format(new Date(debt.due_date), 'dd/MM/yyyy')}</span>}
-            {debt.collection_date && <span className={differenceInDays(new Date(debt.collection_date), new Date()) <= 1 ? 'text-destructive font-medium' : ''}>גבייה: {format(new Date(debt.collection_date), 'dd/MM/yyyy')}</span>}
+            {debt.due_date && <span>יעד: {format(new Date(debt.due_date), 'dd-MM-yyyy')}</span>}
+            {debt.collection_date && <span className={differenceInDays(new Date(debt.collection_date), new Date()) <= 1 ? 'text-destructive font-medium' : ''}>גבייה: {format(new Date(debt.collection_date), 'dd-MM-yyyy')}</span>}
           </div>
           <div className="mt-2 bg-muted rounded-full h-1.5 w-full">
             <div
