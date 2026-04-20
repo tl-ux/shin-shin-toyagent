@@ -15,7 +15,7 @@ function CustomerForm({ customer, onSave, onClose, networks = [] }) {
   const [form, setForm] = useState(customer || {
     customer_number: '', name: '', email: '', contact_name: '', phone: '',
     address: '', city: '', notes: '', is_wholesale: true, network_id: '',
-    is_active: true, business_id: '', rivhit_document_type: 10, rivhit_customer_id: null
+    is_active: true
   });
   const [saving, setSaving] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
