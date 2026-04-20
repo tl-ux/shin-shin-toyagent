@@ -155,10 +155,10 @@ function CustomerForm({ customer, onSave, onClose, networks = [] }) {
           </div>
         )}
         <div className="flex gap-3 pt-2">
-          <Button variant="outline" onClick={onClose} className="flex-1">ביטול</Button>
           <Button onClick={save} disabled={saving || !form.name} className="flex-1">
             {saving ? 'שומר...' : 'שמור'}
           </Button>
+          <Button variant="outline" onClick={onClose} className="flex-1">ביטול</Button>
         </div>
         {customer?.id && (
           <div className="pt-1 border-t border-border">
