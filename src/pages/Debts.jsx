@@ -236,9 +236,9 @@ function DebtCard({ debt, onPayment }) {
                     await base44.entities.Debt.update(debt.id, { collection_date: e.target.value || null });
                   }} />
                 </div>
-                <Button size="sm" onClick={() => onPayment(debt)} className="gap-1.5 flex-1">
+                <Button size="sm" onClick={() => onPayment(debt)} className="gap-1.5">
                   <CreditCard className="w-4 h-4" />
-                  רשום תשלום
+                  רישום תשלום
                 </Button>
                 
               </>
