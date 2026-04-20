@@ -17,7 +17,7 @@ export default function Returns() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
-  const [form, setForm] = useState({ customer_id: '', customer_name: '', pickup_date: format(new Date(), 'yyyy-MM-dd'), items: [], notes: '' });
+  const [form, setForm] = useState({ customer_id: '', customer_name: '', pickup_date: format(new Date(), 'dd-MM-yyyy'), items: [], notes: '' });
   const [search, setSearch] = useState('');
   const [saving, setSaving] = useState(false);
   const [sending, setSending] = useState(false);
@@ -69,7 +69,7 @@ export default function Returns() {
     });
     await load();
     setShowForm(false);
-    setForm({ customer_id: '', customer_name: '', pickup_date: format(new Date(), 'yyyy-MM-dd'), items: [], notes: '' });
+    setForm({ customer_id: '', customer_name: '', pickup_date: format(new Date(), 'dd-MM-yyyy'), items: [], notes: '' });
     setSaving(false);
   };
 
@@ -126,14 +126,14 @@ export default function Returns() {
           <div key={ret.id} className="bg-card border border-border rounded-xl p-4">
             <div className="flex items-center justify-between">
               <span className="font-bold text-primary">{ret.return_number}</span>
-              <span className="text-sm text-muted-foreground">{ret.pickup_date}</span>
+              <span className="text-sm text-muted-foreground">{ret.pickup_date ? ret.pickup_date.split('-').reverse().join('-') : ''}</span>
             </div>
             <div className="font-medium mt-1">{ret.customer_name}</div>
             <div className="text-sm text-muted-foreground">{ret.items?.length || 0} פריטים</div>
             {ret.notes && <div className="text-sm text-muted-foreground mt-1">{ret.notes}</div>}
-            <Button variant="outline" size="sm" className="mt-2 gap-1" onClick={() => sendEmail(ret)} disabled={sending === ret.id}>
+            <div className="flex justify-center mt-2"><Button variant="outline" size="sm" className="gap-1" onClick={() => sendEmail(ret)} disabled={sending === ret.id}>
               <Send className="w-3 h-3" /> {sending === ret.id ? 'שולח...' : 'שלח במייל'}
-            </Button>
+            </Button></div>
           </div>
         ))}
         {returns.length === 0 && <p className="text-center text-muted-foreground py-8">אין החזרות</p>}
