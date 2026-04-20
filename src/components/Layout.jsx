@@ -20,6 +20,7 @@ const allBottomNavItems = [
   { path: '/customers', label: 'לקוחות', icon: Users, roles: ['admin', 'user'] },
   { path: '/debts', label: 'חובות', icon: CreditCard, roles: ['admin', 'user'] },
   { path: '/products', label: 'קטלוג', icon: BookOpen, roles: ['admin', 'user'] },
+  { path: '/returns', label: 'החזרות', icon: PenLine, roles: ['admin', 'user'] },
 
 ];
 

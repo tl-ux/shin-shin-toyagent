@@ -22,6 +22,7 @@ const TABLE = {
   OrderTemplate:  'order_templates',
   Debt:           'debts',
   Network:        'networks',
+  Return:         'returns',
   PaymentHistory: 'payment_history',
   CRMContact:     'crm_contacts',
   Interaction:    'interactions',
