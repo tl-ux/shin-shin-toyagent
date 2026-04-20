@@ -72,7 +72,7 @@ function PaymentDialog({ debt, onClose, onSave }) {
   return (
     <DialogContent className="max-w-sm">
       <DialogHeader>
-        <DialogTitle>רישום תשלום</DialogTitle>
+        <DialogTitle className="text-center">רישום תשלום</DialogTitle>
       </DialogHeader>
       <div className="space-y-4 pt-2">
         <div className="bg-muted rounded-xl p-3 text-sm">
@@ -81,7 +81,7 @@ function PaymentDialog({ debt, onClose, onSave }) {
           <div className="flex justify-between mt-1"><span>יתרה לתשלום:</span><span className="font-bold text-destructive">₪{(debt.balance_due || 0).toLocaleString()}</span></div>
         </div>
         <div>
-          <Label>סכום ששולם (₪)</Label>
+          <Label className="text-center w-full block">סכום ששולם (₪)</Label>
           <Input
             value={amount}
             onChange={e => setAmount(e.target.value)}
