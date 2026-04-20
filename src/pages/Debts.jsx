@@ -44,6 +44,28 @@ function PaymentDialog({ debt, onClose, onSave }) {
       payment_date: new Date().toISOString().split('T')[0],
     });
     toast({ description: `תשלום של ₪${paid.toLocaleString()} נרשם בהצלחה` });
+
+    // שלח מייל למשרד
+    try {
+      const { supabase } = await import('@/api/supabaseClient');
+      const { data: { session } } = await supabase.auth.getSession();
+      const html = `<div dir="rtl" style="font-family:Arial,sans-serif">
+        <h2 style="color:#7c3aed">רישום תשלום</h2>
+        <table style="width:100%;border-collapse:collapse">
+          <tr><td style="padding:4px 8px;color:#666">לקוח:</td><td style="padding:4px 8px;font-weight:bold">${debt.customer_name}</td></tr>
+          <tr><td style="padding:4px 8px;color:#666">הזמנה:</td><td style="padding:4px 8px">${debt.order_number || ''}</td></tr>
+          <tr><td style="padding:4px 8px;color:#666">סכום ששולם:</td><td style="padding:4px 8px;color:green;font-weight:bold">₪${paid.toLocaleString()}</td></tr>
+          <tr><td style="padding:4px 8px;color:#666">יתרה נותרת:</td><td style="padding:4px 8px;color:red">₪${Math.max(0, newBalance).toLocaleString()}</td></tr>
+          <tr><td style="padding:4px 8px;color:#666">תאריך:</td><td style="padding:4px 8px">${new Date().toLocaleDateString('he-IL')}</td></tr>
+        </table>
+      </div>`;
+      await fetch('https://rdvvkefnhgegcviluokx.supabase.co/functions/v1/sendOrderEmail', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${session?.access_token}` },
+        body: JSON.stringify({ html, subject: `רישום תשלום - ${debt.customer_name} - ₪${paid.toLocaleString()}` }),
+      });
+    } catch (e) { console.error('email error:', e); }
+
     onSave();
   };
 
