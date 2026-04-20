@@ -84,7 +84,7 @@ function PaymentDialog({ debt, onClose, onSave }) {
 
 function agingLabel(debt) {
   if (debt.status === 'paid') return null;
-  const created = new Date(debt.created_date);
+  const created = new Date(debt.created_at);
   const days = differenceInDays(new Date(), created);
   if (days < 30) return { label: `${days} ימים`, color: 'text-success' };
   if (days < 60) return { label: `${days} ימים`, color: 'text-warning' };
@@ -100,7 +100,7 @@ function exportDebtsExcel(debts) {
       d.amount || 0,
       d.amount_paid || 0,
       d.balance_due || 0,
-      differenceInDays(new Date(), new Date(d.created_date)),
+      differenceInDays(new Date(), new Date(d.created_at)),
       STATUS_MAP[d.status]?.label || d.status,
     ])
   ];
@@ -137,7 +137,7 @@ function exportDebtsPDF(debts) {
     doc.setFontSize(8.5);
     doc.text((d.customer_name || '').substring(0, 30), 16, y);
     doc.text(d.order_number || '-', 80, y);
-    const days = differenceInDays(new Date(), new Date(d.created_date));
+    const days = differenceInDays(new Date(), new Date(d.created_at));
     doc.text(String(days), 115, y);
     doc.text(d.status || '-', 135, y);
     doc.text(`${(d.balance_due || 0).toLocaleString()}`, 196, y, { align: 'right' });
