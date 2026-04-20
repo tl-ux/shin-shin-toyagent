@@ -44,7 +44,7 @@ export default function Homepage() {
   return (
     <>
     {upcomingDebts.length > 0 && (
-      <div className="mx-4 mt-4 p-3 bg-destructive/10 border border-destructive/30 rounded-xl">
+      <div className="mx-auto mt-4 p-3 bg-destructive/10 border border-destructive/30 rounded-xl max-w-sm text-center">
         <div className="font-semibold text-destructive mb-1">⚠️ תזכורת גבייה</div>
         {upcomingDebts.map(d => (
           <Link key={d.id} to="/debts" className="block text-sm text-destructive">
