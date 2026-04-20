@@ -196,6 +196,7 @@ function DebtCard({ debt, onPayment }) {
           <div className="text-xs text-muted-foreground mt-1 flex gap-3 flex-wrap">
             {debt.order_number && <span>הזמנה: {debt.order_number}</span>}
             {debt.due_date && <span>יעד: {format(new Date(debt.due_date), 'dd/MM/yyyy')}</span>}
+            {debt.collection_date && <span className={differenceInDays(new Date(debt.collection_date), new Date()) <= 1 ? 'text-destructive font-medium' : ''}>גבייה: {format(new Date(debt.collection_date), 'dd/MM/yyyy')}</span>}
           </div>
           <div className="mt-2 bg-muted rounded-full h-1.5 w-full">
             <div
@@ -228,6 +229,12 @@ function DebtCard({ debt, onPayment }) {
             )}
             {debt.status !== 'paid' && (
               <>
+                <div className="flex items-center gap-2 w-full mb-2">
+                  <label className="text-xs text-muted-foreground whitespace-nowrap">תאריך גבייה</label>
+                  <input type="date" defaultValue={debt.collection_date || ''} className="flex-1 text-xs border border-border rounded px-2 py-1" onChange={async e => {
+                    await base44.entities.Debt.update(debt.id, { collection_date: e.target.value || null });
+                  }} />
+                </div>
                 <Button size="sm" onClick={() => onPayment(debt)} className="gap-1.5 flex-1">
                   <CreditCard className="w-4 h-4" />
                   רשום תשלום
