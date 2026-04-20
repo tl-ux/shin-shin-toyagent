@@ -2,6 +2,10 @@ import { Link } from 'react-router-dom';
 import { PenLine, BarChart3, Users, CreditCard, BookOpen, HelpCircle, Settings, ClipboardList } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/lib/AuthContext';
+import { useState, useEffect } from 'react';
+import { base44 } from '@/api/supabaseClient';
+import { differenceInDays } from 'date-fns';
+import { Link } from 'react-router-dom';
 
 export default function Homepage() {
   const { user } = useAuth();
@@ -24,8 +28,32 @@ export default function Homepage() {
 
   const actions = allActions.filter(action => user && action.roles.includes(user.role));
 
+  const [upcomingDebts, setUpcomingDebts] = useState([]);
+
+  useEffect(() => {
+    base44.entities.Debt.list().then(debts => {
+      const today = new Date();
+      const upcoming = debts.filter(d => {
+        if (!d.collection_date || d.status === 'paid') return false;
+        const diff = differenceInDays(new Date(d.collection_date), today);
+        return diff >= 0 && diff <= 1;
+      });
+      setUpcomingDebts(upcoming);
+    });
+  }, []);
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-primary/10 to-background p-4">
+    {upcomingDebts.length > 0 && (
+      <div className="mx-4 mt-4 p-3 bg-destructive/10 border border-destructive/30 rounded-xl">
+        <div className="font-semibold text-destructive mb-1">⚠️ תזכורת גבייה</div>
+        {upcomingDebts.map(d => (
+          <Link key={d.id} to="/debts" className="block text-sm text-destructive">
+            {d.customer_name} - ₪{(d.balance_due||0).toLocaleString()} - {d.collection_date}
+          </Link>
+        ))}
+      </div>
+    )}
+    <div className=""min-h-screen bg-gradient-to-b from-primary/10 to-background p-4">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center py-12">
