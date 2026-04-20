@@ -93,11 +93,11 @@ function PaymentDialog({ debt, onClose, onSave }) {
           />
         </div>
         <div className="flex gap-3">
-          <Button variant="outline" onClick={onClose} className="flex-1">ביטול</Button>
           <Button onClick={handlePay} disabled={saving || !amount} className="flex-1 gap-1">
             <Check className="w-4 h-4" />
             {saving ? 'שומר...' : 'אשר תשלום'}
           </Button>
+          <Button variant="outline" onClick={onClose} className="flex-1">ביטול</Button>
         </div>
       </div>
     </DialogContent>
