@@ -18,6 +18,7 @@ import Products from '@/pages/Products';
 import Settings from '@/pages/Settings';
 import Debts from '@/pages/Debts';
 import Dashboard from '@/pages/Dashboard';
+import Returns from '@/pages/Returns';
 import AgentSummary from '@/pages/AgentSummary';
 import Help from '@/pages/Help';
 import PrivacyPolicy from '@/pages/PrivacyPolicy';
