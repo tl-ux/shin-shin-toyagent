@@ -20,8 +20,11 @@ function ProductForm({ product, categories, allProducts, onSave, onClose }) {
   const [uploadingImg, setUploadingImg] = useState(false);
   const [duplicateWarning, setDuplicateWarning] = useState(false);
   const imgInputRef = useRef();
+  const imagesRef = useRef([]);
+  const imagesRef = useRef([]);
 
   const set = (k, v) => {
+    if (k === 'images') imagesRef.current = Array.isArray(v) ? v : [];
     setForm((prev) => ({ ...prev, [k]: v }));
     if (k === 'name') {
       const exists = allProducts.some(p => p.name.trim().toLowerCase() === v.trim().toLowerCase() && p.id !== product?.id);
