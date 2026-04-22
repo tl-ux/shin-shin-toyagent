@@ -21,7 +21,6 @@ function ProductForm({ product, categories, allProducts, onSave, onClose }) {
   const [duplicateWarning, setDuplicateWarning] = useState(false);
   const imgInputRef = useRef();
   const imagesRef = useRef([]);
-  const imagesRef = useRef([]);
 
   const set = (k, v) => {
     if (k === 'images') imagesRef.current = Array.isArray(v) ? v : [];
