@@ -10,6 +10,21 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { cn } from '@/lib/utils';
 import ProductCard from '@/components/products/ProductCard';
 
+function compressImage(file, maxWidth = 1200, quality = 0.8) {
+  return new Promise((resolve) => {
+    const canvas = document.createElement('canvas');
+    const img = new Image();
+    img.onload = () => {
+      const ratio = Math.min(maxWidth / img.width, 1);
+      canvas.width = img.width * ratio;
+      canvas.height = img.height * ratio;
+      canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+      canvas.toBlob(blob => resolve(blob), 'image/jpeg', quality);
+    };
+    img.src = URL.createObjectURL(file);
+  });
+}
+
 function ProductForm({ product, categories, allProducts, onSave, onClose }) {
   const [form, setForm] = useState(product || {
     name: '', sku: '', category: '', categories: [], product_type: 'single', price: '', unit: "יח'", stock: '', description: '', image_url: '', video_url: '', images: [], is_active: true
@@ -37,7 +52,8 @@ function ProductForm({ product, categories, allProducts, onSave, onClose }) {
     setUploadingImg(true);
     const fileExt = file.name.split('.').pop();
     const fileName = `${Date.now()}.${fileExt}`;
-    const { error } = await supabase.storage.from('product-images').upload(fileName, file, { upsert: true });
+    const compressed = await compressImage(file);
+    const { error } = await supabase.storage.from('product-images').upload(fileName, compressed, { upsert: true, contentType: 'image/jpeg' });
     if (error) throw error;
     const { data: { publicUrl } } = supabase.storage.from('product-images').getPublicUrl(fileName);
     setForm((prev) => ({ ...prev, image_url: publicUrl }));
@@ -177,7 +193,8 @@ function ProductForm({ product, categories, allProducts, onSave, onClose }) {
                 for (const file of files) {
                   const fileExt = file.name.split('.').pop();
                   const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.${fileExt}`;
-                  const { error } = await supabase.storage.from('product-images').upload(fileName, file, { upsert: true });
+                  const compressed = await compressImage(file);
+                  const { error } = await supabase.storage.from('product-images').upload(fileName, compressed, { upsert: true, contentType: 'image/jpeg' });
                   if (!error) {
                     const { data: { publicUrl } } = supabase.storage.from('product-images').getPublicUrl(fileName);
                     newUrls.push(publicUrl);
