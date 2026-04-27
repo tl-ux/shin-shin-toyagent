@@ -23,6 +23,7 @@ const TABLE = {
   Debt:           'debts',
   Network:        'networks',
   Return:         'returns',
+  LoginEvent:     'login_events',
   PaymentHistory: 'payment_history',
   CRMContact:     'crm_contacts',
   Interaction:    'interactions',

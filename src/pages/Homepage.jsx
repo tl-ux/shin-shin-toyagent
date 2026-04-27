@@ -28,6 +28,17 @@ export default function Homepage() {
   const actions = allActions.filter(action => user && action.roles.includes(user.role));
 
   const [upcomingDebts, setUpcomingDebts] = useState([]);
+  const [recentLogins, setRecentLogins] = useState([]);
+
+  useEffect(() => {
+    // טען התחברויות אחרונות (24 שעות אחרונות)
+    if (user?.role === 'admin' || user?.role === 'user') {
+      const since = new Date(Date.now() - 24*60*60*1000).toISOString();
+      base44.entities.LoginEvent?.filter({ }).then(events => {
+        if (events) setRecentLogins(events.filter(e => e.created_at > since && e.role === 'store_manager'));
+      }).catch(() => {});
+    }
+  }, [user]);
 
   useEffect(() => {
     base44.entities.Debt.list().then(debts => {
@@ -43,6 +54,16 @@ export default function Homepage() {
 
   return (
     <>
+    {recentLogins.length > 0 && (
+      <div className="mx-auto mt-4 mb-2 p-4 bg-blue-50 border border-blue-200 rounded-xl max-w-sm text-center">
+        <div className="font-semibold text-blue-700 mb-1">🔔 התחברויות אחרונות</div>
+        {recentLogins.map(e => (
+          <div key={e.id} className="text-sm text-blue-600">
+            {e.user_name || e.user_email} - {new Date(e.created_at).toLocaleTimeString('he-IL')}
+          </div>
+        ))}
+      </div>
+    )}
     {upcomingDebts.length > 0 && (
       <div className="mx-auto mt-4 mb-2 p-4 bg-destructive/10 border border-destructive/30 rounded-xl max-w-sm text-center">
         <div className="font-semibold text-destructive mb-1">⚠️ תזכורת גבייה</div>
