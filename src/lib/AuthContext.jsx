@@ -63,6 +63,27 @@ export const AuthProvider = ({ children }) => {
       });
       setIsAuthenticated(true);
       setAuthError(null);
+
+      // רשום התחברות ושלח התראה אם store_manager
+      if (profile.role === 'store_manager') {
+        try {
+          await supabase.from('login_events').insert({
+            user_id: profile.id,
+            user_email: profile.email,
+            user_name: profile.full_name,
+            role: profile.role,
+          });
+          const { data: { session } } = await supabase.auth.getSession();
+          await fetch('https://rdvvkefnhgegcviluokx.supabase.co/functions/v1/sendOrderEmail', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${session?.access_token}` },
+            body: JSON.stringify({
+              subject: `התחברות - ${profile.full_name || profile.email}`,
+              html: `<div dir="rtl" style="font-family:Arial,sans-serif"><h2>התחברות לאפליקציה</h2><p><strong>${profile.full_name || profile.email}</strong> התחבר/ה לאפליקציה.</p><p>תפקיד: מנהל חנות</p><p>זמן: ${new Date().toLocaleString('he-IL')}</p></div>`
+            }),
+          });
+        } catch(e) { console.error('login notification error:', e); }
+      }
     } catch (err) {
       setAuthError({ type: 'unknown', message: err.message });
     } finally {
