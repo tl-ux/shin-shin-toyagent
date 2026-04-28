@@ -33,7 +33,7 @@ export default function Homepage() {
   useEffect(() => {
     // טען התחברויות אחרונות (24 שעות אחרונות)
     if (user?.role === 'admin' || user?.role === 'user') {
-      const since = new Date(Date.now() - 24*60*60*1000).toISOString();
+      const since = new Date(Date.now() - 12*60*60*1000).toISOString();
       base44.entities.LoginEvent?.filter({ }).then(events => {
         if (events) setRecentLogins(events.filter(e => e.created_at > since && e.role === 'store_manager'));
       }).catch(() => {});
