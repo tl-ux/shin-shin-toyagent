@@ -299,7 +299,7 @@ export default function Debts() {
     setDebts(d);
     setLoading(false);
   };
-  useEffect(() => { load(); }, []);
+  useEffect(() => { if (user !== undefined) load(); }, [user]);
 
   const filtered = debts.filter(d => {
     const matchSearch = (d.customer_name || '').toLowerCase().includes(search.toLowerCase()) ||
