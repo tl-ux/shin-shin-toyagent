@@ -278,13 +278,27 @@ function DebtCard({ debt, onPayment }) {
 }
 
 export default function Debts() {
+  const { user } = useAuth();
   const [debts, setDebts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const [payingDebt, setPayingDebt] = useState(null);
 
-  const load = () => base44.entities.Debt.list('-created_date', 200).then(d => { if(d[0]) console.log('debt keys:', Object.keys(d[0]), 'created_at:', d[0].created_at, 'created_date:', d[0].created_date); setDebts(d); setLoading(false); });
+  const load = async () => {
+    let d = await base44.entities.Debt.list('-created_date', 200);
+    if (user?.role === 'store_manager' && user?.email) {
+      const customers = await base44.entities.Customer.list();
+      const myCustomer = customers.find(c => c.email?.toLowerCase() === user.email.toLowerCase());
+      if (myCustomer) {
+        d = d.filter(debt => debt.customer_id === myCustomer.id);
+      } else {
+        d = [];
+      }
+    }
+    setDebts(d);
+    setLoading(false);
+  };
   useEffect(() => { load(); }, []);
 
   const filtered = debts.filter(d => {
