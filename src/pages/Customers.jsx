@@ -34,6 +34,7 @@ function CustomerForm({ customer, onSave, onClose, networks = [] }) {
       address: form.address,
       city: form.city,
       notes: form.notes,
+      business_id: form.business_id || null,
       is_wholesale: form.is_wholesale,
       network_id: form.network_id || null,
       payment_terms: form.payment_terms || null,
