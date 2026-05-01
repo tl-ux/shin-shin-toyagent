@@ -120,6 +120,10 @@ function CustomerForm({ customer, onSave, onClose, networks = [] }) {
           <Textarea value={form.notes} onChange={e => set('notes', e.target.value)} rows={2} className="mt-1 resize-none" />
         </div>
         <div>
+          <Label>ע.מ / ח.פ</Label>
+          <Input value={form.business_id || ''} onChange={e => set('business_id', e.target.value)} placeholder="123456789" className="mt-1" dir="ltr" />
+        </div>
+        <div>
           <Label>רשת</Label>
           <Select value={form.network_id || '__none__'} onValueChange={v => set('network_id', v === '__none__' ? '' : v)}>
             <SelectTrigger className="mt-1" dir="rtl">
