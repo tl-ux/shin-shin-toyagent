@@ -173,23 +173,14 @@ export default function EditOrderDialog({ order, onClose, onSave }) {
             הוסף מוצר להזמנה
           </Button>
           {showAddProduct && (
-            <div className="mt-2 border border-border rounded-xl p-3 space-y-2 bg-background">
-              <Input
-                placeholder="חפש מוצר..."
-                value={productSearch}
-                onChange={e => setProductSearch(e.target.value)}
-                autoFocus
-                dir="rtl"
-                className="text-right"
+            <div className="mt-2 border border-border rounded-lg overflow-hidden" style={{maxHeight:'60vh',overflowY:'auto'}}>
+              <ProductCatalog
+                products={products}
+                onAddToCart={(product, qty) => { for(let i=0;i<qty;i++) addProduct(product); setShowAddProduct(false); }}
+                selectedCustomer={form}
               />
-              <div className="max-h-48 overflow-y-auto space-y-1" dir="rtl">
-                {products
-                  .filter(p => !productSearch || p.name.includes(productSearch) || (p.sku && p.sku.includes(productSearch)))
-                  .slice(0, 20)
-                  .map(p => (
-                    <button
-                      key={p.id}
-                      onClick={() => addProduct(p)}
+            </div>
+          )}
                       className="w-full flex items-center justify-between p-2 hover:bg-muted rounded-lg text-sm"
                       dir="rtl"
                     >
