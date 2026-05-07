@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { PenLine, BarChart3, Users, CreditCard, BookOpen, HelpCircle, Settings, ClipboardList } from 'lucide-react';
+import { PenLine, BarChart3, Users, CreditCard, BookOpen, HelpCircle, Settings, ClipboardList, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/lib/AuthContext';
 import { useState, useEffect } from 'react';
