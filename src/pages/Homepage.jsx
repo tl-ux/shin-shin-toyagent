@@ -3,7 +3,7 @@ import { PenLine, BarChart3, Users, CreditCard, BookOpen, HelpCircle, Settings, 
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/lib/AuthContext';
 import { useState, useEffect } from 'react';
-import { base44 } from '@/api/supabaseClient';
+import { base44, supabase } from '@/api/supabaseClient';
 import { differenceInDays } from 'date-fns';
 
 export default function Homepage() {
@@ -96,6 +96,15 @@ export default function Homepage() {
           ))}
         </div>
 
+        <div className="flex justify-center mt-4">
+          <button onClick={() => supabase.auth.signOut().then(() => window.location.href = '/login')}
+            className="flex flex-col items-center justify-center p-8 rounded-2xl bg-card border border-border hover:border-red-300 hover:shadow-lg transition-all cursor-pointer group w-40">
+            <div className="bg-red-500 p-5 rounded-full text-white mb-5 group-hover:scale-110 transition-transform">
+              <LogOut className="w-8 h-8" />
+            </div>
+            <span className="font-semibold text-center text-lg text-foreground">התנתקות</span>
+          </button>
+        </div>
 
       </div>
     </div>
