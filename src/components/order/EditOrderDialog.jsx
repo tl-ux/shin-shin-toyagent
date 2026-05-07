@@ -180,7 +180,7 @@ export default function EditOrderDialog({ order, onClose, onSave }) {
                 selectedCustomer={form}
               />
             </div>
-          )
+          )}
         </div>
 
         <div>
