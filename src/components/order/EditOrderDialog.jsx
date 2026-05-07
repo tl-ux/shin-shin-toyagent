@@ -180,18 +180,7 @@ export default function EditOrderDialog({ order, onClose, onSave }) {
                 selectedCustomer={form}
               />
             </div>
-          )}
-                      className="w-full flex items-center justify-between p-2 hover:bg-muted rounded-lg text-sm"
-                      dir="rtl"
-                    >
-                      <span className="font-medium">{p.name}</span>
-                      <span className="text-muted-foreground text-xs">₪{p.price}</span>
-                    </button>
-                  ))
-                }
-              </div>
-            </div>
-          )}
+          )
         </div>
 
         <div>
