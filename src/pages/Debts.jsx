@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
+import { useAuth } from '@/lib/AuthContext';
 import { format, differenceInDays } from 'date-fns';
 import { Search, CreditCard, ChevronDown, ChevronUp, Check, MessageCircle, FileDown, History } from 'lucide-react';
 import { Input } from '@/components/ui/input';
