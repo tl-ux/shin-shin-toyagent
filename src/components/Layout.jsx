@@ -10,7 +10,6 @@ const allNavItems = [
   { path: '/', label: 'הזמנה חדשה', icon: PenLine, roles: ['admin', 'user', 'store_manager'] },
   { path: '/dashboard', label: 'פאנל ניהול', icon: LayoutDashboard, roles: ['admin', 'user'] },
   { path: '/orders', label: 'ההזמנות שלי', icon: ClipboardList, roles: ['store_manager'] },
-  { path: '/debts', label: 'החובות שלי', icon: CreditCard, roles: ['store_manager'] },
   { path: '/help', label: 'עזרה', icon: HelpCircle, roles: ['admin', 'user', 'store_manager'] },
 ];
 
@@ -18,9 +17,7 @@ const allBottomNavItems = [
   { path: '/', label: 'הזמנה', icon: PenLine, roles: ['admin', 'user', 'store_manager'] },
   { path: '/orders', label: 'הזמנות', icon: ClipboardList, roles: ['admin', 'user'] },
   { path: '/customers', label: 'לקוחות', icon: Users, roles: ['admin', 'user'] },
-  { path: '/debts', label: 'חובות', icon: CreditCard, roles: ['admin', 'user'] },
   { path: '/products', label: 'קטלוג', icon: BookOpen, roles: ['admin', 'user'] },
-  { path: '/returns', label: 'החזרות', icon: PenLine, roles: ['admin', 'user'] },
 
 ];
 
