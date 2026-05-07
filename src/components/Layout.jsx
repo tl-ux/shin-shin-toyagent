@@ -1,5 +1,5 @@
 import { Link, useLocation, Outlet } from 'react-router-dom';
-import { Baby, BookOpen, Users, BarChart3, Settings, CreditCard, LayoutDashboard, UserCircle, ShoppingCart, HelpCircle, Menu, X, ClipboardList, PenLine, TrendingUp, LogOut } from 'lucide-react';
+import { Baby, BookOpen, Home, Users, BarChart3, Settings, CreditCard, LayoutDashboard, UserCircle, ShoppingCart, HelpCircle, Menu, X, ClipboardList, PenLine, TrendingUp, LogOut } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { base44, supabase } from '@/api/supabaseClient';
 import { cn } from '@/lib/utils';
@@ -36,9 +36,8 @@ export default function Layout() {
 
         <div className="flex items-center gap-2">
           <GlobalSearch />
-          <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-            <Baby className="w-5 h-5" />
-            <span className="font-bold text-lg">Shin Shin - ToyAgent</span>
+          <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity p-2 rounded-lg hover:bg-muted">
+            <Home className="w-5 h-5" />
           </Link>
         </div>
       </header>
