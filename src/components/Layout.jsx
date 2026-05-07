@@ -33,7 +33,7 @@ export default function Layout() {
 
       {/* Top bar */}
       <header className="bg-white border-b border-border px-4 py-3 flex items-center justify-between sticky top-0 z-30 shadow-sm">
-        <button onClick={() => supabase.auth.signOut().then(() => window.location.href = '/login')} className="p-2 rounded-lg hover:bg-muted transition-colors text-muted-foreground hover:text-foreground" title="התנתק"><LogOut className="w-5 h-5" /></button>
+
         <div className="flex items-center gap-2">
           <GlobalSearch />
           <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
