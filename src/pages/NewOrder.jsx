@@ -77,7 +77,6 @@ export default function NewOrder() {
       base44.entities.Category.list(),
       base44.entities.Network.list(),
     ]).then(([prods, custs, settings, cats, nets]) => {
-      setAllNetworks(nets);
       setAllCategories(cats.map(c => c.name));
       setProducts(prods);
       // אם המשתמש הוא store_manager, הוא רואה רק את הלקוח שלו
