@@ -16,7 +16,6 @@ export default function NewOrder() {
   const [loading, setLoading] = useState(true);
   const [step, setStep] = useState('customer');
   const [recentProductIds, setRecentProductIds] = useState([]);
-  const [allNetworks, setAllNetworks] = useState([]);
   const [allCategories, setAllCategories] = useState([]);
   const [draftOrderId, setDraftOrderId] = useState(null);
   const [vatRate, setVatRate] = useState(0.18);
@@ -118,15 +117,6 @@ export default function NewOrder() {
     // סיטונאי - 50% ממחיר הצרכן לפני מע"מ
     if (selectedCustomer?.is_wholesale) {
       basePrice = Math.round(product.price * 0.5 * 100) / 100;
-    }
-
-    // עמלת רשת - לפי הרשת המשויכת ללקוח
-    if (selectedCustomer?.network_id && allNetworks.length > 0) {
-      const network = allNetworks.find(n => n.id === selectedCustomer.network_id);
-      if (network && network.commission_percent) {
-        const wholesaleBase = Math.round(product.price * 0.5 * 100) / 100;
-        basePrice = Math.round(wholesaleBase * (1 + network.commission_percent / 100) * 100) / 100;
-      }
     }
 
     return basePrice;

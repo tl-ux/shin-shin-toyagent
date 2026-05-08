@@ -14,7 +14,7 @@ import { cn } from '@/lib/utils';
 function CustomerForm({ customer, onSave, onClose, networks = [] }) {
   const [form, setForm] = useState(customer || {
     customer_number: '', name: '', email: '', contact_name: '', phone: '',
-    address: '', city: '', notes: '', is_wholesale: true, network_id: '',
+    address: '', city: '', notes: '', is_wholesale: true,
     is_active: true
   });
   const [saving, setSaving] = useState(false);
@@ -36,7 +36,6 @@ function CustomerForm({ customer, onSave, onClose, networks = [] }) {
       notes: form.notes,
       business_id: form.business_id || null,
       is_wholesale: form.is_wholesale,
-      network_id: form.network_id || null,
       payment_terms: form.payment_terms || null,
       customer_number: form.customer_number,
       is_active: form.is_active,
@@ -123,20 +122,6 @@ function CustomerForm({ customer, onSave, onClose, networks = [] }) {
           <Label>ע.מ / ח.פ</Label>
           <Input value={form.business_id || ''} onChange={e => set('business_id', e.target.value)} placeholder="123456789" className="mt-1" dir="ltr" />
         </div>
-        <div>
-          <Label>רשת</Label>
-          <Select value={form.network_id || '__none__'} onValueChange={v => set('network_id', v === '__none__' ? '' : v)}>
-            <SelectTrigger className="mt-1" dir="rtl">
-              <SelectValue placeholder="ללא רשת" />
-            </SelectTrigger>
-            <SelectContent dir="rtl">
-              <SelectItem value="__none__">ללא רשת</SelectItem>
-              {networks.map(n => (
-                <SelectItem key={n.id} value={n.id}>{n.name}</SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
 
         <div>
           <Label>תנאי תשלום</Label>
@@ -189,7 +174,6 @@ function CustomerForm({ customer, onSave, onClose, networks = [] }) {
 export default function Customers() {
   const { user } = useAuth();
   const [customers, setCustomers] = useState([]);
-  const [networks, setNetworks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [cityFilter, setCityFilter] = useState('הכל');
@@ -197,7 +181,6 @@ export default function Customers() {
   const [showForm, setShowForm] = useState(false);
 
   const load = () => {
-    base44.entities.Network.list().then(setNetworks);
     base44.entities.Customer.list('-created_date').then(d => {
       const filteredCustomers = user?.role === 'store_manager' && user?.email
         ? d.filter(c => c.email?.toLowerCase() === user.email?.toLowerCase())
