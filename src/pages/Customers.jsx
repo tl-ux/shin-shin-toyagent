@@ -11,7 +11,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
 
-function CustomerForm({ customer, onSave, onClose, networks = [] }) {
+function CustomerForm({ customer, onSave, onClose }) {
   const [form, setForm] = useState(customer || {
     customer_number: '', name: '', email: '', contact_name: '', phone: '',
     address: '', city: '', notes: '', is_wholesale: true,
@@ -146,7 +146,7 @@ function CustomerForm({ customer, onSave, onClose, networks = [] }) {
         {customer?.id && (
           <div>
             <div className="font-medium text-sm mb-2 border-t border-border pt-3">סיכום לקוח</div>
-            <CustomerCard customer={customer} networks={networks} />
+            <CustomerCard customer={customer} />
           </div>
         )}
         <div className="flex gap-3 pt-2">
@@ -294,7 +294,6 @@ export default function Customers() {
         {showForm && (
           <CustomerForm
             customer={editing}
-            networks={networks}
             onSave={() => { setShowForm(false); load(); }}
             onClose={() => setShowForm(false)}
           />
