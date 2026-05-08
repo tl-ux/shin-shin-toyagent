@@ -118,6 +118,11 @@ export default function NewOrder() {
     if (selectedCustomer?.is_wholesale) {
       basePrice = Math.round(product.price * 0.5 * 100) / 100;
     }
+    // מחיר הפנינג - הנחה של 12% על המחיר הסיטונאי
+    if (selectedCustomer?.is_hapening) {
+      const wholesaleBase = Math.round(product.price * 0.5 * 100) / 100;
+      basePrice = Math.round(wholesaleBase * 0.88 * 100) / 100;
+    }
 
     return basePrice;
   };

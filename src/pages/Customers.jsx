@@ -36,6 +36,7 @@ function CustomerForm({ customer, onSave, onClose, networks = [] }) {
       notes: form.notes,
       business_id: form.business_id || null,
       is_wholesale: form.is_wholesale,
+      is_hapening: form.is_hapening || false,
       payment_terms: form.payment_terms || null,
       customer_number: form.customer_number,
       is_active: form.is_active,
@@ -115,6 +116,10 @@ function CustomerForm({ customer, onSave, onClose, networks = [] }) {
 
 
         <div>
+          <div className="flex items-center gap-2 mb-2">
+            <input type="checkbox" id="is_hapening" checked={!!form.is_hapening} onChange={e => set('is_hapening', e.target.checked)} className="w-4 h-4" />
+            <label htmlFor="is_hapening" className="text-sm font-medium cursor-pointer">לקוח הפנינג</label>
+          </div>
           <Label>הערות</Label>
           <Textarea value={form.notes} onChange={e => set('notes', e.target.value)} rows={2} className="mt-1 resize-none" />
         </div>
