@@ -40,5 +40,6 @@
   body {
     @apply bg-background text-foreground font-heebo;
     direction: rtl;
+    overscroll-behavior-y: contain;
   }
 }
