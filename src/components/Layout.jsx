@@ -1,5 +1,5 @@
 import { Link, useLocation, Outlet } from 'react-router-dom';
-import { Baby, BookOpen, Home, Users, BarChart3, Settings, CreditCard, LayoutDashboard, UserCircle, ShoppingCart, HelpCircle, Menu, X, ClipboardList, PenLine, TrendingUp, LogOut } from 'lucide-react';
+import { Baby, BookOpen, Home, Users, BarChart3, Settings, CreditCard, LayoutDashboard, UserCircle, ShoppingCart, HelpCircle, Menu, X, ClipboardList, PenLine, TrendingUp, LogOut, MapPin } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { base44, supabase } from '@/api/supabaseClient';
 import { cn } from '@/lib/utils';
