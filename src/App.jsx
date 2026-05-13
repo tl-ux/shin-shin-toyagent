@@ -19,6 +19,8 @@ import Settings from '@/pages/Settings';
 import Debts from '@/pages/Debts';
 import Dashboard from '@/pages/Dashboard';
 import Returns from '@/pages/Returns';
+import Targets from '@/pages/Targets';
+import VisitRoutes from '@/pages/VisitRoutes';
 import AgentSummary from '@/pages/AgentSummary';
 import Help from '@/pages/Help';
 import PrivacyPolicy from '@/pages/PrivacyPolicy';
