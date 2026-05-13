@@ -18,6 +18,7 @@ export default function Homepage() {
     { to: '/settings', label: 'הגדרות', icon: Settings, color: 'bg-blue-800', roles: ['admin'] },
     { to: '/targets', label: 'יעדים', icon: TrendingUp, color: 'bg-teal-500', roles: ['admin', 'user'] },
     { to: '/routes', label: 'מסלולים', icon: MapPin, color: 'bg-cyan-500', roles: ['admin', 'user'] },
+    { to: '/promotions', label: 'מבצעים', icon: Tag, color: 'bg-yellow-500', roles: ['admin', 'user'] },
 
     { to: '/orders', label: 'ההזמנות שלי', icon: ClipboardList, color: 'bg-purple-500', roles: ['store_manager'] },
     { to: '/help-store', label: 'עזרה', icon: HelpCircle, color: 'bg-gray-500', roles: ['store_manager'] },
