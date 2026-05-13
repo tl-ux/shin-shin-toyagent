@@ -82,9 +82,9 @@ export default function Targets() {
               <thead>
                 <tr className="text-muted-foreground">
                   <th className="text-right pb-2">חודש</th>
-                  <th className="text-left pb-2">יעד (₪)</th>
-                  <th className="text-left pb-2">בפועל (₪)</th>
-                  <th className="text-left pb-2">%</th>
+                  <th className="text-right pb-2">יעד (₪)</th>
+                  <th className="text-right pb-2">בפועל (₪)</th>
+                  <th className="text-right pb-2">%</th>
                 </tr>
               </thead>
               <tbody>
@@ -112,8 +112,8 @@ export default function Targets() {
                           dir="ltr"
                         />
                       </td>
-                      <td className="py-2 text-left">₪{actual.toLocaleString()}</td>
-                      <td className="py-2 text-left">
+                      <td className="py-2 text-right">₪{actual.toLocaleString()}</td>
+                      <td className="py-2 text-right">
                         <span className={pct >= 100 ? 'text-green-600 font-bold' : pct >= 70 ? 'text-yellow-600' : 'text-destructive'}>
                           {targetAmt > 0 ? `${pct}%` : '-'}
                         </span>
