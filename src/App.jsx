@@ -67,6 +67,7 @@ const AuthenticatedApp = () => {
         <Route path="/settings" element={<ProtectedRoute element={<Settings />} allowedRoles={['admin']} />} />
         <Route path="/debts" element={<ProtectedRoute element={<Debts />} allowedRoles={['admin', 'user', 'store_manager']} />} />
         <Route path="/returns" element={<ProtectedRoute element={<Returns />} allowedRoles={['admin', 'user']} />} />
+        <Route path="/targets" element={<ProtectedRoute element={<Targets />} allowedRoles={['admin', 'user']} />} />
         <Route path="/agent-summary" element={<ProtectedRoute element={<AgentSummary />} allowedRoles={['admin', 'user']} />} />
 
         <Route path="/help" element={<Help />} />

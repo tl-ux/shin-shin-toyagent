@@ -24,6 +24,7 @@ const TABLE = {
   Network:        'networks',
   Return:         'returns',
   LoginEvent:     'login_events',
+  Target:         'targets',
   PaymentHistory: 'payment_history',
   CRMContact:     'crm_contacts',
   Interaction:    'interactions',

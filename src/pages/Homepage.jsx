@@ -16,6 +16,7 @@ export default function Homepage() {
     { to: '/customers', label: 'לקוחות', icon: Users, color: 'bg-green-500', roles: ['admin', 'user'] },
     { to: '/products', label: 'קטלוג', icon: BookOpen, color: 'bg-indigo-500', roles: ['admin', 'user'] },
     { to: '/settings', label: 'הגדרות', icon: Settings, color: 'bg-blue-800', roles: ['admin'] },
+    { to: '/targets', label: 'יעדים', icon: TrendingUp, color: 'bg-teal-500', roles: ['admin', 'user'] },
 
     { to: '/orders', label: 'ההזמנות שלי', icon: ClipboardList, color: 'bg-purple-500', roles: ['store_manager'] },
     { to: '/help-store', label: 'עזרה', icon: HelpCircle, color: 'bg-gray-500', roles: ['store_manager'] },
