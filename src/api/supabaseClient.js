@@ -26,6 +26,7 @@ const TABLE = {
   LoginEvent:     'login_events',
   Target:         'targets',
   VisitRoute:     'visit_routes',
+  Promotion:      'promotions',
   PaymentHistory: 'payment_history',
   CRMContact:     'crm_contacts',
   Interaction:    'interactions',

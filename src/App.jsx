@@ -21,6 +21,7 @@ import Dashboard from '@/pages/Dashboard';
 import Returns from '@/pages/Returns';
 import Targets from '@/pages/Targets';
 import VisitRoutes from '@/pages/VisitRoutes';
+import Promotions from '@/pages/Promotions';
 import AgentSummary from '@/pages/AgentSummary';
 import Help from '@/pages/Help';
 import PrivacyPolicy from '@/pages/PrivacyPolicy';
@@ -71,6 +72,7 @@ const AuthenticatedApp = () => {
         <Route path="/returns" element={<ProtectedRoute element={<Returns />} allowedRoles={['admin', 'user']} />} />
         <Route path="/targets" element={<ProtectedRoute element={<Targets />} allowedRoles={['admin', 'user']} />} />
         <Route path="/routes" element={<ProtectedRoute element={<VisitRoutes />} allowedRoles={['admin', 'user']} />} />
+        <Route path="/promotions" element={<ProtectedRoute element={<Promotions />} allowedRoles={['admin', 'user']} />} />
         <Route path="/agent-summary" element={<ProtectedRoute element={<AgentSummary />} allowedRoles={['admin', 'user']} />} />
 
         <Route path="/help" element={<Help />} />
