@@ -79,7 +79,7 @@ export default function HelpStore() {
           </div>
           <div>
             <h1 className="text-xl font-bold text-foreground">מדריך לבעל חנות</h1>
-            <p className="text-sm text-muted-foreground">ToyAgent 🧸 - איך מבצעים הזמנה</p>
+            <p className="text-sm text-muted-foreground">Vendisto - איך מבצעים הזמנה</p>
           </div>
         </div>
       </div>

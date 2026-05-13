@@ -7,7 +7,7 @@ export default function TermsOfService() {
       <section className="space-y-2">
         <h2 className="text-xl font-semibold">1. קבלת התנאים</h2>
         <p className="text-muted-foreground leading-relaxed">
-          השימוש באפליקציית ToyAgent מהווה הסכמה מלאה לתנאי שימוש אלו. אם אינך מסכים לתנאים, אנא הפסק את השימוש באפליקציה.
+          השימוש באפליקציית Vendisto מהווה הסכמה מלאה לתנאי שימוש אלו. אם אינך מסכים לתנאים, אנא הפסק את השימוש באפליקציה.
         </p>
       </section>
 
@@ -35,14 +35,14 @@ export default function TermsOfService() {
       <section className="space-y-2">
         <h2 className="text-xl font-semibold">5. הגבלת אחריות</h2>
         <p className="text-muted-foreground leading-relaxed">
-          שין שין אינה אחראית לנזקים ישירים או עקיפים הנובעים מהשימוש באפליקציה, לרבות אובדן נתונים, הפסד עסקי או תקלות טכניות.
+          Vendisto אינה אחראית לנזקים ישירים או עקיפים הנובעים מהשימוש באפליקציה, לרבות אובדן נתונים, הפסד עסקי או תקלות טכניות.
         </p>
       </section>
 
       <section className="space-y-2">
         <h2 className="text-xl font-semibold">6. שינויים בתנאים</h2>
         <p className="text-muted-foreground leading-relaxed">
-          שין שין שומרת לעצמה את הזכות לעדכן תנאים אלו בכל עת. המשך השימוש באפליקציה לאחר עדכון התנאים מהווה הסכמה לתנאים המעודכנים.
+          Vendisto שומרת לעצמה את הזכות לעדכן תנאים אלו בכל עת. המשך השימוש באפליקציה לאחר עדכון התנאים מהווה הסכמה לתנאים המעודכנים.
         </p>
       </section>
 

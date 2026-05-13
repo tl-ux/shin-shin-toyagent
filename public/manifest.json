@@ -1,7 +1,7 @@
 {
-  "name": "Shin Shin ToyAgent",
-  "short_name": "ToyAgent",
-  "description": "מערכת ניהול הזמנות - שין שין",
+  "name": "Vendisto",
+  "short_name": "Vendisto",
+  "description": "מערכת ניהול הזמנות",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",

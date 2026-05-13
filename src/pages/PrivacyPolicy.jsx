@@ -7,7 +7,7 @@ export default function PrivacyPolicy() {
       <section className="space-y-2">
         <h2 className="text-xl font-semibold">1. כללי</h2>
         <p className="text-muted-foreground leading-relaxed">
-          אפליקציית ToyAgent (להלן "האפליקציה") מופעלת על ידי שין שין. אנו מכבדים את פרטיות המשתמשים ומחויבים להגן על המידע האישי שנמסר לנו.
+          אפליקציית Vendisto (להלן "האפליקציה") מופעלת על ידי Vendisto. אנו מכבדים את פרטיות המשתמשים ומחויבים להגן על המידע האישי שנמסר לנו.
         </p>
       </section>
 

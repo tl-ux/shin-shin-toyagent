@@ -152,7 +152,7 @@ export default function Help() {
           </div>
           <div>
             <h1 className="text-xl font-bold text-foreground">מדריך שימוש</h1>
-            <p className="text-sm text-muted-foreground">ToyAgent 🧸 - כל הפיצ\'רים במקום אחד</p>
+            <p className="text-sm text-muted-foreground">Vendisto - כל הפיצ\'רים במקום אחד</p>
           </div>
         </div>
         <div className="flex gap-4 mt-3 text-sm">

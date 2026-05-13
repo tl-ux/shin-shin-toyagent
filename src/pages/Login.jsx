@@ -36,9 +36,9 @@ export default function Login() {
         <div className="text-center space-y-2">
           <div className="flex items-center justify-center gap-2">
             <Baby className="w-8 h-8 text-primary" />
-            <span className="text-2xl font-bold">Shin Shin</span>
+            <span className="text-2xl font-bold">Vendisto</span>
           </div>
-          <p className="text-muted-foreground text-sm">ToyAgent - כניסה למערכת</p>
+          <p className="text-muted-foreground text-sm">כניסה למערכת</p>
         </div>
 
         {sent ? (
