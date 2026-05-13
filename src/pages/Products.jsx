@@ -403,7 +403,7 @@ export default function Products() {
 
   if (loading) return (
     <div className="flex items-center justify-center min-h-[60vh]">
-      <img src="https://media.base44.com/images/public/69cbdbfb3ccb589826de82bf/2c09fa58d_SHIN_SHIN_transparent.png" alt="טוען..." className="h-16 animate-pulse" />
+      <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin" />
     </div>
   );
 
