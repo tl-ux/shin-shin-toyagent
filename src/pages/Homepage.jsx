@@ -78,7 +78,7 @@ export default function Homepage() {
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center py-12">
-          <h1 className="text-4xl font-bold text-primary">Vendisto</h1>
+          <img src="/vendisto-logo.png" alt="Vendisto" className="h-24 mx-auto mb-4" />
           {user && <p className="text-3xl text-muted-foreground mt-4">שלום, {user.full_name}</p>}
         </div>
 
