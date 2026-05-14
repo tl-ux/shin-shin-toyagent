@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
-import { Baby, Loader2 } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 
 export default function Login() {
   const [email, setEmail]     = useState('');
@@ -35,7 +35,7 @@ export default function Login() {
       <div className="w-full max-w-sm space-y-6">
         <div className="text-center space-y-2">
           <div className="flex items-center justify-center gap-2">
-            <Baby className="w-8 h-8 text-primary" />
+            
             <img src="/vendisto-logo.png" alt="Vendisto" className="h-16 mx-auto mb-2" />
           </div>
           <p className="text-muted-foreground text-sm">כניסה למערכת</p>
