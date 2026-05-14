@@ -77,7 +77,7 @@ export default function Homepage() {
     <div className="min-h-screen bg-gradient-to-b from-primary/10 to-background p-4">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <div className="text-center py-12">
+        <div className="text-center py-4">
           <img src="/vendisto-logo.png" alt="Vendisto" className="h-48 mx-auto mb-4" />
           {user && <p className="text-3xl text-muted-foreground mt-4">שלום, {user.full_name}</p>}
         </div>
