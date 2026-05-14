@@ -32,7 +32,7 @@ export default function Layout() {
     <div className="min-h-screen bg-background flex flex-col" dir="rtl">
 
       {/* Top bar */}
-      <header className="bg-white border-b border-border px-4 py-3 flex items-center justify-between sticky top-0 z-30 shadow-sm">
+      <header className="bg-white border-b border-border px-4 py-1 flex items-center justify-between sticky top-0 z-30 shadow-sm">
 
         <div className="flex items-center gap-2">
           <GlobalSearch />
