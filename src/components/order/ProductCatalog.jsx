@@ -122,7 +122,7 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
       <div className="flex items-center gap-2 p-3 border-b border-border bg-white">
         <button onClick={() => { setSelectedCategoryView(null); setCategory('הכל'); setSearch(''); }}
           className="text-primary font-medium text-sm flex items-center gap-1">
-          ← חזרה לקטגוריות
+          → חזרה לקטגוריות
         </button>
         <span className="font-bold text-base">{selectedCategoryView}</span>
       </div>
