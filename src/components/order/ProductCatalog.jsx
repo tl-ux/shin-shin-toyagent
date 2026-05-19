@@ -23,6 +23,7 @@ const SORT_OPTIONS = [
 
 export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cartCount, getProductPrice, recentProductIds = [], allCategories = [] }) {
   const [search, setSearch] = useState('');
+  const [selectedCategoryView, setSelectedCategoryView] = useState(null);
   const [category, setCategory] = useState('הכל');
   const [sortKey, setSortKey] = useState('default');
   const [showSortMenu, setShowSortMenu] = useState(false);
@@ -78,8 +79,53 @@ export default function ProductCatalog({ products, cart, onAdd, onGoToCart, cart
     return cart.find((i) => i.product_id === productId)?.quantity || 0;
   };
 
+  // רשימת קטגוריות ייחודיות
+  const uniqueCategories = [...new Set([
+    ...products.filter(p => p.stock === null || p.stock === undefined || p.stock > 0)
+      .flatMap(p => [p.category, ...(p.categories || [])].filter(Boolean))
+  ])].sort((a, b) => {
+    const order = (c) => {
+      const t = c.trim().toLowerCase();
+      if (t.includes('tiger')) return 0;
+      if (t.includes('שין שין - עץ')) return 1;
+      if (t.includes('שין שין - יצירה')) return 2;
+      return 99;
+    };
+    return order(a) - order(b);
+  });
+
+  // מסך בחירת קטגוריה
+  if (!selectedCategoryView) {
+    return (
+      <div className="p-4">
+        <div className="grid grid-cols-2 gap-3">
+          {uniqueCategories.map(cat => {
+            const count = products.filter(p =>
+              (p.stock === null || p.stock === undefined || p.stock > 0) &&
+              (p.category === cat || (p.categories || []).includes(cat))
+            ).length;
+            return (
+              <button key={cat} onClick={() => { setSelectedCategoryView(cat); setCategory(cat); }}
+                className="flex flex-col items-center justify-center p-6 rounded-2xl bg-card border border-border hover:border-primary/40 hover:shadow-lg transition-all cursor-pointer group">
+                <span className="font-semibold text-center text-base text-foreground">{cat}</span>
+                <span className="text-sm text-muted-foreground mt-1">{count} מוצרים</span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col h-full">
+      <div className="flex items-center gap-2 p-3 border-b border-border bg-white">
+        <button onClick={() => { setSelectedCategoryView(null); setCategory('הכל'); setSearch(''); }}
+          className="text-primary font-medium text-sm flex items-center gap-1">
+          ← חזרה לקטגוריות
+        </button>
+        <span className="font-bold text-base">{selectedCategoryView}</span>
+      </div>
       {/* Search + Filter */}
       <div className="p-4 space-y-3 bg-white border-b border-border">
         <div className="flex gap-2">
